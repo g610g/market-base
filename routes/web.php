@@ -1,16 +1,20 @@
 <?php
 
-use App\Models\Customer;
-use App\Models\Role;
-use App\Models\User;
+use App\Http\Controllers\Admin\AuthController;
+use App\Models\Admin\Admin;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('/authorize', function(){
+        return Inertia::render('Authorize',[
+            'data' => auth()->user()
+        ]);
+    })->name('auth');
+});
 Route::get('/', function () {
-    // $user = Customer::with('user')->get();
     try{
-        $user = User::where('role_id', Role::ADMIN)->with('admin')->first();
+        $user = Admin::with('user')->first();
     }catch(Exception $e){
         return Inertia::render('Test',[
             'data' => [
@@ -22,6 +26,7 @@ Route::get('/', function () {
         'data' => $user
     ]);
 });
+Route::post('admin/login', [AuthController::class, 'login']);
 Route::get('/test',function (){
     return Inertia::render('Testing');
 });

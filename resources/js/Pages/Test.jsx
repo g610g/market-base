@@ -6,6 +6,10 @@ const Test = ({data}) => {
        <div>
             <h1>Hello World</h1>
             <Link href='/test' method="get">Go To Test</Link>
+            <Link href='/admin/login' method='post' as='button' data={{email: 'joey.denesik@example.net', password:'password'}}>
+                Login admin
+            </Link>
+
         </div>
     )
 }
