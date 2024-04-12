@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-
+import { router, Link } from '@inertiajs/inertia-react'
 const Test = () => {
     return (
-        <h1>Hello World</h1>
+       <div>
+            <h1>Hello World</h1>
+            <Link href='/test' method="get">Go To Test</Link>
+        </div>
     )
 }
 
