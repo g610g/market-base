@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { router, Link } from '@inertiajs/inertia-react'
-const Test = () => {
+const Test = ({data}) => {
+    console.log(data);
     return (
        <div>
             <h1>Hello World</h1>
