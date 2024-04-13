@@ -1,9 +1,13 @@
 import LoginLayout from "../Layouts/LoginLayout.jsx";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const Register = () => {
+    const [userType, setUserType] = useState("");
+    const [hasError, setHasError] = useState(false);
+    const validUserType = ["distributor", "customer"];
     const validationSchema = z
         .object({
             firstName: z.string().min(1, { message: "Firstname is required" }),
@@ -11,7 +15,8 @@ const Register = () => {
             email: z.string().min(1, { message: "Email is required" }).email({
                 message: "Must be a valid email",
             }),
-            birthDate: z.string().min(1, { message: "Must fill a valid date" }),
+            //polish the date
+            birthDate: z.string().min(1, { message: "Must be a valid date" }),
             brgyCity: z
                 .string()
                 .min(1, { message: "Barangay and City is required" }),
@@ -36,6 +41,17 @@ const Register = () => {
         handleSubmit,
         formState: { errors },
     } = useForm({ resolver: zodResolver(validationSchema) });
+    if (hasError) {
+        console.log("Error");
+    }
+    console.log(userType);
+    const handleUserType = (type) => {
+        if (!validUserType.includes(type)) {
+            setHasError(true);
+            return;
+        }
+        setUserType(type);
+    };
     const onSubmit = (data) => console.log(data);
     return (
         <form
@@ -51,10 +67,28 @@ const Register = () => {
                         Type of User
                     </p>
                     <div className="flex w-full justify-between">
-                        <button className="font-league px-[4rem] rounded-full py-[0.8rem] bg-[#515E71] text-white text-center">
+                        <button
+                            className={`font-league px-[4rem] rounded-full py-[0.8rem] ${
+                                userType === "distributor"
+                                    ? "bg-[#FF4C29]"
+                                    : "bg-[#515E71]"
+                            } text-white text-center`}
+                            onClick={() => {
+                                handleUserType("distributor");
+                            }}
+                        >
                             Distributor
                         </button>
-                        <button className="font-league px-[4rem] rounded-full py-[0.8rem] bg-[#515E71] text-white text-center">
+                        <button
+                            className={`font-league px-[4rem] rounded-full py-[0.8rem] ${
+                                userType === "customer"
+                                    ? "bg-[#FF4C29]"
+                                    : "bg-[#515E71]"
+                            } text-white text-center`}
+                            onClick={() => {
+                                handleUserType("customer");
+                            }}
+                        >
                             Customer
                         </button>
                     </div>
