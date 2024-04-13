@@ -1,9 +1,46 @@
 import LoginLayout from "../Layouts/LoginLayout.jsx";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 const Register = () => {
+    const validationSchema = z
+        .object({
+            firstName: z.string().min(1, { message: "Firstname is required" }),
+            lastName: z.string().min(1, { message: "Lastname is required" }),
+            email: z.string().min(1, { message: "Email is required" }).email({
+                message: "Must be a valid email",
+            }),
+            birthDate: z.string().min(1, { message: "Must fill a valid date" }),
+            brgyCity: z
+                .string()
+                .min(1, { message: "Barangay and City is required" }),
+            province: z.string().min(1, { message: "Province is required" }),
+            phoneNumber: z.string().regex(/^(09|\+639)\d{9}$/, {
+                message: "Invalid phone number",
+            }),
+            country: z.string().min(1, { message: "Country is required" }),
+            password: z
+                .string()
+                .min(6, { message: "Password must be atleast 6 characters" }),
+            confirmPassword: z
+                .string()
+                .min(1, { message: "Confirm Password is required" }),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+            path: ["confirmPassword"],
+            message: "Password don't match",
+        });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({ resolver: zodResolver(validationSchema) });
+    const onSubmit = (data) => console.log(data);
     return (
         <form
-            action=""
             className="bg-loginMain min-h-full py-[2rem] px-[3rem] flex "
+            onSubmit={handleSubmit(onSubmit)}
         >
             <div className="flex flex-col space-y-3 w-[40%] border-r-2 border-white pl-[1.5rem] pr-[3rem]">
                 <p className="text-[2.6rem] text-white font-league ">
@@ -14,8 +51,12 @@ const Register = () => {
                         Type of User
                     </p>
                     <div className="flex w-full justify-between">
-                        <button>Distributor</button>
-                        <button>Customer</button>
+                        <button className="font-league px-[4rem] rounded-full py-[0.8rem] bg-[#515E71] text-white text-center">
+                            Distributor
+                        </button>
+                        <button className="font-league px-[4rem] rounded-full py-[0.8rem] bg-[#515E71] text-white text-center">
+                            Customer
+                        </button>
                     </div>
                     <div className="mt-7">
                         <label
@@ -29,7 +70,13 @@ const Register = () => {
                             id="email"
                             placeholder="Email"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("email")}
                         />
+                        {errors.email && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.email?.message}
+                            </p>
+                        )}
                     </div>
                     <div className="mt-7">
                         <label
@@ -43,7 +90,13 @@ const Register = () => {
                             id="password"
                             placeholder="Password"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("password")}
                         />
+                        {errors.password && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.password?.message}
+                            </p>
+                        )}
                     </div>
                     <div className="mt-7">
                         <label
@@ -57,7 +110,13 @@ const Register = () => {
                             id="confirm-password"
                             placeholder="Confirm Password"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("confirmPassword")}
                         />
+                        {errors.confirmPassword && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.confirmPassword?.message}
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>
@@ -75,7 +134,13 @@ const Register = () => {
                             id="first-name"
                             placeholder="First Name"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("firstName")}
                         />
+                        {errors.firstName && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.firstName?.message}
+                            </p>
+                        )}
                     </div>
                     <div className="  w-[49%]">
                         <label
@@ -89,7 +154,13 @@ const Register = () => {
                             id="last-name"
                             placeholder="Last Name"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("lastName")}
                         />
+                        {errors.lastName && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.lastName?.message}
+                            </p>
+                        )}
                     </div>
                 </div>
                 <div className="flex w-full justify-between">
@@ -105,7 +176,13 @@ const Register = () => {
                             id="phone-number"
                             placeholder="Phone Number"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("phoneNumber")}
                         />
+                        {errors.phoneNumber && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.phoneNumber?.message}
+                            </p>
+                        )}
                     </div>
                     <div className="mt-7  w-[49%]">
                         <label
@@ -119,7 +196,13 @@ const Register = () => {
                             id="birth-date"
                             placeholder="Last Name"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("birthDate")}
                         />
+                        {errors.birthDate && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.birthDate?.message}
+                            </p>
+                        )}
                     </div>
                 </div>
                 <div className="flex flex-col w-full">
@@ -132,10 +215,16 @@ const Register = () => {
                         </label>
                         <input
                             type="text"
-                            id="phone-number"
+                            id="address"
                             placeholder="Barangay and City"
                             className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                            {...register("brgyCity")}
                         />
+                        {errors.brgyCity && (
+                            <p className="text-xs italic text-red-500 mt-2">
+                                {errors.brgyCity?.message}
+                            </p>
+                        )}
                     </div>
                     <div className="flex w-full justify-between">
                         <div className="mt-7 w-[49%]">
@@ -144,7 +233,13 @@ const Register = () => {
                                 id="province"
                                 placeholder="Province"
                                 className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                                {...register("province")}
                             />
+                            {errors.province && (
+                                <p className="text-xs italic text-red-500 mt-2">
+                                    {errors.province?.message}
+                                </p>
+                            )}
                         </div>
                         <div className="mt-7  w-[49%]">
                             <input
@@ -152,7 +247,13 @@ const Register = () => {
                                 id="country"
                                 placeholder="Country"
                                 className="w-full py-2 px-3 bg-[#515E71] border border-black  font-league text-xl"
+                                {...register("country")}
                             />
+                            {errors.country && (
+                                <p className="text-xs italic text-red-500 mt-2">
+                                    {errors.country?.message}
+                                </p>
+                            )}
                         </div>
                     </div>
                     <div className="mx-auto mt-5 bg-[#FF4C29] w-1/2 hover:bg-indigo-500">
