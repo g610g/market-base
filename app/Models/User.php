@@ -15,16 +15,23 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUuids;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use HasUuids;
 
-   protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'phone_number',
-        'password',
-        'role_id'
-    ];
+    protected $fillable = [
+         'first_name',
+         'last_name',
+         'email',
+         'phone_number',
+         'password',
+         'role_id',
+         'city',
+         'province',
+         'country',
+         'barangay',
+     ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,23 +52,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function role():BelongsTo{
-        $this->belongsTo(Role::class,'role_id', 'id');
+    public function role(): BelongsTo
+    {
+        $this->belongsTo(Role::class, 'role_id', 'id');
     }
-    public function customer():HasOne{
-        if ($this->role_id !== Role::CUSTOMER){
+    public function customer(): HasOne
+    {
+        if ($this->role_id !== Role::CUSTOMER) {
             return null;
         }
-        return $this->hasOne(Customer::class,'customer_id', 'id');
+        return $this->hasOne(Customer::class, 'customer_id', 'id');
     }
-    public function distributor():HasOne{
-        if ($this->role_id !== Role::DISTRIBUTOR){
+    public function distributor(): HasOne
+    {
+        if ($this->role_id !== Role::DISTRIBUTOR) {
             return null;
         }
         return $this->hasOne(Distributor::class, 'distributor_id', 'id');
     }
-    public function admin():HasOne{
-        if ($this->role_id !== Role::ADMIN){
+    public function admin(): HasOne
+    {
+        if ($this->role_id !== Role::ADMIN) {
             return null;
         }
         return $this->hasOne(Admin::class, 'admin_id', 'id');

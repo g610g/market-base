@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
-import { router, Link } from '@inertiajs/inertia-react'
-const Test = ({data}) => {
-    console.log(data);
-    return (
-       <div>
-            <h1>Hello World</h1>
-            <Link href='/test' method="get">Go To Test</Link>
-            <Link href='/admin/login' method='post' as='button' data={{email: 'joey.denesik@example.net', password:'password'}}>
-                Login admin
-            </Link>
-
-        </div>
-    )
+import React, { useState } from "react";
+import { Link } from "@inertiajs/inertia-react";
+import LoginLayout from "./Components/Layouts/LoginLayout.jsx";
+export default function Test({ data, error }) {
+  console.log(data);
+  if (error) {
+    console.log(error);
+  }
+  return (
+    <LoginLayout>
+      <div>
+        <h1 className="">Hello World</h1>
+        <Link href="/test" method="get">Go To Test</Link>
+        <Link
+          href="/admin/login"
+          method="post"
+          as="button"
+          data={{
+            email: "runolfsdottir.maida@example.net",
+            password: "password",
+          }}
+        >
+          Login admin
+        </Link>
+      </div>
+    </LoginLayout>
+  );
 }
-
-export default Test
