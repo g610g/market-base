@@ -28,21 +28,11 @@ Route::group(['prefix' => 'admin'], function () {
 
 // This will be the landing page
 Route::get('/', function () {
-    $error = session()->all();
-    try {
-        $user = Admin::with('user')->first();
-    } catch(Exception $e) {
-        return Inertia::render('Test', [
-            'data' => [
-                'error' => $e->getMessage()
-            ]
-        ]);
-    }
-    return Inertia::render('Test', [
-        'data' => $user,
-        'error' => $error
-    ]);
+    return Inertia::render('Components/Core/Landing');
 })->name('home');
+Route::get('/register', function () {
+    return Inertia::render('Components/Core/Register');
+});
 Route::get('/test', function () {
     return Inertia::render('Testing');
 });

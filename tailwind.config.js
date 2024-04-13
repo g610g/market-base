@@ -9,6 +9,7 @@ export default {
     extend: {
       colors: {
         mainBg: "#03061B",
+        loginMain: "#2C394B",
       },
       fontFamily: {
         league: "'League Spartan'",
