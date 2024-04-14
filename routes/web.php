@@ -41,10 +41,8 @@ Route::group(['prefix' => 'admin'], function () {
 Route::middleware('guest:sanctum')->group(function () {
     Route::get('/', [MainAuthController::class, 'show'])->name('home.login');
     Route::post('/login', [MainAuthController::class, 'login'])->name('login');
-    Route::get('/register', function () {
-        return Inertia::render('Components/Core/Register');
-    })->name('users.create');
-
+    Route::get('/register', [MainAuthController::class, 'showRegister'])->name('users.create');
+    Route::post('/register', [MainAuthController::class, 'register']);
 });
 
 Route::get('/routes', function () {

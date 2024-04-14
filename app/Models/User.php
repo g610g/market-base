@@ -27,10 +27,12 @@ class User extends Authenticatable
          'phone_number',
          'password',
          'role_id',
+         'birth_date',
          'city',
          'province',
          'country',
          'barangay',
+
      ];
 
     /**

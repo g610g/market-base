@@ -3,11 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Inertia } from "@inertiajs/inertia";
+import { usePage } from "@inertiajs/inertia-react";
 
 const Register = () => {
     const [userType, setUserType] = useState("");
     const [hasError, setHasError] = useState(false);
     const validUserType = ["distributor", "customer"];
+    console.log(usePage().props);
     const validationSchema = z
         .object({
             firstName: z.string().min(1, { message: "Firstname is required" }),
@@ -52,7 +55,11 @@ const Register = () => {
         }
         setUserType(type);
     };
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = (data) => {
+        data = { ...data, type: userType };
+        console.log(data);
+        Inertia.post("/register", data);
+    };
     return (
         <form
             className="bg-loginMain min-h-full py-[2rem] px-[3rem] flex "
