@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/authorize', function () {
-        return Inertia::render('Authorize', [
+    Route::get('/dashboard', function () {
+        return Inertia::render('Components/Core/Authorize', [
             'data' => auth()->user()
         ]);
-    })->name('auth');
+    })->name('home.dashboard');
 });
 Route::group(['prefix' => 'guest'], function () {
     Route::get('/login', [AppAuthController::class, 'loginView']);
@@ -29,10 +29,12 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 // This will be the landing page
-Route::get('/', function (Request $request) {
-    return Inertia::render('Components/Core/Landing', ['user' => $request->query('user') ]);
-})->name('home');
-Route::post('/login', [MainAuthController::class, 'login'])->name('login');
+Route::middleware('guest:sanctum')->group(function () {
+    Route::get('/', function (Request $request) {
+        return Inertia::render('Components/Core/Landing', ['user' => $request->query('user') ]);
+    })->name('home');
+    Route::post('/login', [MainAuthController::class, 'login'])->name('login');
+});
 Route::get('/register', function () {
     return Inertia::render('Components/Core/Register');
 })->name('users.create');

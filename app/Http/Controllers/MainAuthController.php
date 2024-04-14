@@ -22,7 +22,7 @@ class MainAuthController extends Controller
         if (!Auth::attempt($validated)) {
             return redirect()->back()->withErrors(['Credentials Error'], 'not_found_user');
         }
-        return Inertia::render('Components/Core/Authorize');
+        return redirect()->route('home.dashboard');
 
 
     }
