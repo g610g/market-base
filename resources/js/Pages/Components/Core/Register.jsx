@@ -290,7 +290,7 @@ const Register = () => {
                             )}
                         </div>
                     </div>
-                    <div className="mx-auto mt-5 bg-[#FF4C29] w-1/2 hover:bg-indigo-500">
+                    <div className="mx-auto mt-5 bg-orangeButton w-1/2 hover:bg-indigo-500">
                         <button
                             type="submit"
                             className="px-[2.5rem] py-[1rem] w-full font-league text-white text-2xl font-bold"
