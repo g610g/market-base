@@ -54,7 +54,6 @@ class MainAuthController extends Controller
     }
     public function register(RegisterRequest $request)
     {
-        // dd(Carbon::createFromFormat('Y-m-d', $request->birthDate));
         if ($request->type === 'distributor') {
             try {
                 $user = User::create([

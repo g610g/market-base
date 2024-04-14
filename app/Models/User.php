@@ -53,6 +53,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'birth_date' => 'date:Y-m-d'
     ];
     public function role(): BelongsTo
     {
