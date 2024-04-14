@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin\Admin;
+use App\Models\Admin\MerchantClass;
+use App\Models\Admin\MerchantStore;
 use App\Models\Customer;
 use App\Models\Distributor\Distributor;
 use App\Models\Role;
@@ -19,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
 
         $roles = ['admin', 'distributor', 'customer'];
-        foreach($roles as $role){
+        foreach($roles as $role) {
             Role::firstOrCreate([
                 'role' => $role
             ]);
@@ -31,8 +33,18 @@ class DatabaseSeeder extends Seeder
         User::factory()->has(Distributor::factory()->count(1))->create([
             'role_id' => Role::DISTRIBUTOR
         ]);
-        User::factory()->has(Admin::factory()->count(1))->create([
-            'role_id' => Role::ADMIN
+        $admin = User::factory()->has(Admin::factory()->count(1))->create([
+             'role_id' => Role::ADMIN
+         ])->admin;
+        $merchantStores = MerchantStore::factory()->for(MerchantClass::factory()->create())->create([
+            'admin_id' => $admin->user->id
         ]);
+        // $admin->merchantStores()->save($merchantStores);
+        // $admin->merchantStores()->factory()->has(MerchantClass::factory()->count(1))->count(2)->create();
+        // // $merchantClass = MerchantClass::factory()->has(MerchantStore::factory()->count(2))->create();
+        // MerchantStore::factory()->count(2)->create();
+
+        // $admin
+
     }
 }

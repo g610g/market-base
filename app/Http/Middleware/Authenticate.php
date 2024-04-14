@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
+
         return $request->expectsJson() ? response()->json([
             'error' => 'You are unauthorized',
             'loginPage' => URL::route('home.login')

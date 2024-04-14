@@ -10,7 +10,6 @@ const Register = () => {
     const [userType, setUserType] = useState("");
     const [hasError, setHasError] = useState(false);
     const validUserType = ["distributor", "customer"];
-    console.log(usePage().props);
     const validationSchema = z
         .object({
             firstName: z.string().min(1, { message: "Firstname is required" }),
@@ -47,7 +46,6 @@ const Register = () => {
     if (hasError) {
         console.log("Error");
     }
-    console.log(userType);
     const handleUserType = (type) => {
         if (!validUserType.includes(type)) {
             setHasError(true);
@@ -57,7 +55,6 @@ const Register = () => {
     };
     const onSubmit = (data) => {
         data = { ...data, type: userType };
-        console.log(data);
         Inertia.post("/register", data);
     };
     return (
