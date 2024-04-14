@@ -31,8 +31,8 @@ Route::group(['prefix' => 'admin'], function () {
 // This will be the landing page
 Route::middleware('guest:sanctum')->group(function () {
     Route::get('/', function (Request $request) {
-        return Inertia::render('Components/Core/Landing', ['user' => $request->query('user') ]);
-    })->name('home');
+        return Inertia::render('Components/Core/Landing');
+    })->name('home.login');
     Route::post('/login', [MainAuthController::class, 'login'])->name('login');
 });
 Route::get('/register', function () {
