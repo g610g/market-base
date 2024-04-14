@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
-use App\Models\Admin\Admin;
+use App\Http\Controllers\MainAuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 
@@ -33,6 +32,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('/', function (Request $request) {
     return Inertia::render('Components/Core/Landing', ['user' => $request->query('user') ]);
 })->name('home');
+Route::post('/login', [MainAuthController::class, 'login'])->name('login');
 Route::get('/register', function () {
     return Inertia::render('Components/Core/Register');
 })->name('users.create');
