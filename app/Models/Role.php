@@ -16,7 +16,8 @@ class Role extends Model
     public const ADMIN = 1;
     public const DISTRIBUTOR = 2;
     public const CUSTOMER = 3;
-    public function users():HasMany{
+    public function users(): HasMany
+    {
         return $this->hasMany(User::class, 'role_id', 'id');
     }
 }

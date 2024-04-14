@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
@@ -18,9 +19,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/customer', function () {
         return Inertia::render('Components/Core/Customer');
     })->name('home.dashboard.customer');
-    Route::get('/admin', function () {
-        return Inertia::render('Components/Core/Admin');
-    })->name('home.dashboard.admin');
+    Route::get(
+        '/admin',
+        [AdminController::class, 'show']
+    )->name('home.dashboard.admin');
     Route::get('/distributor', function () {
         return Inertia::render('Components/Core/Distributor');
     })->name('home.dashboard.distributor');
