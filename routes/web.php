@@ -15,6 +15,15 @@ Route::middleware('auth:sanctum')->group(function () {
             'data' => auth()->user()
         ]);
     })->name('home.dashboard');
+    Route::get('/customer', function () {
+        return Inertia::render('Components/Core/Customer');
+    })->name('home.dashboard.customer');
+    Route::get('/admin', function () {
+        return Inertia::render('Components/Core/Admin');
+    })->name('home.dashboard.admin');
+    Route::get('/distributor', function () {
+        return Inertia::render('Components/Core/Distributor');
+    })->name('home.dashboard.distributor');
 });
 Route::group(['prefix' => 'guest'], function () {
     Route::get('/login', [AppAuthController::class, 'loginView']);
@@ -30,14 +39,14 @@ Route::group(['prefix' => 'admin'], function () {
 
 // This will be the landing page
 Route::middleware('guest:sanctum')->group(function () {
-    Route::get('/', function (Request $request) {
-        return Inertia::render('Components/Core/Landing');
-    })->name('home.login');
+    Route::get('/', [MainAuthController::class, 'show'])->name('home.login');
     Route::post('/login', [MainAuthController::class, 'login'])->name('login');
+    Route::get('/register', function () {
+        return Inertia::render('Components/Core/Register');
+    })->name('users.create');
+
 });
-Route::get('/register', function () {
-    return Inertia::render('Components/Core/Register');
-})->name('users.create');
+
 Route::get('/routes', function () {
     $users = User::factory()->count(5);
     return Inertia::render('Components/Routes', [
