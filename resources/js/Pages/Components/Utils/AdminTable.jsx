@@ -1,4 +1,5 @@
 import React from "react";
+import AdminStatusTable from "./AdminStatusTable";
 
 function AdminTable() {
     const headers = [
@@ -24,7 +25,23 @@ function AdminTable() {
             brands: 23,
             distributors: 5,
             products: 1,
+            status: "Close",
+        },
+        {
+            id: 1,
+            store_name: "Testing Merchant Name",
+            brands: 23,
+            distributors: 5,
+            products: 1,
             status: "Open",
+        },
+        {
+            id: 1,
+            store_name: "Testing Merchant Name",
+            brands: 23,
+            distributors: 5,
+            products: 1,
+            status: "Close",
         },
         {
             id: 1,
@@ -88,23 +105,7 @@ function AdminTable() {
             brands: 23,
             distributors: 5,
             products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
+            status: "Close",
         },
     ];
     return (
@@ -121,28 +122,28 @@ function AdminTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {tableContent.map((data) => (
+                        {tableContent.map((data, index) => (
                             <tr
-                                className="text-white font-league h-[5rem]  border-b text-[1.5rem]"
-                                key={data.id}
+                                className="text-white font-league h-[5rem]  border-b border-black text-[1.5rem]"
+                                key={index}
                             >
                                 <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[10rem]">
                                     {data.id}
                                 </td>
-                                <td className=" px-6 py-4">
+                                <td className=" px-6 py-4 font-medium truncate max-w-[10rem]">
                                     {data.store_name}
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[10rem]">
                                     {data.brands}
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[6rem] w-[6rem]">
                                     {data.distributors}
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[4rem] w-[4rem]">
                                     {data.products}
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4">
-                                    {data.status}
+                                <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[7rem]">
+                                    <AdminStatusTable status={data.status} />
                                 </td>
                             </tr>
                         ))}

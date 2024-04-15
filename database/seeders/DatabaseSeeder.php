@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder
              'role_id' => Role::ADMIN
          ])->admin;
         //creating merchant_stores and associating merchant class
-        $merchantStores = MerchantStore::factory()->for(MerchantClass::factory()->create())->count(10)->create([
+        // $admin = Admin::first();
+        $merchantStores = MerchantStore::factory()->for(MerchantClass::factory()->create())->count(15)->create([
             'admin_id' => $admin->user->id
         ]);
     }

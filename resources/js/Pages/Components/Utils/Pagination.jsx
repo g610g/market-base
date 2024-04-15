@@ -1,12 +1,16 @@
+import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 
-function Pagination() {
+function Pagination({ links, nextPage, prevPage }) {
+    //if number of links greater than 5 then we are going bahin dis shet!
+    if (links.length > 5) {
+    }
     return (
         <nav aria-label="Page navigation example">
             <ul class="flex items-center -space-x-px h-8 text-sm">
                 <li>
-                    <a
-                        href="#"
+                    <Link
+                        href={prevPage}
                         class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >
                         <span class="sr-only">Previous</span>
@@ -25,9 +29,23 @@ function Pagination() {
                                 d="M5 1 1 5l4 4"
                             />
                         </svg>
-                    </a>
+                    </Link>
                 </li>
-                <li>
+                {links.map((link) => (
+                    <li>
+                        <Link
+                            href={link.url}
+                            class={`flex items-center justify-center ${
+                                link.active
+                                    ? " dark:bg-orangeButton dark:hover:bg-orangeButton"
+                                    : "dark:bg-gray-800 dark:hover:bg-gray-700"
+                            } px-3 h-8 leading-tight text-white bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700  dark:border-gray-700 dark:text-gray-400  dark:hover:text-white`}
+                        >
+                            {link.label}
+                        </Link>
+                    </li>
+                ))}
+                {/* <li>
                     <a
                         href="#"
                         class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -67,10 +85,10 @@ function Pagination() {
                     >
                         5
                     </a>
-                </li>
+                </li> */}
                 <li>
-                    <a
-                        href="#"
+                    <Link
+                        href={nextPage}
                         class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     >
                         <span class="sr-only">Next</span>
@@ -89,7 +107,7 @@ function Pagination() {
                                 d="m1 9 4-4-4-4"
                             />
                         </svg>
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </nav>

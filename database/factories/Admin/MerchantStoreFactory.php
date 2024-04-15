@@ -14,7 +14,7 @@ class MerchantStoreFactory extends Factory
     public function definition(): array
     {
         return [
-           'store_name' => fake()->word()
+           'store_name' => fake()->sentence(2)
         ];
     }
 }
