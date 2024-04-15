@@ -56,12 +56,15 @@ function SideBarLayout({ children }) {
                         <div className="flex  flex-col space-y-3 mt-[3rem]  items-center">
                             {sideBarItems.map((item) => (
                                 <div className="flex w-full px-5 justify-center py-5 ">
-                                    <div className="flex w-full space-x-4 font-league text-white text-lg items-center">
+                                    <Link
+                                        className="flex w-full space-x-4 font-league text-white text-lg items-center"
+                                        href={item.href}
+                                    >
                                         {item.icon}
                                         <p className="text-white font-league text-2xl font-semibold">
                                             {item.itemName}
                                         </p>
-                                    </div>
+                                    </Link>
                                     {url === item.href ? (
                                         <Arrow />
                                     ) : (

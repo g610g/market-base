@@ -19,10 +19,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/customer', function () {
         return Inertia::render('Components/Core/Customer');
     })->name('home.dashboard.customer');
-    Route::get(
-        '/admin',
-        [AdminController::class, 'show']
-    )->name('home.dashboard.admin');
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get(
+            '/',
+            [AdminController::class, 'show']
+        )->name('home.dashboard.admin');
+        Route::get('/store', function () {
+            return Inertia::render('Components/Core/AdminStore');
+        });
+    });
     Route::get('/distributor', function () {
         return Inertia::render('Components/Core/Distributor');
     })->name('home.dashboard.distributor');
