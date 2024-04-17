@@ -46,7 +46,7 @@ function AdminTable({ tableContent }) {
                                     Testing Product
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[7rem]">
-                                    <AdminStatusTable status={data.status} />
+                                    <AdminStatusTable status={data.is_open} />
                                 </td>
                             </tr>
                         ))}

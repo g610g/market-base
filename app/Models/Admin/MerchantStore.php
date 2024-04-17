@@ -15,7 +15,8 @@ class MerchantStore extends Model
     use HasUuids;
     protected $fillable = [
         'store_name',
-        'admin_id'
+        'admin_id',
+        'is_open'
     ];
     protected $primaryKey = 'store_id';
 

@@ -65,7 +65,7 @@ function SideBarLayout({ children }) {
                                             {item.itemName}
                                         </p>
                                     </Link>
-                                    {url === item.href ? (
+                                    {url.includes(item.href) ? (
                                         <Arrow />
                                     ) : (
                                         <DownArrow />

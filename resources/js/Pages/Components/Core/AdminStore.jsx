@@ -4,8 +4,10 @@ import Pagination from "../Utils/Pagination";
 import SearchIcon from "../../../assets/search.svg?react";
 import AdminTable from "../Utils/AdminTable";
 import DropDown from "../Utils/DropDown";
+import CreateMerchantModel from "../Utils/CreateMerchantModel";
 function AdminStore({ merchantData }) {
     //brands and product are the choices
+    const [open, setOpen] = useState(false);
     const [tableCategory, setTableCategory] = useState("Brands");
     const options = ["Brands", "Merchant"];
     console.log(merchantData);
@@ -24,9 +26,13 @@ function AdminStore({ merchantData }) {
                         />
                     </div>
 
-                    <div className="text-white font-league font-semibold text-2xl bg-[#2C394B] py-2 px-[2rem] rounded-md">
+                    {/* <button
+                        className="text-white font-league font-semibold text-2xl bg-[#2C394B] py-2 px-[2rem] rounded-md"
+                        onClick={() => setOpen(true)}
+                    >
                         Create Merchant Store
-                    </div>
+                    </button> */}
+                    <CreateMerchantModel />
                     <div className="py-2 px-3 bg-[#2C394B] rounded-md">
                         <SearchIcon />
                     </div>
