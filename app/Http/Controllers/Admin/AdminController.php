@@ -17,6 +17,11 @@ class AdminController extends Controller
     public function showMerchants()
     {
         $merchantData = MerchantStore::with('merchantClass')->paginate(10);
+        // dd($merchantData);
+        //we will try to split type shit
+        // if (len($merchantData->links) > 5) {
+        //
+        // }
         return Inertia::render('Components/Core/AdminStore', [
             'merchantData' => $merchantData
         ]);

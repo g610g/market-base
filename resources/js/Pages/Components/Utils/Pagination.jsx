@@ -1,12 +1,11 @@
 import { Link } from "@inertiajs/inertia-react";
-import React from "react";
+import React, { useState } from "react";
 
 function Pagination({ links, nextPage, prevPage }) {
-    //if number of links greater than 5 then we are going bahin dis shet!
-    if (links.length > 5) {
-    }
+    const [hasSplit, setHasSplit] = useState(false);
+    const [splittedArray, setSplittedArray] = useState(null);
     return (
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" className="max-w-full">
             <ul class="flex items-center -space-x-px h-8 text-sm">
                 <li>
                     <Link
@@ -31,20 +30,26 @@ function Pagination({ links, nextPage, prevPage }) {
                         </svg>
                     </Link>
                 </li>
-                {links.map((link) => (
-                    <li>
-                        <Link
-                            href={link.url}
-                            class={`flex items-center justify-center ${
-                                link.active
-                                    ? " dark:bg-orangeButton dark:hover:bg-orangeButton"
-                                    : "dark:bg-gray-800 dark:hover:bg-gray-700"
-                            } px-3 h-8 leading-tight text-white bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700  dark:border-gray-700 dark:text-gray-400  dark:hover:text-white`}
-                        >
-                            {link.label}
-                        </Link>
-                    </li>
-                ))}
+                {links
+                    .filter(
+                        (link) =>
+                            link.label != "&laquo; Previous" &&
+                            link.label != "Next &raquo;"
+                    )
+                    .map((link) => (
+                        <li>
+                            <Link
+                                href={link.url}
+                                class={`flex items-center justify-center ${
+                                    link.active
+                                        ? " dark:bg-orangeButton dark:hover:bg-orangeButton"
+                                        : "dark:bg-gray-800 dark:hover:bg-gray-700"
+                                } px-3 h-8 leading-tight text-white bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700  dark:border-gray-700 dark:text-gray-400  dark:hover:text-white`}
+                            >
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
                 {/* <li>
                     <a
                         href="#"

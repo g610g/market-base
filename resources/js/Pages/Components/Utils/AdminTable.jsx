@@ -1,7 +1,7 @@
 import React from "react";
 import AdminStatusTable from "./AdminStatusTable";
 
-function AdminTable() {
+function AdminTable({ tableContent }) {
     const headers = [
         "Merchant ID",
         "Merchant Store Name",
@@ -10,104 +10,7 @@ function AdminTable() {
         "No. of Products",
         "Status",
     ];
-    const tableContent = [
-        {
-            id: "123123819310983910831038108w123813793712837192879831937197",
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Close",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Close",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Open",
-        },
-        {
-            id: 1,
-            store_name: "Testing Merchant Name",
-            brands: 23,
-            distributors: 5,
-            products: 1,
-            status: "Close",
-        },
-    ];
+    // console.log(tableContent);
     return (
         <div className="flex flex-col  max-h-full overflow-auto ">
             <div className=" h-full">
@@ -125,22 +28,22 @@ function AdminTable() {
                         {tableContent.map((data, index) => (
                             <tr
                                 className="text-white font-league h-[5rem]  border-b border-black text-[1.5rem]"
-                                key={index}
+                                key={data.store_id}
                             >
                                 <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[10rem]">
-                                    {data.id}
+                                    {data.store_id}
                                 </td>
                                 <td className=" px-6 py-4 font-medium truncate max-w-[10rem]">
                                     {data.store_name}
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[10rem]">
-                                    {data.brands}
+                                    Testing Only
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[6rem] w-[6rem]">
-                                    {data.distributors}
+                                    Testing Only
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[4rem] w-[4rem]">
-                                    {data.products}
+                                    Testing Product
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[7rem]">
                                     <AdminStatusTable status={data.status} />

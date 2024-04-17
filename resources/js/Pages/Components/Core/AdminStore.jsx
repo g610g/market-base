@@ -31,7 +31,7 @@ function AdminStore({ merchantData }) {
                         <SearchIcon />
                     </div>
                 </div>
-                <div className="w-[50%] flex justify-end">
+                <div className="w-[50%] max-w-[50%] flex justify-end">
                     <Pagination
                         links={merchantData.links}
                         nextPage={merchantData.next_page_url}
@@ -41,7 +41,11 @@ function AdminStore({ merchantData }) {
                 </div>
             </div>
             <div className="h-[75%] mt-[2rem] bg-[#334756]">
-                {tableCategory === "Brands" ? <AdminTable /> : <></>}
+                {tableCategory === "Brands" ? (
+                    <AdminTable tableContent={merchantData.data} />
+                ) : (
+                    <></>
+                )}
             </div>
         </main>
     );
