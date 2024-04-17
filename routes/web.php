@@ -25,9 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
             '/',
             [AdminController::class, 'show']
         )->name('home.dashboard.admin');
-        Route::get('/store', [AdminController::class, 'showMerchants']);
+        Route::get('/store', [AdminController::class, 'showMerchantsStores']);
         Route::post('/store', [MerchantStoreController::class, 'create']);
         Route::delete('/store/{merchantStore}', [MerchantStoreController::class, 'destroy']);
+        Route::get('distributor', [AdminController::class, 'showDistributors']);
     });
     Route::get('/distributor', function () {
         return Inertia::render('Components/Core/Distributor');
