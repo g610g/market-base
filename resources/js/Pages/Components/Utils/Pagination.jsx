@@ -10,7 +10,7 @@ function Pagination({ links, nextPage, prevPage }) {
                 <li>
                     <Link
                         href={prevPage}
-                        class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 hover:bg-gray-600 bg-gray-800   border-gray-700  hover:text-white"
                     >
                         <span class="sr-only">Previous</span>
                         <svg
@@ -42,9 +42,9 @@ function Pagination({ links, nextPage, prevPage }) {
                                 href={link.url}
                                 class={`flex items-center justify-center ${
                                     link.active
-                                        ? " dark:bg-orangeButton dark:hover:bg-orangeButton"
-                                        : "dark:bg-gray-800 dark:hover:bg-gray-700"
-                                } px-3 h-8 leading-tight text-white bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700  dark:border-gray-700 dark:text-gray-400  dark:hover:text-white`}
+                                        ? "bg-orangeButton hover:bg-orangeButton"
+                                        : "bg-gray-800 hover:bg-gray-700"
+                                } px-3 h-8 leading-tight   hover:bg-gray-100   border-gray-700 text-gray-400  hover:text-white`}
                             >
                                 {link.label}
                             </Link>
@@ -53,7 +53,7 @@ function Pagination({ links, nextPage, prevPage }) {
                 <li>
                     <Link
                         href={nextPage}
-                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:bg-gray-600 bg-gray-800   border-gray-700  hover:text-white"
                     >
                         <span class="sr-only">Next</span>
                         <svg

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\MerchantClassController;
+use App\Http\Controllers\Admin\MerchantStoreController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
 use App\Models\User;
@@ -24,6 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
             [AdminController::class, 'show']
         )->name('home.dashboard.admin');
         Route::get('/store', [AdminController::class, 'showMerchants']);
+        Route::post('/store', [MerchantStoreController::class, 'create']);
+        Route::delete('/store/{merchantStore}', [MerchantStoreController::class, 'destroy']);
     });
     Route::get('/distributor', function () {
         return Inertia::render('Components/Core/Distributor');

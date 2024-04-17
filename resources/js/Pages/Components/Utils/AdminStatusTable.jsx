@@ -1,6 +1,7 @@
 import React from "react";
 import TrashIcon from "../../../assets/trash.svg?react";
-function AdminStatusTable({ status }) {
+import DeleteAlertDialog from "./DeleteAlertDialog";
+function AdminStatusTable({ status, id }) {
     return (
         <div className="flex justify-between w-full">
             <p
@@ -10,9 +11,10 @@ function AdminStatusTable({ status }) {
             >
                 {status ? "Open" : "Close"}
             </p>
-            <div className="px-2 py-1 rounded-md">
+            <DeleteAlertDialog id={id}>
                 <TrashIcon />
-            </div>
+            </DeleteAlertDialog>
+            {/* <button className="">Delete</button> */}
         </div>
     );
 }
