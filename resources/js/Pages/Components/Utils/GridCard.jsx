@@ -10,9 +10,13 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-function GridCard({ data, id }) {
+import DistributorInfoDialog from "./DistributorInfoDialog";
+function GridCard({ distributor, id }) {
     return (
-        <Card className="h-[380px] bg-[#19273A] rounded-[.5rem] border-none px-5 py-2 w-full">
+        <Card
+            className="h-[380px] bg-[#19273A] rounded-[.5rem] border-none px-5 py-2 w-full"
+            key={distributor.distributorData.user.id}
+        >
             <CardHeader className="space-y-4 p-3">
                 <div className="w-full flex justify-center">
                     <img
@@ -21,8 +25,10 @@ function GridCard({ data, id }) {
                         className="rounded-sm h-[150px] w-[150px]"
                     />
                 </div>
-                <CardDescription className="w-full flex justify-center font-league text-white text-xl font-semibold border-b border-white">
-                    {`#00${id + 1}`} {data.name}
+                <CardDescription className="w-full flex justify-center font-league text-white text-xl font-semibold border-b border-white truncate">
+                    {`#00${id + 1}`}{" "}
+                    {distributor.distributorData.user.first_name}{" "}
+                    {distributor.distributorData.user.last_name}
                 </CardDescription>
             </CardHeader>
             <CardContent className="p-2">
@@ -31,30 +37,25 @@ function GridCard({ data, id }) {
                         Merchant Stores
                     </p>
                     <p className="font-league text-white text-xl">
-                        {data.merchantStoreNumber}
+                        {distributor.merchantStoreCount}
                     </p>
                 </div>
                 <div className="flex w-full justify-between">
                     <p className="font-league text-white text-xl">Brands</p>
                     <p className="font-league text-white text-xl">
-                        {data.brandsNumber}
+                        {distributor.brandsCount}
                     </p>
                 </div>
                 <div className="flex w-full justify-between">
                     <p className="font-league text-white text-xl">Product</p>
-                    <p className="font-league text-white text-xl">
-                        {data.productNumber}
-                    </p>
+                    <p className="font-league text-white text-xl">88</p>
                 </div>
             </CardContent>
             <CardFooter className="flex justify-between">
                 <div className="flex w-full justify-center space-x-2">
-                    <Button
-                        variant="default"
-                        className="bg-orangeButton rounded-[.8rem] text-white font-league font-semibold text-[1rem] hover:bg-indigo-600"
-                    >
-                        Profile
-                    </Button>
+                    <DistributorInfoDialog
+                        distributorData={distributor.distributorData}
+                    />
                     <Button
                         variant="default"
                         className="bg-[#334756] rounded-[.8rem]"

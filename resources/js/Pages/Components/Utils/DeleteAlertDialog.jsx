@@ -28,15 +28,20 @@ function DeleteAlertDialog({ children, id }) {
                     <AlertDialogTitle className="font-league text-orangeButton text-2xl">
                         Are you absolutely sure?
                     </AlertDialogTitle>
-                    <AlertDialogDescription className="text-white font-league">
+                    <AlertDialogDescription className="text-white font-league text-[1rem]">
                         This action cannot be undone. This will permanently
                         delete your account and remove your data from our
                         servers."
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete}>
+                    <AlertDialogCancel className="text-white font-league bg-transparent hover:bg-gray-700">
+                        Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                        onClick={handleDelete}
+                        className="bg-red-600 text-white font-league font-bold hover:bg-red-500"
+                    >
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>

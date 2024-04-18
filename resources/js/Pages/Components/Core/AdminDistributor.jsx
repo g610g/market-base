@@ -2,58 +2,8 @@ import React from "react";
 import SideBarLayout from "../Layouts/SideBarLayout";
 import SearchIcon from "../../../assets/search.svg?react";
 import GridCard from "../Utils/GridCard";
-function AdminDistributor() {
-    console.log("Test admin distributor")
-    const distruborsData = [
-        {
-            name: "Mary Soliva",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-        {
-            name: "Gio Gonzales",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-        {
-            name: "Errol  Bantono",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-        {
-            name: "Yvanne Josh Agot",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-        {
-            name: "Klinth Matugas",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-        {
-            name: "Fritzie Nunez",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-        {
-            name: "Armiex Jay Roble",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-        {
-            name: "Ranidel Pinera",
-            merchantStoreNumber: 2,
-            brandsNumber: 5,
-            productNumber: 7,
-        },
-    ];
+import Pagination from "../Utils/Pagination";
+function AdminDistributor({ distributors }) {
     return (
         <main className="max-h-screen h-screen flex flex-col">
             <div
@@ -68,15 +18,25 @@ function AdminDistributor() {
                         <SearchIcon />
                     </div>
                 </div>
-                <div className="w-[30%] text-right">Pagination</div>
+                <div className="w-[30%] flex justify-end">
+                    <Pagination
+                        links={distributors.links}
+                        prevPage={distributors.prev_page_url}
+                        nextPage={distributors.next_page_url}
+                    />
+                </div>
             </div>
             <div
                 id="main-content"
                 className="h-[75%] mt-[0.5rem] grid grid-cols-4 gap-x-3 gap-y-3"
             >
-                {distruborsData.map((data, index) => (
-                    <GridCard data={data} id={index} />
-                ))}
+                {Array.isArray(distributors.data)
+                    ? distributors.data.map((distributor, index) => (
+                          <GridCard distributor={distributor} id={index} />
+                      ))
+                    : [...distributors.data].map((distributor, index) => (
+                          <GridCard distributor={distributor} id={index} />
+                      ))}
             </div>
         </main>
     );
