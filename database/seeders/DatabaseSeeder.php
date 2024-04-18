@@ -20,21 +20,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //
-        // $roles = ['admin', 'distributor', 'customer']; foreach($roles as $role) {
-        //     Role::firstOrCreate([
-        //         'role' => $role
-        //     ]);
-        // }
-        // // seeding user with a corresponding customer relationship
-        // User::factory()->has(Customer::factory()->count(1))->create([
-        //     'role_id' => Role::CUSTOMER
-        // ]);
-        // User::factory()->has(Distributor::factory()->count(1))->create([
-        //     'role_id' => Role::DISTRIBUTOR
-        // ]);
-        // $admin = User::factory()->has(Admin::factory()->count(1))->create([
-        //      'role_id' => Role::ADMIN
-        //  ])->admin;
+        $roles = ['admin', 'distributor', 'customer']; foreach($roles as $role) {
+            Role::firstOrCreate([
+                'role' => $role
+            ]);
+        }
+        // seeding user with a corresponding customer relationship
+        User::factory()->has(Customer::factory()->count(1))->create([
+            'role_id' => Role::CUSTOMER
+        ]);
+        User::factory()->has(Distributor::factory()->count(1))->create([
+            'role_id' => Role::DISTRIBUTOR
+        ]);
+        $admin = User::factory()->has(Admin::factory()->count(1))->create([
+             'role_id' => Role::ADMIN
+         ])->admin;
         // //creating merchant_stores and associating merchant class
         // // $admin = Admin::first();
         // $merchantStores = MerchantStore::factory()->for(MerchantClass::factory()->create())->count(100)->create([

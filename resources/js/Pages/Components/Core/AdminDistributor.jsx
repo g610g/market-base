@@ -3,6 +3,7 @@ import SideBarLayout from "../Layouts/SideBarLayout";
 import SearchIcon from "../../../assets/search.svg?react";
 import GridCard from "../Utils/GridCard";
 function AdminDistributor() {
+    console.log("Test admin distributor")
     const distruborsData = [
         {
             name: "Mary Soliva",
