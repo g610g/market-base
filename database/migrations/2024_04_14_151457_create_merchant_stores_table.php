@@ -15,7 +15,6 @@ return new class () extends Migration {
             $table->string('store_name')->unique();
             $table->foreignUuid('admin_id')->constrained('admins', 'admin_id');
             $table->boolean('is_open')->nullable(false);
-            //add a foreign id for merchant_store_classification
             $table->timestamps();
         });
     }
