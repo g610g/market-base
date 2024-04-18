@@ -13,9 +13,12 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, string $role): mixed
     {
-        if ()
+        $UserRole = $request->user()->returnRole();
+        if ($role !== $UserRole) {
+            return redirect()->back()->withErrors(['You are unauthorized to this page'], 'error_message');
+        }
         return $next($request);
     }
 }

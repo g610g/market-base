@@ -27,7 +27,6 @@ class AdminController extends Controller
     }
     public function showDistributors()
     {
-        //get the distributors data and return it to our frontend
         $distributors = Distributor::with(['brands.merchantStore', 'user'])
                             ->get()
                             ->map(function ($distributor) {

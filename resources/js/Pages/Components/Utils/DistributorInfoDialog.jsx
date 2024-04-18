@@ -14,13 +14,12 @@ import {
 import DistributorDialogTable from "./DistributorDialogTable";
 
 function DistributorInfoDialog({ distributorData }) {
-    console.log(distributorData);
     return (
         <Dialog>
             <DialogTrigger className="bg-orangeButton rounded-[.8rem] text-white font-league font-semibold text-[1rem] hover:bg-indigo-600 px-5">
                 Profile
             </DialogTrigger>
-            <DialogContent className="px-[1rem] py-[2.5rem]  max-w-[650px] bg-[#19273A]">
+            <DialogContent className="px-[1rem] py-[2.5rem]  max-w-[650px] bg-[#19273A] border-none">
                 <div className="h-[500px] w-full flex flex-col">
                     <div className="flex w-full justify-between">
                         <img

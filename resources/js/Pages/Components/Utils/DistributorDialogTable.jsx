@@ -2,44 +2,7 @@ import React from "react";
 
 function DistributorDialogTable({ brandStore }) {
     const headers = ["Brand ID", "Brand Name", "Merchant Store", "Total Sales"];
-    const tableContent = [
-        {
-            brand_id: 11234,
-            brand_name: "Test",
-            merchantStore: "Test Merchant Store",
-            totalSales: 12333,
-        },
-        {
-            brand_id: 11234,
-            brand_name: "Test",
-            merchantStore: "Test Merchant Store",
-            totalSales: 12333,
-        },
-        {
-            brand_id: 11234,
-            brand_name: "Test",
-            merchantStore: "Test Merchant Store",
-            totalSales: 12333,
-        },
-        {
-            brand_id: 11234,
-            brand_name: "Test",
-            merchantStore: "Test Merchant Store",
-            totalSales: 12333,
-        },
-        {
-            brand_id: 11234,
-            brand_name: "Test",
-            merchantStore: "Test Merchant Store",
-            totalSales: 12333,
-        },
-        {
-            brand_id: 11234,
-            brand_name: "Test",
-            merchantStore: "Test Merchant Store",
-            totalSales: 12333,
-        },
-    ];
+
     return (
         <div className="flex flex-col  max-h-full overflow-auto ">
             <div className=" h-full ">
