@@ -16,6 +16,7 @@ class MainAuthController extends Controller
 {
     public function login(Request $request)
     {
+        //validates the client interacting
         $validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
@@ -74,7 +75,7 @@ class MainAuthController extends Controller
                     'description' => fake()->sentence(20)
                 ]);
             } catch (\Throwable $th) {
-                return redirect()->back();
+                return redirect()->back()->withErrors($th->getMessage(), 'error_message');
             }
             Auth::attempt(['email' => $user->email, 'password' => $request->password]);
             session(['is_validated' => true, 'is_guest' => false]);
@@ -99,6 +100,7 @@ class MainAuthController extends Controller
                     'customer_type' => fake()->word()
                 ]);
             } catch (\Throwable $th) {
+                //for getting errors
                 return redirect()->back()->withErrors($th->getMessage(), 'error_message');
             }
             Auth::attempt(['email' => $user->email, 'password' => $request->password]);

@@ -21,7 +21,7 @@ return new class () extends Migration {
             $table->string('country');
             $table->date('birth_date');
             $table->string('phone_number');
-            $table->timestamp('email_verified_at')->   nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

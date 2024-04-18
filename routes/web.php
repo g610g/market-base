@@ -17,9 +17,12 @@ Route::middleware('auth:sanctum')->group(function () {
             'data' => auth()->user()
         ]);
     })->name('home.dashboard');
-    Route::get('/customer', function () {
-        return Inertia::render('Components/Core/Customer');
-    })->name('home.dashboard.customer');
+    Route::group(['prefix' => 'customer', 'middleware' => 'role:customer'], function () {
+        Route::get('/', function () {
+            return Inertia::render('Components/Core/Customer');
+        })->name('home.dashboard.customer');
+    });
+
     Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
         Route::get(
             '/',
@@ -30,9 +33,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/store/{merchantStore}', [MerchantStoreController::class, 'destroy']);
         Route::get('distributor', [AdminController::class, 'showDistributors']);
     });
-    Route::get('/distributor', function () {
-        return Inertia::render('Components/Core/Distributor');
-    })->name('home.dashboard.distributor');
+    Route::group(['prefix' => 'distributor', 'middleware' => 'role:distributor'], function () {
+        Route::get('/', function () {
+            return Inertia::render('Components/Core/Distributor');
+        })->name('home.dashboard.distributor');
+    });
+
+});
+Route::middleware('guest:sanctum')->group(function () {
+    Route::get('/', [MainAuthController::class, 'show'])->name('home.login');
+    Route::post('/login', [MainAuthController::class, 'login'])->name('login');
+    Route::get('/register', [MainAuthController::class, 'showRegister'])->name('users.create');
+    Route::post('/register', [MainAuthController::class, 'register']);
 });
 Route::group(['prefix' => 'guest'], function () {
     Route::get('/login', [AppAuthController::class, 'loginView']);
@@ -44,14 +56,6 @@ Route::group(['prefix' => 'distributor'], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::post('/login', [AuthController::class, 'login']);
 
-});
-
-// This will be the landing page
-Route::middleware('guest:sanctum')->group(function () {
-    Route::get('/', [MainAuthController::class, 'show'])->name('home.login');
-    Route::post('/login', [MainAuthController::class, 'login'])->name('login');
-    Route::get('/register', [MainAuthController::class, 'showRegister'])->name('users.create');
-    Route::post('/register', [MainAuthController::class, 'register']);
 });
 
 Route::get('/routes', function () {
