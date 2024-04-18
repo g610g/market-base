@@ -19,7 +19,6 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use HasUuids;
-
     protected $fillable = [
          'first_name',
          'last_name',
@@ -79,5 +78,9 @@ class User extends Authenticatable
             return null;
         }
         return $this->hasOne(Admin::class, 'admin_id', 'id');
+    }
+    public function returnRole(): string
+    {
+        return Role::find($this->role_id)->role;
     }
 }

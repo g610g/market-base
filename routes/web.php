@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/customer', function () {
         return Inertia::render('Components/Core/Customer');
     })->name('home.dashboard.customer');
-    Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
         Route::get(
             '/',
             [AdminController::class, 'show']

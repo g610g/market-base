@@ -11,9 +11,12 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('merchant_stores', function (Blueprint $table) {
-            $table->foreignId('class_id')
-                ->constrained('merchant_class', 'id')
-                ->cascadeOnDelete();
+            $table->foreignId('fk_class_id')
+                    ->constrained(
+                        'merchant_store_classification',
+                        'class_id'
+                    )
+                    ->cascadeOnDelete();
 
         });
     }
