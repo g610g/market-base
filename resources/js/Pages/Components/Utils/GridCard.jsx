@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import DistributorInfoDialog from "./DistributorInfoDialog";
 function GridCard({ distributor, id }) {
     return (
         <Card
@@ -52,12 +53,9 @@ function GridCard({ distributor, id }) {
             </CardContent>
             <CardFooter className="flex justify-between">
                 <div className="flex w-full justify-center space-x-2">
-                    <Button
-                        variant="default"
-                        className="bg-orangeButton rounded-[.8rem] text-white font-league font-semibold text-[1rem] hover:bg-indigo-600"
-                    >
-                        Profile
-                    </Button>
+                    <DistributorInfoDialog
+                        distributorData={distributor.distributorData}
+                    />
                     <Button
                         variant="default"
                         className="bg-[#334756] rounded-[.8rem]"

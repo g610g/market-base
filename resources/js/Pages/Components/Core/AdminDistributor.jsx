@@ -2,11 +2,8 @@ import React from "react";
 import SideBarLayout from "../Layouts/SideBarLayout";
 import SearchIcon from "../../../assets/search.svg?react";
 import GridCard from "../Utils/GridCard";
-import DistributorsPagination from "../Utils/DistributorsPagination";
 import Pagination from "../Utils/Pagination";
 function AdminDistributor({ distributors }) {
-    console.log(distributors);
-
     return (
         <main className="max-h-screen h-screen flex flex-col">
             <div
