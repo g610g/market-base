@@ -42,8 +42,9 @@ class AdminController extends Controller
         $perPage = 8;
         $currentPage = request("page") ?? 1;
         $currentPage = max(0, $currentPage - 1);
+        $slicedDistributors = $distributors->slice($currentPage * $perPage, $perPage)->values();
         $pagination = new LengthAwarePaginator(
-            $distributors->slice($currentPage * $perPage, $perPage),
+            $slicedDistributors,
             $distributors->count(),
             $perPage,
             $currentPage + 1,

@@ -9,7 +9,7 @@ function AdminStore({ merchantData, merchantClasses }) {
     //brands and product are the choices
     const [tableCategory, setTableCategory] = useState("Brands");
     const options = ["Brands", "Merchant"];
-    console.log(merchantClasses);
+    console.log(merchantData);
     return (
         <main className="max-h-screen h-screen flex flex-col">
             <div
