@@ -43,29 +43,29 @@ class DatabaseSeeder extends Seeder
         $merchantStoreClass = MerchantStoreClass::factory()->count(3)->create();
         foreach ($merchantStoreClass as  $value) {
             MerchantStore::factory()->for($value)->count(30)->create([
-                    'admin_id' => $admin->admin_id
-                ]);
+                'admin_id' => $admin->admin_id
+            ]);
             BrandCategory::factory()->for($value)->count(3)->create();
         }
 
-        for($i = 0; $i < 16; $i++) {
+        for ($i = 0; $i < 16; $i++) {
             User::factory()->has(Distributor::factory()->count(1))->create([
-            'role_id' => Role::DISTRIBUTOR
-        ]);
+                'role_id' => Role::DISTRIBUTOR
+            ]);
         }
         $distributors = Distributor::all();
         foreach ($distributors as $distributor) {
             $category = BrandCategory::inRandomOrder()->first();
             $merchantStore = $category->merchantStoreClass()
-                                ->first()
-                                ->merchantStore()
-                                ->first();
+                ->first()
+                ->merchantStore()
+                ->first();
             Brand::factory()->for($distributor)
-                        ->count(2)
-                        ->create([
-                            'store_id' => $merchantStore->store_id,
-                            'category_id' => $category->brand_cat_id
-                    ]);
+                ->count(2)
+                ->create([
+                    'store_id' => $merchantStore->store_id,
+                    'category_id' => $category->brand_cat_id
+                ]);
         }
     }
 }
