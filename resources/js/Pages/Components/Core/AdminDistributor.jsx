@@ -2,7 +2,8 @@ import React from "react";
 import SideBarLayout from "../Layouts/SideBarLayout";
 import SearchIcon from "../../../assets/search.svg?react";
 import GridCard from "../Utils/GridCard";
-function AdminDistributor() {
+function AdminDistributor({ distributors }) {
+    console.log(distributors);
     const distruborsData = [
         {
             name: "Mary Soliva",

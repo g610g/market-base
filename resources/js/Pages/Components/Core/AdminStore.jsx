@@ -7,7 +7,6 @@ import DropDown from "../Utils/DropDown";
 import CreateMerchantModel from "../Utils/CreateMerchantModel";
 function AdminStore({ merchantData, merchantClasses }) {
     //brands and product are the choices
-    const [open, setOpen] = useState(false);
     const [tableCategory, setTableCategory] = useState("Brands");
     const options = ["Brands", "Merchant"];
     console.log(merchantClasses);
