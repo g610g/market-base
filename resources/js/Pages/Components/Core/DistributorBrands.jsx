@@ -7,7 +7,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
-import TrashIcon from "../../../assets/trash.svg?react";
 import ArrowIcon from "../../../assets/arrow.svg?react";
 
 
@@ -20,7 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from '@radix-ui/react-label';
+
 import CreateBrandDialog from '../Utils/CreateBrandDialog';
 import DeleteBrandDialog from '../Utils/DeleteBrandDialog';
 

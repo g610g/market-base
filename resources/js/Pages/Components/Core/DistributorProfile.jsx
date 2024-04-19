@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
+import DeactivateDistributorDialog from '../Utils/DeactivateDistributorDialog'
+
 const formSchema = z.object({
   firstName: z.string().min(2, {
     message: "First Name must be at least 2 characters.",
@@ -187,12 +189,7 @@ function DistributorProfile() {
             >
                   Edit Profile
             </Button>
-            <Button
-            variant="default"
-            className="bg-[#FF4C29] h-[4rem] rounded text-white font-league w-full text-xl mt-6"
-            >
-                  Deactivate Distributor Account
-            </Button>
+            <DeactivateDistributorDialog/>
           </div>
         </div>
         <div class="row-span-3 col-span-2 p-6 bg-slate-800">
