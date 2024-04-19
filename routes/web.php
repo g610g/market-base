@@ -36,6 +36,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/distributor/brands', function () {
         return Inertia::render('Components/Core/DistributorBrands');
     });
+    Route::get('/distributor/inventory', function () {
+        return Inertia::render('Components/Core/DistributorInventory');
+    });
+    Route::get('/distributor/profile', function () {
+        return Inertia::render('Components/Core/DistributorProfile');
+    });
 });
 Route::group(['prefix' => 'guest'], function () {
     Route::get('/login', [AppAuthController::class, 'loginView']);
