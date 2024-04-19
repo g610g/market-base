@@ -26,7 +26,7 @@ class ProductsFactory extends Factory
     public function associate(Distributor $distributor): Factory
     {
         return $this->state(function (array $attributes) use ($distributor) {
-            $brand = $distributor->brands()->first();
+            $brand = $distributor->brands()->inRandomOrder()->first();
             $brandCategory = $brand->brandCategory()->first();
             $productType = $brandCategory->productTypes()->first();
             return [

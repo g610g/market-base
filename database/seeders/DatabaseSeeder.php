@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Distributor\Brand;
 use App\Models\Distributor\Distributor;
 use App\Models\Distributor\Inventory;
+use App\Models\Distributor\Product;
 use App\Models\Distributor\ProductType;
 use App\Models\Role;
 use App\Models\User;
@@ -70,6 +71,7 @@ class DatabaseSeeder extends Seeder
                     ]);
             $inventory = Inventory::factory()->for($distributor)->create();
             $productTypes = ProductType::factory()->associate($distributor)->create();
+            $products = Product::factory()->for($inventory)->associate($distributor)->count(10)->create();
         }
     }
 }
