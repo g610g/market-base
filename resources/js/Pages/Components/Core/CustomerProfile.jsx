@@ -9,7 +9,7 @@ function CustomerProfile() {
                     <img
                         src="https://img.lazcdn.com/g/ff/kf/Sc133c60255e34bbbb2c909dce65e42d8S.jpg_720x720q80.jpg"
                         alt="Distributor Image"
-                        className="rounded-sm h-full w-[200px]"
+                        className="rounded-sm h-[220px] w-[250px]"
                     />
                 </div>
                 <div className="flex-1 space-y-4">

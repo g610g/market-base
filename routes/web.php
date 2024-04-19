@@ -21,6 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', function () {
             return Inertia::render('Components/Core/CustomerProfile');
         })->name('home.dashboard.customer');
+        Route::get('/shop', function () {
+            return Inertia::render('Components/Core/Shop');
+        });
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
