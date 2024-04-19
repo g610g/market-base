@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from '@radix-ui/react-label';
+import CreateBrandDialog from '../Utils/CreateBrandDialog';
 
 const formSchema = z.object({
   brandName: z.string().min(2, {
@@ -174,12 +175,7 @@ export function DistributorBrands() {
         <div 
           className="flex flex-row w-3/5 bg-slate-800 pt-8 space-x-5 justify-end"
         >
-          <Button
-            variant="default"
-            className="bg-[#334756] h-[3.5rem] rounded text-white font-league w-1/3 text-xl"
-            >
-                  Create Brand
-            </Button>
+          <CreateBrandDialog/>
             <Button
             variant="default"
             className="bg-[#848484] h-[3.5rem] rounded transform rotate-180"
