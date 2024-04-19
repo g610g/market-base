@@ -3,6 +3,8 @@
 namespace App\Models\Distributor;
 
 use App\Models\Admin\BrandCategory;
+use Database\Factories\Distributor\ProductTypeFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,5 +26,9 @@ class ProductType extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'type_id');
+    }
+    protected static function factory(): Factory
+    {
+        return ProductTypeFactory::new();
     }
 }

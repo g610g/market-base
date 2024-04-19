@@ -10,6 +10,8 @@ use App\Models\Admin\MerchantStoreClass;
 use App\Models\Customer;
 use App\Models\Distributor\Brand;
 use App\Models\Distributor\Distributor;
+use App\Models\Distributor\Inventory;
+use App\Models\Distributor\ProductType;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -22,21 +24,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //
-        // $roles = ['admin', 'distributor', 'customer'];
-        // foreach($roles as $role) {
-        //     Role::firstOrCreate([
-        //         'role' => $role
-        //     ]);
-        // }
-        // // seeding user with a corresponding customer relationship
-        // User::factory()->has(Customer::factory()->count(1))->create([
-        //     'role_id' => Role::CUSTOMER
-        // ]);
-        // $admin = User::factory()->has(Admin::factory()->count(1))->create([
-        //      'role_id' => Role::ADMIN
-        //  ])->admin;
+        $roles = ['admin', 'distributor', 'customer'];
+        foreach($roles as $role) {
+            Role::firstOrCreate([
+                'role' => $role
+            ]);
+        }
+        // seeding user with a corresponding customer relationship
+        User::factory()->has(Customer::factory()->count(1))->create([
+            'role_id' => Role::CUSTOMER
+        ]);
+        $admin = User::factory()->has(Admin::factory()->count(1))->create([
+             'role_id' => Role::ADMIN
+         ])->admin;
         //creating merchant_stores and associating merchant class
-        $admin = Admin::first();
+        // $admin = Admin::first();
         // $merchantStores = MerchantStore::factory()->for(MerchantClass::factory()->create())->count(100)->create([
         //     'admin_id' => $admin->user->id
         // ]);
@@ -66,6 +68,8 @@ class DatabaseSeeder extends Seeder
                             'store_id' => $merchantStore->store_id,
                             'category_id' => $category->brand_cat_id
                     ]);
+            $inventory = Inventory::factory()->for($distributor)->create();
+            $productTypes = ProductType::factory()->associate($distributor)->create();
         }
     }
 }

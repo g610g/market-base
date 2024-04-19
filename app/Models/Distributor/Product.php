@@ -2,6 +2,8 @@
 
 namespace App\Models\Distributor;
 
+use Database\Factories\Distributor\ProductsFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,5 +31,13 @@ class Product extends Model
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class, 'brand_id', 'brand_id');
+    }
+    public function inventory(): BelongsTo
+    {
+        return $this->belongsTo(Inventory::class, 'inventory_id');
+    }
+    protected static function factory(): Factory
+    {
+        return ProductsFactory::new();
     }
 }
