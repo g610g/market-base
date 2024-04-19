@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     })->name('home.dashboard');
     Route::group(['prefix' => 'customer', 'middleware' => 'role:customer'], function () {
         Route::get('/', function () {
-            return Inertia::render('Components/Core/Customer');
+            return Inertia::render('Components/Core/CustomerProfile');
         })->name('home.dashboard.customer');
     });
 
