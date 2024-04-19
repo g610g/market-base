@@ -6,7 +6,7 @@ function DistributorBrandsTable({ tableContent }) {
         "Product ID",
         "Product Name",
         "Product Variants",
-        "Product Pricing",
+        "Product Quantity",
     ];
   return (
     <div className="flex flex-col  max-h-full overflow-auto ">
@@ -25,19 +25,22 @@ function DistributorBrandsTable({ tableContent }) {
                     {tableContent.map((data, index) => (
                         <tr
                             className="text-white font-league h-[5rem]  border-b border-black text-[1.5rem]"
-                            key={data.brand_id}
+                            key={data.brandId}
                         >
                             <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[10rem]">
-                                {data.product_id}
+                                {data.brandId}
                             </td>
                             <td className=" px-6 py-4 font-medium truncate max-w-[10rem]">
-                                {data.product_name}
+                                {data.productId}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[10rem]">
-                                Testing Variants
+                                {data.productName}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[6rem] w-[6rem]">
-                                Testing Pricing
+                                {data.productVariants}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 font-medium truncate max-w-[6rem] w-[6rem]">
+                                {data.productQuantity}
                             </td>
                         </tr>
                     ))}
