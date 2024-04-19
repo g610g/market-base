@@ -105,7 +105,7 @@ function DistributorInventory() {
                     </Button>
                 </div>
                 {/* <CreateMerchantModel merchantClasses={merchantClasses} /> */}
-                <div className="py-1 bg-[#2C394B]">
+                <div className="py-1 bg-[#19273A]">
                     <Button
                     variant="default"
                     className="rounded-lg"

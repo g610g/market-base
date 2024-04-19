@@ -143,7 +143,7 @@ export function DistributorBrands() {
               </FormItem>
             )}
           />
-          <FormField
+            <FormField
             control={form.control}
             name="merchantStore"
             render={({ field }) => (
