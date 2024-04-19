@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Distributor\Brand;
+use App\Models\Distributor\ProductType;
 use Database\Factories\Admin\BrandCategoryFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,10 @@ class BrandCategory extends Model
     public function merchantStoreClass(): BelongsTo
     {
         return $this->belongsTo(MerchantStoreClass::class, 'fk_class_id', 'class_id');
+    }
+    public function productTypes(): HasMany
+    {
+        return $this->hasMany(ProductType::class, 'brand_category_id', 'brand_cat_id');
     }
     protected static function factory(): Factory
     {

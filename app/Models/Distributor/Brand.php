@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Brand extends Model
 {
@@ -33,6 +34,10 @@ class Brand extends Model
     public function brandCategory(): BelongsTo
     {
         return $this->belongsTo(BrandCategory::class, 'category_id', 'brand_cat_id');
+    }
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'brand_id', 'brand_id');
     }
     protected static function factory(): Factory
     {

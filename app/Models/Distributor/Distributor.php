@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Distributor extends Model
 {
@@ -29,5 +30,8 @@ class Distributor extends Model
     {
         return $this->hasMany(Brand::class, 'dist_id', 'distributor_id');
     }
-
+    public function inventory(): HasOne
+    {
+        return $this->hasOne(Inventory::class, 'dist_id', 'distributor_id');
+    }
 }
