@@ -11,11 +11,11 @@ function DistributorBrandsTable({ tableContent }) {
   return (
     <div className="flex flex-col  max-h-full overflow-auto ">
         <div className=" h-full">
-            <table className="min-w-full text-left text-sm font-light h-full max-w-full">
-                <thead className=" py-4 font-league text-white  text-xl bg-[#2C394B]">
+            <table className="w-full text-left text-sm font-light h-full max-w-full">
+                <thead className=" py-4 font-league text-white  text-lg bg-[#2C394B]">
                     <tr>
                         {headers.map((header) => (
-                            <th scope="col" className="px-6 py-4">
+                            <th scope="col" className="px-6 py-2">
                                 {header}
                             </th>
                         ))}

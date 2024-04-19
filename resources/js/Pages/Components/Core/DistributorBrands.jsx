@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import TrashIcon from "../../../assets/trash.svg?react";
 import ArrowIcon from "../../../assets/arrow.svg?react";
 
+
 import {
   Form,
   FormControl,
@@ -193,8 +194,8 @@ export function DistributorBrands() {
             </Button>
         </div>
       </div>
-      <div className="max-h-[75%] mt-[2rem] bg-[#334756]">
-            {/* <DistributorBrandsTable tableContent={ tableContent } /> */}
+      <div className="max-h-[50%] mt-[3rem] bg-[#334756]">
+             <DistributorBrandsTable tableContent={ tableContent } /> 
       </div>
     </main>
   );
