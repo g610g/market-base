@@ -42,7 +42,7 @@ function CustomerSideBarLayout({ children }) {
             >
                 <div className="flex w-[5%] justify-between">
                     <NotificatonIcon />
-                    <Link>
+                    <Link method="post" href="/logout">
                         <LogoutIcon />
                     </Link>
                 </div>

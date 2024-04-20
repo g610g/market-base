@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\MerchantStoreController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
@@ -41,7 +43,12 @@ Route::middleware('auth:sanctum')->group(function () {
             return Inertia::render('Components/Core/Distributor');
         })->name('home.dashboard.distributor');
     });
+    Route::post('/logout', function (Request $request) {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        return redirect()->route('home.login');
 
+    });
 });
 Route::middleware('guest:sanctum')->group(function () {
     Route::get('/', [MainAuthController::class, 'show'])->name('home.login');
