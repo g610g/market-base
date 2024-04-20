@@ -2,6 +2,7 @@ import React from "react";
 import CustomerSideBarLayout from "../Layouts/CustomerSideBarLayout";
 import CarouselMe from "./CarouselMe";
 import SearchIcon from "../../../assets/search.svg?react";
+import ShopItems from "../SubContent/ShopItems";
 function Shop() {
     return (
         <main className=" max-h-screen h-screen items-center">
@@ -20,6 +21,7 @@ function Shop() {
                     </div>
                     <div className="w-[40%] flex justify-end ">pagination</div>
                 </div>
+                <ShopItems />
             </div>
         </main>
     );

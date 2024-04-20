@@ -85,7 +85,7 @@ function CustomerSideBarLayout({ children }) {
                         </p>
                     </div>
                 </div>
-                <div className="flex-1 bg-[#082032] px-[2rem] py-[3rem] overflow-auto">
+                <div className="flex-1 bg-[#082032] px-[3rem] py-[3rem] overflow-auto">
                     {children}
                 </div>
             </div>
