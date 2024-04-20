@@ -2,6 +2,7 @@ import React from 'react'
 
 import TrashIcon from "../../../assets/trash.svg?react";
 import DeleteIcon from "../../../assets/delete-icon.svg?react";
+import CancelIcon from "../../../assets/cancel.svg?react"
 
 import {
     AlertDialog,
@@ -21,7 +22,12 @@ function DeleteBrandDialog() {
         <AlertDialogTrigger className="p-3 bg-[#FF4C29] h-[3.5rem] rounded">
             <TrashIcon />
         </AlertDialogTrigger>
-        <AlertDialogContent className="bg-[#19273A]">
+        <AlertDialogContent className="bg-[#19273A] border-none">
+                <AlertDialogCancel
+                className="border-none flex justify-end"
+                >
+                    <CancelIcon/>
+                </AlertDialogCancel>
             <AlertDialogHeader>
                 <DeleteIcon className="self-center"/>
             <AlertDialogTitle className="block text-white font-league text-2xl self-center">Are you sure you want to delete?</AlertDialogTitle>
@@ -30,8 +36,12 @@ function DeleteBrandDialog() {
             </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="bg-[#FF4C29] text-white">Continue</AlertDialogAction>
+                <div className='w-[60%]'>
+                    <AlertDialogAction 
+                        className="bg-[#FF4C29] text-white font-league text-lg w-full mt-4">
+                        Continue
+                    </AlertDialogAction>
+                </div>
             </AlertDialogFooter>
         </AlertDialogContent>
         </AlertDialog>

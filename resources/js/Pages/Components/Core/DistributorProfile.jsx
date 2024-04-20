@@ -145,7 +145,7 @@ function DistributorProfile() {
         <div class="row-span-3 row-start-2 p-6 bg-slate-800">
           <p className="text-white font-league font-bold text-[1.7rem]">
             Security and Preferences
-          </p>
+          </p>  
           <Form {...form}>
             <div className='flex-1 space-y-5 mt-3'>
                   <FormField
@@ -200,7 +200,7 @@ function DistributorProfile() {
             <div className='flex-1 space-y-5 mt-3'>
                   <FormField
                     control={form.control}
-                    name="distributorPassword"
+                    name="birthDate"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="block text-white font-league font-light text-xl mb-2">Birthdate*</FormLabel>
@@ -216,7 +216,7 @@ function DistributorProfile() {
                   />
                   <FormField
                     control={form.control}
-                    name="distributorConfirmPassword"
+                    name="phoneNumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="block text-white font-league font-light text-xl mb-2">Phone Number*</FormLabel>

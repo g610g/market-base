@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import CancelIcon from "../../../assets/cancel.svg?react"
+
 import {
     Form,
     FormControl,
@@ -61,7 +63,12 @@ function CreateBrandDialog() {
         >
         Create Brand
         </AlertDialogTrigger>
-    <AlertDialogContent className="bg-[#19273A]">
+    <AlertDialogContent className="bg-[#19273A] border-none">
+            <AlertDialogCancel
+            className="border-none flex justify-end"
+            >
+                <CancelIcon/>
+            </AlertDialogCancel>
         <AlertDialogHeader>
             <AlertDialogTitle
             className="text-white font-league text-3xl font-regular text-white"
@@ -126,12 +133,12 @@ function CreateBrandDialog() {
             </DropdownMenu>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex justify-center">
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-            className="bg-[#FF4C29] text-white"
-            >
-                Continue
-            </AlertDialogAction>
+                <div className='w-[60%] flex justify-end'>
+                    <AlertDialogAction 
+                        className="bg-[#FF4C29] text-white font-league text-lg w-full mt-4">
+                        Continue
+                    </AlertDialogAction>
+                </div>
         </AlertDialogFooter>
     </AlertDialogContent>
     </AlertDialog>

@@ -163,7 +163,7 @@ export function DistributorBrands() {
         </form>
       </Form>
         <div
-          className="flex flex-row w- bg-slate-800 pl-5 pt-8 justify-start"
+          className="flex flex-row bg-slate-800 pl-5 pt-8 justify-start"
         >
           <DeleteBrandDialog/>
         </div>
