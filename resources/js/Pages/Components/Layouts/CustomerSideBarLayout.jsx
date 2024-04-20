@@ -14,12 +14,12 @@ function CustomerSideBarLayout({ children }) {
     const iconDesign = "w-[2rem] h-[2rem]";
     const sideBarItems = [
         {
-            itemName: "Customer Profile",
+            itemName: " Profile",
             href: "/customer",
             icon: <ProfileIcon className={iconDesign} />,
         },
         {
-            itemName: "Merchant Store",
+            itemName: "Shop",
             href: "/customer/shop",
             icon: <ShopIcon className={iconDesign} />,
         },

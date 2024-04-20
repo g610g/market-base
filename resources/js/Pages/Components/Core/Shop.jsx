@@ -10,12 +10,12 @@ function Shop() {
             <div className=" mt-[6rem] w-full text-red-700">
                 <div className="w-full flex justify-between ">
                     <div className="w-[30%] flex gap-3">
-                        <div className="px-4  py-1 rounded-[.9rem] bg-[#19273A] w-[60%] flex items-center">
+                        <div className="px-4   rounded-[.9rem] bg-[#19273A] w-[60%] flex items-center">
                             <p className="text-white font-league text-[1.4rem] font-semibold text-center w-full">
                                 See all products
                             </p>
                         </div>
-                        <div className="bg-[#19273A] flex items-center  rounded-[.5rem] p-4">
+                        <div className="bg-[#19273A] flex items-center  rounded-[.5rem] p-3">
                             <SearchIcon />
                         </div>
                     </div>

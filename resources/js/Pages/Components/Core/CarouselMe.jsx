@@ -8,11 +8,14 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import Vans from "../../../assets/carousel.jpg";
+import Arrival from "../../../assets/arrival.png";
+import Gaming from "../../../assets/gaming.png";
 import Autoplay from "embla-carousel-autoplay";
 function CarouselMe() {
     const [api, setApi] = useState();
     const [current, setCurrent] = useState(0);
     const [count, setCount] = useState(0);
+    const carouselItems = [Vans, Arrival, Gaming];
     useEffect(() => {
         if (!api) {
             return;
@@ -35,13 +38,13 @@ function CarouselMe() {
             className=" w-full h-[500px] rounded-[.5rem]"
         >
             <CarouselContent className="p-0">
-                {Array.from({ length: 5 }).map((_, index) => (
+                {carouselItems.map((item, index) => (
                     <CarouselItem key={index} className>
                         <div>
                             <Card className="border-none rounded-[.5rem]">
                                 <CardContent className="flex p-0 w-full outline-none  justify-center ">
                                     <img
-                                        src={Vans}
+                                        src={item}
                                         alt="Distributor Image"
                                         className="rounded-[.8rem] "
                                     />
