@@ -7,11 +7,14 @@ import NotificatonIcon from "../../../assets/bell.svg?react";
 import LogoutIcon from "../../../assets/log-out.svg?react";
 import Arrow from "../../../assets/arrow.svg?react";
 import DownArrow from "../../../assets/down-arrow.svg?react";
+import LogoutDropDown from "../Utils/LogoutDropDown";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MarketBaseLogo from "../../../assets/market-base-secondary.svg?react";
 function CustomerSideBarLayout({ children }) {
+    const { flash } = usePage().props;
     const { url } = usePage();
     const iconDesign = "w-[2rem] h-[2rem]";
+    console.log(flash);
     const sideBarItems = [
         {
             itemName: " Profile",
@@ -40,11 +43,13 @@ function CustomerSideBarLayout({ children }) {
                 id="top-notif"
                 className="h-[7%] text-center text-white bg-[#19273A] flex w-full max-w-full justify-end py-4 px-5"
             >
-                <div className="flex w-[5%] justify-between">
+                <div className="flex w-[5%] justify-between items-center">
                     <NotificatonIcon />
-                    <Link method="post" href="/logout">
+                    {/* <Link method="post" href="/logout" as="button">
                         <LogoutIcon />
                     </Link>
+                    */}
+                    <LogoutDropDown />
                 </div>
             </div>
             <div className="flex max-[80%]h-[93%] h-[93%]">
@@ -54,8 +59,11 @@ function CustomerSideBarLayout({ children }) {
                             <MarketBaseLogo className="w-full h-[5rem]" />
                         </div>
                         <div className="flex  flex-col space-y-3 mt-[3rem]  items-center">
-                            {sideBarItems.map((item) => (
-                                <div className="flex w-full px-5 justify-center py-5 ">
+                            {sideBarItems.map((item, index) => (
+                                <div
+                                    className="flex w-full px-5 justify-center py-5 "
+                                    key={index}
+                                >
                                     <Link
                                         className="flex w-full space-x-4 font-league text-white text-lg items-center"
                                         href={item.href}

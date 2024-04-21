@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomerSideBarLayout from "../Layouts/CustomerSideBarLayout";
 import { Button } from "@/components/ui/button";
+import { usePage } from "@inertiajs/inertia-react";
+
+import { Input } from "@/components/ui/input";
+import CustomerEditProfileDialog from "../Utils/CustomerEditProfileDialog";
+import Customer from "./Customer";
 function CustomerProfile() {
+    const { flash } = usePage().props;
+
+    function onSubmit(values) {
+        //inertia post/patch/put
+        console.log(values);
+    }
     return (
         <div className="flex flex-col space-y-3 h-full">
             <div className="flex w-full bg-[#19273A] px-7 py-5 max-h-[20rem] p-3">
@@ -19,7 +30,7 @@ function CustomerProfile() {
                                 First Name*
                             </span>
                             <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md">
-                                Mary Abigail
+                                {flash.userData.user.first_name}
                             </p>
                         </div>
                         <div className="flex-1">
@@ -27,17 +38,17 @@ function CustomerProfile() {
                                 Last Name*
                             </span>
                             <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md">
-                                Soliva
+                                {flash.userData.user.last_name}
                             </p>
                         </div>
                     </div>
                     <div className="flex gap-3 ">
                         <div className="w-[35%]">
-                            <span className="text-white font-league text-2xl">
+                            <span className="text-white font-league text-2xl ">
                                 Customer Id*
                             </span>
-                            <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md">
-                                Mary Abigail
+                            <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md truncate">
+                                {flash.userData.user.id}
                             </p>
                         </div>
                         <div className="flex-1">
@@ -45,7 +56,7 @@ function CustomerProfile() {
                                 Email*
                             </span>
                             <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md">
-                                Soliva
+                                {flash.userData.user.email}
                             </p>
                         </div>
                     </div>
@@ -74,6 +85,8 @@ function CustomerProfile() {
                             </p>
                         </div>
                     </div>
+                    <CustomerEditProfileDialog />
+
                     <div className="h-full w-full flex items-center">
                         <Button className="bg-orangeButton text-white px-6 py-5 w-full font-league text-2xl rounded-[.5rem]  hover:bg-indigo-600 ">
                             Deactivate Customer Account

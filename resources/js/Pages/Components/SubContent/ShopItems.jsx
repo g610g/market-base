@@ -10,8 +10,11 @@ function ShopItems() {
             </p>
             <div className="grid grid-cols-4  gap-x-2 gap-y-7 mt-3">
                 {Array.from({ length: 8 }).map((_, index) => (
-                    <Card className="h-[430px] bg-[#19273A] rounded-[.5rem] border-none  py-4 w-[350px]">
-                        <CardContent className=" w-full flex justify-center p-0">
+                    <Card
+                        className="h-[430px] bg-[#19273A] rounded-[.5rem] border-none  py-4 w-[350px] hover:bg-[#334756]"
+                        key={index}
+                    >
+                        <CardContent className=" w-full flex justify-center p-0 ">
                             <img
                                 src={Vans}
                                 alt="IDK"

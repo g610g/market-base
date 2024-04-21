@@ -47,6 +47,7 @@ const Register = () => {
     if (hasError) {
         console.log("Error");
     }
+
     const handleUserType = (type) => {
         if (!validUserType.includes(type)) {
             setHasError(true);
