@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\MerchantClassController;
 use App\Http\Controllers\Admin\MerchantStoreController;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Distributor\DistributorController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
 use App\Models\User;
@@ -39,9 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('distributor', [AdminController::class, 'showDistributors']);
     });
     Route::group(['prefix' => 'distributor', 'middleware' => 'role:distributor'], function () {
-        Route::get('/', function () {
-            return Inertia::render('Components/Core/Distributor');
-        })->name('home.dashboard.distributor');
+        Route::get('/', [DistributorController::class, 'showLanding'])->name('home.dashboard.distributor');
+        Route::get('/brands', [DistributorController::class, 'showBrands']);
+        Route::get('/inventory', [DistributorController::class, 'showInventory']);
+        Route::get('/profile', [DistributorController::class, 'showProfile']);
     });
     Route::post('/logout', function (Request $request) {
         Auth::guard('web')->logout();
