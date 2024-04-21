@@ -30,12 +30,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@radix-ui/react-toast";
 import { usePage } from "@inertiajs/inertia-react";
 
 function CreateBrandDialog({ merchantStores }) {
     const [merchant, setMerchant] = useState("");
-    const props = usePage().props;
-    console.log(props);
+    const error = usePage().props.errors?.error;
+    const { toast } = useToast();
     const brandCategories = merchantStores.filter(
         (store) => store.store_name === merchant
     )[0];
@@ -50,12 +52,17 @@ function CreateBrandDialog({ merchantStores }) {
             .string()
             .min(2, { message: "Brand Name must be atleast 2 characters" }),
     });
-
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
     function onSubmit(data) {
-        console.log(data);
+        toast({
+            variant: "destructive",
+            className: "bg-orangeButton  text-white ",
+            title: "Form Submission",
+            description: "Your form was submmitted in the server.",
+            action: <ToastAction altText="Continue">Continue</ToastAction>,
+        });
         Inertia.post("/distributor/brands", data, { preserveState: false });
     }
     return (

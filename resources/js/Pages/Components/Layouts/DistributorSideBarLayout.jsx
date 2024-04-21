@@ -9,6 +9,7 @@ import NotificatonIcon from "../../../assets/bell.svg?react";
 import LogoutIcon from "../../../assets/log-out.svg?react";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MarketBaseLogo from "../../../assets/market-base-secondary.svg?react";
+import { Toaster } from "@/components/ui/toaster";
 
 function DistributorSideBarLayout({ children }) {
     const { url } = usePage();
@@ -93,6 +94,7 @@ function DistributorSideBarLayout({ children }) {
                     {children}
                 </div>
             </div>
+            <Toaster />
         </div>
     );
 }
