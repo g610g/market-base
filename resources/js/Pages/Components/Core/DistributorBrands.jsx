@@ -32,8 +32,8 @@ const formSchema = z.object({
 });
 
 export function DistributorBrands({ data, merchantStores }) {
-    const products = [...data.map((brand) => brand.products)].flat();
-    console.log(merchantStores);
+    // const products = [...data.map((brand) => brand.brandData.products)].flat();
+    console.log(data);
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -116,8 +116,9 @@ export function DistributorBrands({ data, merchantStores }) {
                     </Button>
                 </div>
             </div>
-            <div className="max-h-[50%] mt-[3rem] bg-[#334756]">
-                <DistributorBrandsTable tableContent={products} />
+            <div className="max-h-[50%] min-w-[50%]  h-[50%] mt-[3rem] bg-[#334756]">
+                <DistributorBrandsTable tableContent={data} />
+                {/* <TableData /> */}
             </div>
         </main>
     );

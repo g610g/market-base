@@ -58,10 +58,14 @@ function CreateBrandDialog({ merchantStores }) {
     function onSubmit(data) {
         toast({
             variant: "destructive",
-            className: "bg-orangeButton  text-white ",
+            className: "bg-orangeButton text-white ",
             title: "Form Submission",
-            description: "Your form was submmitted in the server.",
-            action: <ToastAction altText="Continue">Continue</ToastAction>,
+            description: "form submmitted in the server.",
+            action: (
+                <ToastAction altText="Continue" className="">
+                    Continue
+                </ToastAction>
+            ),
         });
         Inertia.post("/distributor/brands", data, { preserveState: false });
     }

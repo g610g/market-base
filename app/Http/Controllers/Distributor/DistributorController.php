@@ -21,7 +21,12 @@ class DistributorController extends Controller
         if (is_null($userDistributor)) {
             return throw new HttpException("Cannot Find User", 404);
         }
-        $data = $userDistributor->brands()->with(['merchantStore', 'products'])->get();
+        $data = $userDistributor->brands()->with(['merchantStore', 'products'])->get()->map(function ($brand) {
+            return [
+                'brandData' => $brand,
+                'productsCount' => $brand->products->count(),
+            ];
+        });
         $merchantStores = MerchantStore::with('merchantStoreClass.brandCategories')->get();
         return Inertia::render('Components/Core/DistributorBrands', ['data' => $data, 'merchantStores' => $merchantStores]);
     }
