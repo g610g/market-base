@@ -1,5 +1,4 @@
 import React from "react";
-import { columns } from "../../../api/BrandTableData";
 import {
     Table,
     TableBody,
@@ -14,15 +13,8 @@ import {
     useReactTable,
     getPaginationRowModel,
 } from "@tanstack/react-table";
-function DistributorBrandsTable({ tableContent }) {
-    const data = tableContent.map((data) => {
-        return {
-            brandId: data.brandData.brand_id,
-            brandName: data.brandData.brand_name,
-            totalProducts: data.productsCount,
-            merchantStore: data.brandData.merchant_store.store_name,
-        };
-    });
+import { columns } from "../../../api/ProductsTableData";
+function DistributorProductsTable({ data }) {
     const table = useReactTable({
         data,
         columns,
@@ -85,4 +77,4 @@ function DistributorBrandsTable({ tableContent }) {
     );
 }
 
-export default DistributorBrandsTable;
+export default DistributorProductsTable;

@@ -5,12 +5,18 @@ namespace App\Http\Controllers\Distributor;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\MerchantStore;
 use App\Models\Distributor\Brand;
+use App\Models\Distributor\Distributor;
 use HttpException;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class DistributorController extends Controller
 {
+    private Distributor $distributor;
+    // public function __construct()
+    // {
+    //     $this->$distributor = auth()->user()->distributor;
+    // }
     public function showLanding()
     {
         return Inertia::render('Components/Core/Distributor');
@@ -19,7 +25,7 @@ class DistributorController extends Controller
     {
         $userDistributor = auth()->user()->distributor;
         if (is_null($userDistributor)) {
-            return throw new HttpException("Cannot Find User", 404);
+            throw new HttpException("Cannot Find User", 404);
         }
         $data = $userDistributor->brands()->with(['merchantStore', 'products'])->get()->map(function ($brand) {
             return [
@@ -32,7 +38,12 @@ class DistributorController extends Controller
     }
     public function showInventory()
     {
-        return Inertia::render('Components/Core/DistributorInventory');
+        $userDistributor = auth()->user()->distributor;
+        if (is_null($userDistributor)) {
+            throw new HttpException("Cannot Find User", 404);
+        }
+        $inventory = $userDistributor->inventory()->with('products.brand')->first();
+        return Inertia::render('Components/Core/DistributorInventory', ['inventory' => $inventory]);
     }
     public function showProfile()
     {

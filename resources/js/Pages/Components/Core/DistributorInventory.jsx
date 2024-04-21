@@ -5,9 +5,20 @@ import SearchIcon from "../../../assets/search.svg?react";
 import { Button } from "@/components/ui/button";
 import DistributorInventoryTable from "../Utils/DistributorInventoryTable";
 import DistributorAddProductDialog from "../Utils/DistributorAddProductDialog";
+import DistributorProductsTable from "../Utils/DistributorProductsTable";
 
-function DistributorInventory({ data }) {
-    console.log(data);
+function DistributorInventory({ inventory }) {
+    console.log(inventory);
+    const data = inventory.products.map((product) => {
+        return {
+            productId: product.product_id,
+            productName: product.product_name,
+            brandName: product.brand.brand_name,
+            variant: product.variant,
+            quantity: 20,
+            price: product.price,
+        };
+    });
     const tableContent = [
         {
             productId: 2,
@@ -116,8 +127,8 @@ function DistributorInventory({ data }) {
                 /> */}
                 </div>
             </div>
-            <div className="max-h-[75%] mt-[1.5rem] bg-[#334756]">
-                <DistributorInventoryTable tableContent={tableContent} />
+            <div className="max-h-[75%]  h-[75%] mt-[1.5rem] bg-[#334756] rounded-2xl">
+                <DistributorProductsTable data={data} />
             </div>
         </main>
     );

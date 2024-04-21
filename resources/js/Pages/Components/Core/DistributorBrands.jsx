@@ -22,26 +22,18 @@ import { Input } from "@/components/ui/input";
 import CreateBrandDialog from "../Utils/CreateBrandDialog";
 import DeleteBrandDialog from "../Utils/DeleteBrandDialog";
 
-const formSchema = z.object({
-    brandName: z.string().min(2, {
-        message: "Brand Name must be at least 2 characters.",
-    }),
-    merchantStore: z.string().min(2, {
-        message: "Merchant Store must be at least 2 characters.",
-    }),
-});
-
 export function DistributorBrands({ data, merchantStores }) {
-    // const products = [...data.map((brand) => brand.brandData.products)].flat();
-    console.log(data);
+    const formSchema = z.object({
+        brandName: z.string().min(2, {
+            message: "Brand Name must be at least 2 characters.",
+        }),
+        merchantStore: z.string().min(2, {
+            message: "Merchant Store must be at least 2 characters.",
+        }),
+    });
     const form = useForm({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            brandName: "",
-            merchantStore: "",
-        },
     });
-
     function onSubmit(data) {
         console.log(data);
     }
@@ -116,9 +108,8 @@ export function DistributorBrands({ data, merchantStores }) {
                     </Button>
                 </div>
             </div>
-            <div className="max-h-[50%] min-w-[50%]  h-[50%] mt-[3rem] bg-[#334756]">
+            <div className="max-h-[50%] min-w-[50%]  h-[50%] rounded-2xl mt-[3rem] bg-[#334756] ">
                 <DistributorBrandsTable tableContent={data} />
-                {/* <TableData /> */}
             </div>
         </main>
     );
