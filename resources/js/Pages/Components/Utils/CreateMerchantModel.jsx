@@ -30,7 +30,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 function CreateMerchantModel({ merchantClasses }) {
-    console.log(merchantClasses);
     const validationSchema = z.object({
         merchantStoreClass: z
             .string()

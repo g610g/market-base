@@ -38,9 +38,11 @@ function CreateBrandDialog({ merchantStores }) {
     const [merchant, setMerchant] = useState("");
     const error = usePage().props.errors?.error;
     const { toast } = useToast();
+    //filtering the brand categories base on the selected merchant store
     const brandCategories = merchantStores.filter(
         (store) => store.store_name === merchant
     )[0];
+    //schema
     const formSchema = z.object({
         merchantStore: z.string({
             required_error: "Please Select Merchant Store",
@@ -52,9 +54,11 @@ function CreateBrandDialog({ merchantStores }) {
             .string()
             .min(2, { message: "Brand Name must be atleast 2 characters" }),
     });
+    //form
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
+    //form handler
     function onSubmit(data) {
         toast({
             variant: "destructive",
@@ -67,6 +71,7 @@ function CreateBrandDialog({ merchantStores }) {
                 </ToastAction>
             ),
         });
+        //xhr request
         Inertia.post("/distributor/brands", data, { preserveState: false });
     }
     return (
@@ -107,7 +112,6 @@ function CreateBrandDialog({ merchantStores }) {
                                                     <SelectValue placeholder="Please Select Merchant Store" />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            Name
                                             <SelectContent className="bg-gray-600">
                                                 {merchantStores.map(
                                                     (merchantStore) => (

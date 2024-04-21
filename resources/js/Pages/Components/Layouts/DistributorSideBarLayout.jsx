@@ -42,9 +42,9 @@ function DistributorSideBarLayout({ children }) {
                 id="top-notif"
                 className="h-[7%] text-center text-white bg-[#19273A] flex w-full max-w-full justify-end py-4 px-5"
             >
-                <div className="flex w-[5%] justify-between">
+                <div className="flex w-[5%] justify-between items-center">
                     <NotificatonIcon />
-                    <Link>
+                    <Link href="/logout" method="post" as="button">
                         <LogoutIcon />
                     </Link>
                 </div>

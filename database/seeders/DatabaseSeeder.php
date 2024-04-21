@@ -43,13 +43,14 @@ class DatabaseSeeder extends Seeder
         //     'admin_id' => $admin->user->id
         // ]);
         $merchantStoreClass = MerchantStoreClass::factory()->count(3)->create();
+        //creates one to one map for merchantStore and storeclass
         foreach ($merchantStoreClass as  $value) {
-            MerchantStore::factory()->for($value)->count(2)->create([
+            MerchantStore::factory()->for($value)->create([
                 'admin_id' => $admin->admin_id
             ]);
             BrandCategory::factory()->for($value)->count(3)->create();
         }
-
+        //creates 16 distributors
         for ($i = 0; $i < 16; $i++) {
             User::factory()->has(Distributor::factory()->count(1))->create([
                 'role_id' => Role::DISTRIBUTOR
