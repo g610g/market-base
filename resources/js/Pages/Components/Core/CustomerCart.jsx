@@ -34,6 +34,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
+import AddToCartDialogue from '../Utils/AddToCartDialogue';
+
 const formSchema = z.object({
     productDescription: z.string().min(2, {
       message: "Product Description must be at least 2 characters.",
@@ -192,13 +194,8 @@ function CustomerCart() {
                             <ArrowIcon/>
                         </Button>
                     </div>
-                    <div className='flex ml-[180px]'>
-                        <Button 
-                        variant="outline"
-                        className="rounded p-3 bg-[#FF4C29] border-none text-white text-lg w-[200px] mt-12"
-                        >
-                            Add To Cart
-                        </Button>
+                    <div className='mt-11 ml-[190px]'>
+                        <AddToCartDialogue/>
                     </div>
                 </div>
             </div>
