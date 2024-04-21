@@ -47,7 +47,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         return redirect()->route('home.login');
-
     });
 });
 Route::middleware('guest:sanctum')->group(function () {
@@ -61,11 +60,11 @@ Route::group(['prefix' => 'guest'], function () {
     Route::post('/login', [AppAuthController::class, 'login']);
 });
 Route::group(['prefix' => 'distributor'], function () {
-    Route::get('/login', function () {});
+    Route::get('/login', function () {
+    });
 });
 Route::group(['prefix' => 'admin'], function () {
     Route::post('/login', [AuthController::class, 'login']);
-
 });
 
 Route::get('/routes', function () {

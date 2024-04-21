@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
     {
         //
         $roles = ['admin', 'distributor', 'customer'];
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             Role::firstOrCreate([
                 'role' => $role
             ]);
@@ -36,8 +36,8 @@ class DatabaseSeeder extends Seeder
             'role_id' => Role::CUSTOMER
         ]);
         $admin = User::factory()->has(Admin::factory()->count(1))->create([
-             'role_id' => Role::ADMIN
-         ])->admin;
+            'role_id' => Role::ADMIN
+        ])->admin;
         //creating merchant_stores and associating merchant class
         // $admin = Admin::first();
         // $merchantStores = MerchantStore::factory()->for(MerchantClass::factory()->create())->count(100)->create([
@@ -46,29 +46,29 @@ class DatabaseSeeder extends Seeder
         $merchantStoreClass = MerchantStoreClass::factory()->count(3)->create();
         foreach ($merchantStoreClass as  $value) {
             MerchantStore::factory()->for($value)->count(30)->create([
-                    'admin_id' => $admin->admin_id
-                ]);
+                'admin_id' => $admin->admin_id
+            ]);
             BrandCategory::factory()->for($value)->count(3)->create();
         }
 
-        for($i = 0; $i < 16; $i++) {
+        for ($i = 0; $i < 16; $i++) {
             User::factory()->has(Distributor::factory()->count(1))->create([
-            'role_id' => Role::DISTRIBUTOR
-        ]);
+                'role_id' => Role::DISTRIBUTOR
+            ]);
         }
         $distributors = Distributor::all();
         foreach ($distributors as $distributor) {
             $category = BrandCategory::inRandomOrder()->first();
             $merchantStore = $category->merchantStoreClass()
-                                ->first()
-                                ->merchantStore()
-                                ->first();
+                ->first()
+                ->merchantStore()
+                ->first();
             Brand::factory()->for($distributor)
-                        ->count(2)
-                        ->create([
-                            'store_id' => $merchantStore->store_id,
-                            'category_id' => $category->brand_cat_id
-                    ]);
+                ->count(2)
+                ->create([
+                    'store_id' => $merchantStore->store_id,
+                    'category_id' => $category->brand_cat_id
+                ]);
             $inventory = Inventory::factory()->for($distributor)->create();
             $productTypes = ProductType::factory()->associate($distributor)->create();
             $products = Product::factory()->for($inventory)->associate($distributor)->count(10)->create();
