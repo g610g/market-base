@@ -19,7 +19,7 @@ class Brand extends Model
     protected $fillable = [
         'brand_name',
         'store_id',
-        'brand_cat_id'
+        'category_id'
     ];
     protected $primaryKey = 'brand_id';
     public $timestamps = false;

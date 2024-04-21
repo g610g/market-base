@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Inertia } from "@inertiajs/inertia";
 import CancelIcon from "../../../assets/cancel.svg?react";
 import {
     Form,
@@ -12,7 +13,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -37,7 +38,6 @@ function CreateBrandDialog({ merchantStores }) {
     const brandCategories = merchantStores.filter(
         (store) => store.store_name === merchant
     )[0];
-    console.log(brandCategories);
     const formSchema = z.object({
         merchantStore: z.string({
             required_error: "Please Select Merchant Store",
@@ -55,6 +55,7 @@ function CreateBrandDialog({ merchantStores }) {
     });
     function onSubmit(data) {
         console.log(data);
+        Inertia.post("/distributor/brands", data, { preserveState: false });
     }
     return (
         <AlertDialog>
@@ -84,7 +85,7 @@ function CreateBrandDialog({ merchantStores }) {
                                         </FormLabel>
                                         <Select
                                             onValueChange={(value) => {
-                                                field.onChange;
+                                                field.onChange(value);
                                                 setMerchant(value);
                                             }}
                                             defaultValue={field.value}
@@ -114,6 +115,7 @@ function CreateBrandDialog({ merchantStores }) {
                                                 )}
                                             </SelectContent>
                                         </Select>
+                                        <FormMessage className="text-red-600" />
                                     </FormItem>
                                 )}
                             />
@@ -130,6 +132,7 @@ function CreateBrandDialog({ merchantStores }) {
                                             placeholder="Brand Name"
                                             {...field}
                                         />
+                                        <FormMessage className="text-red-600" />
                                     </FormItem>
                                 )}
                             />
@@ -171,20 +174,22 @@ function CreateBrandDialog({ merchantStores }) {
                                                     )}
                                                 </SelectContent>
                                             </Select>
+                                            <FormMessage className="text-red-600" />
                                         </FormItem>
                                     )}
                                 />
                             ) : null}
+                            <div className="w-60% flex justify-end">
+                                <Button
+                                    type="submit"
+                                    className="bg-[#FF4C29] text-white font-league text-lg w-full mt-4 hover:bg-indigo-600 rounded-[.5rem]"
+                                >
+                                    Continue
+                                </Button>
+                            </div>
                         </form>
                     </Form>
                 </AlertDialogHeader>
-                <AlertDialogFooter className="flex justify-center">
-                    <div className="w-[60%] flex justify-end">
-                        <AlertDialogAction className="bg-[#FF4C29] text-white font-league text-lg w-full mt-4 hover:bg-indigo-600">
-                            Continue
-                        </AlertDialogAction>
-                    </div>
-                </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
     );
