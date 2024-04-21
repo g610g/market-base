@@ -7,22 +7,29 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import {
     flexRender,
     getCoreRowModel,
     useReactTable,
     getPaginationRowModel,
+    getFilteredRowModel,
 } from "@tanstack/react-table";
 import { columns } from "../../../api/ProductsTableData";
 function DistributorProductsTable({ data }) {
+    const [columnFilters, setColumnFilters] = React.useState([]);
+
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+        state: { columnFilters },
     });
     return (
-        <div className=" max-h-full overflow-auto rounded-2xl">
+        <div className=" max-h-full overflow-auto rounded-2xl ">
             <Table>
                 <TableHeader className="bg-[#19273A] text-white font-league font-bold text-2xl">
                     {table.getHeaderGroups().map((headerGroup) => (

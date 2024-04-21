@@ -107,6 +107,7 @@ function CreateBrandDialog({ merchantStores }) {
                                                     <SelectValue placeholder="Please Select Merchant Store" />
                                                 </SelectTrigger>
                                             </FormControl>
+                                            Name
                                             <SelectContent className="bg-gray-600">
                                                 {merchantStores.map(
                                                     (merchantStore) => (
@@ -114,6 +115,7 @@ function CreateBrandDialog({ merchantStores }) {
                                                             value={
                                                                 merchantStore.store_name
                                                             }
+                                                            Name
                                                             key={
                                                                 merchantStore.store_id
                                                             }

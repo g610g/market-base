@@ -3,12 +3,11 @@ import DistributorSideBarLayout from "../Layouts/DistributorSideBarLayout";
 //import Pagination from "../Utils/Pagination";
 import SearchIcon from "../../../assets/search.svg?react";
 import { Button } from "@/components/ui/button";
-import DistributorInventoryTable from "../Utils/DistributorInventoryTable";
 import DistributorAddProductDialog from "../Utils/DistributorAddProductDialog";
 import DistributorProductsTable from "../Utils/DistributorProductsTable";
 
-function DistributorInventory({ inventory }) {
-    console.log(inventory);
+const DistributorInventory = ({ inventory }) => {
+    //filter based on search :( not optimized
     const data = inventory.products.map((product) => {
         return {
             productId: product.product_id,
@@ -19,88 +18,6 @@ function DistributorInventory({ inventory }) {
             price: product.price,
         };
     });
-    const tableContent = [
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-        {
-            productId: 2,
-            productName: "Test Product Name",
-            brandName: "Test Brand Name",
-            productVariants: "Test Product Variants",
-            productQuantity: 123131,
-            productPricing: "PHP500 - PHP1000",
-        },
-    ];
     return (
         <main className="max-h-screen h-screen flex flex-col p-5">
             <div
@@ -132,7 +49,7 @@ function DistributorInventory({ inventory }) {
             </div>
         </main>
     );
-}
+};
 DistributorInventory.layout = (page) => (
     <DistributorSideBarLayout>{page}</DistributorSideBarLayout>
 );
