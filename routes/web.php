@@ -25,6 +25,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/shop', function () {
             return Inertia::render('Components/Core/Shop');
         });
+        Route::get('/cart', function () {
+            return Inertia::render('Components/Core/CustomerCart');
+        });
         Route::patch('/update', [CustomerController::class, 'update']);
     });
 
