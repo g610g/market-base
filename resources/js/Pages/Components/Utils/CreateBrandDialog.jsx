@@ -16,10 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
@@ -32,9 +30,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { usePage } from "@inertiajs/inertia-react";
 
 function CreateBrandDialog({ merchantStores }) {
     const [merchant, setMerchant] = useState("");
+    const props = usePage().props;
+    console.log(props);
     const brandCategories = merchantStores.filter(
         (store) => store.store_name === merchant
     )[0];

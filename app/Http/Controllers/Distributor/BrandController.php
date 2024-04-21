@@ -18,11 +18,16 @@ class BrandController extends Controller
         if (is_null($merchantStore) || is_null($brandCategory)) {
             return redirect()->back()->withErrors('Cannot find merchant store', 'error');
         }
-        $distributor->brands()->create([
+        try {
+            $distributor->brands()->create([
                 'brand_name' => $request->brandName,
                 'store_id' => $merchantStore->store_id,
                 'category_id' => $brandCategory->brand_cat_id
             ]);
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors('Error During Creating The Brand', 'error');
+        }
         return redirect()->back();
 
     }
