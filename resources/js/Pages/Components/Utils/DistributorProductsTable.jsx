@@ -12,7 +12,6 @@ import {
     flexRender,
     getCoreRowModel,
     useReactTable,
-    getPaginationRowModel,
     getFilteredRowModel,
 } from "@tanstack/react-table";
 import { columns } from "../../../api/ProductsTableData";
@@ -23,7 +22,6 @@ function DistributorProductsTable({ data }) {
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         state: { columnFilters },

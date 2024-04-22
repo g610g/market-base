@@ -19,6 +19,11 @@ class ProductsController extends Controller
         }
         //get the inventory of the distributor
         $inventory = $distributor->inventory;
+        if (is_null($inventory)) {
+            $inventory = $distributor->inventory()->create([
+                'products_quantity' => 0
+            ]);
+        }
         //gets the brand of the user base on its name in the request
         $productBrand = $distributor->brands()->where('brand_name', $request->brandName)->first();
         $productType = ProductType::where('product_type', $request->productType)->first();
@@ -38,8 +43,8 @@ class ProductsController extends Controller
                 'price' => $request->price,
                 ]);
         } catch (\Throwable $th) {
-            // return redirect()->back()->withErrors('error creating the product in the server', 'error');
             dd($th->getMessage());
+            // return redirect()->back()->withErrors('error creating the model in the server', 'error');
         }
         return redirect()->back();
     }
@@ -50,6 +55,9 @@ class ProductsController extends Controller
                 ->whereHas('brands', function (Builder $query) use ($productBrand) {
                     $query->where('brand_name', $productBrand->brand_name);
                 })->get();
+        // foreach ($verified as $value) {
+        //     dump($value->category_name);
+        // }
         if ($verified->count() <= 0 || $verified->count() >= 2) {
             return false;
         }

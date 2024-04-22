@@ -12,11 +12,6 @@ use Inertia\Inertia;
 
 class DistributorController extends Controller
 {
-    private Distributor $distributor;
-    // public function __construct()
-    // {
-    //     $this->$distributor = auth()->user()->distributor;
-    // }
     public function showLanding()
     {
         return Inertia::render('Components/Core/Distributor');
@@ -27,14 +22,21 @@ class DistributorController extends Controller
         if (is_null($userDistributor)) {
             throw new HttpException("Cannot Find User", 404);
         }
-        $data = $userDistributor->brands()->with(['merchantStore', 'products'])->get()->map(function ($brand) {
+        $brands = $userDistributor->brands()->with(['merchantStore', 'products'])->get();
+        //we get all the merchant stores
+        $merchantStores = MerchantStore::with('merchantStoreClass.brandCategories')->get();
+        if (is_null($brands) || $brands->count() <= 0) {
+            return Inertia::render('Components/Core/DistributorBrands', ['tableData' => [], 'merchantStores' => $merchantStores]);
+        }
+        $tableData = $brands->map(function ($brand) {
             return [
-                'brandData' => $brand,
-                'productsCount' => $brand->products->count(),
+                'brandId' => $brand->brand_id,
+                'brandName' => $brand->brand_name,
+                'totalProducts' => $brand->products->count(),
+                'merchantStore' => $brand->merchantStore->store_name
             ];
         });
-        $merchantStores = MerchantStore::with('merchantStoreClass.brandCategories')->get();
-        return Inertia::render('Components/Core/DistributorBrands', ['data' => $data, 'merchantStores' => $merchantStores]);
+        return Inertia::render('Components/Core/DistributorBrands', ['tableData' => $tableData, 'merchantStores' => $merchantStores]);
     }
     public function showInventory()
     {
@@ -44,7 +46,34 @@ class DistributorController extends Controller
         }
         $inventory = $userDistributor->inventory()->with('products.brand')->first();
         $brands = $userDistributor->brands()->with('brandCategory.productTypes')->get();
-        return Inertia::render('Components/Core/DistributorInventory', ['inventory' => $inventory, 'brands' => $brands]);
+        //if null inventory pasabot wala pa shay products pero naa na shay brands
+        if (is_null($inventory) && is_null($brands)) {
+            return Inertia::render('Components/Core/DistributorInventory', [
+                'tableData' => [],
+                'brands' => []
+            ]);
+        } elseif (is_null($inventory)) {
+            return Inertia::render('Components/Core/DistributorInventory', [
+                'tableData' => [],
+                'brands' => $brands
+            ]);
+        }
+
+        //transform the data for the table
+        $tableData = $inventory->products->map(function ($product) {
+            return [
+                'productId' => $product->product_id,
+                'productName' => $product->product_name,
+                'brandName' => $product->brand->brand_name,
+                'variant' => $product->variant,
+                'quantity' => 20,
+                'price' => $product->price
+            ];
+        });
+        if (is_null($brands)) {
+            return Inertia::render('Components/Core/DistributorInventory', ['tableData' => $tableData, 'brands' => []]);
+        }
+        return Inertia::render('Components/Core/DistributorInventory', ['tableData' => $tableData, 'brands' => $brands]);
     }
     public function showProfile()
     {

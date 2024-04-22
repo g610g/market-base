@@ -12,22 +12,13 @@ import {
     flexRender,
     getCoreRowModel,
     useReactTable,
-    getPaginationRowModel,
 } from "@tanstack/react-table";
-function DistributorBrandsTable({ tableContent }) {
-    const data = tableContent.map((data) => {
-        return {
-            brandId: data.brandData.brand_id,
-            brandName: data.brandData.brand_name,
-            totalProducts: data.productsCount,
-            merchantStore: data.brandData.merchant_store.store_name,
-        };
-    });
+function DistributorBrandsTable({ tableData }) {
+    const data = tableData;
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
     });
     return (
         <div className=" max-h-full overflow-auto rounded-2xl">

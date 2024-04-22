@@ -44,30 +44,15 @@ function DistributorAddProductDialog({ brandsData }) {
     const [brand, setBrand] = useState("");
     const [image, setImage] = useState();
     const { errors, flash } = usePage().props;
-    console.log(errors);
     //filters the product types base on the selected brand
     const productTypes = brandsData.filter((brandItem) => {
         return brandItem.brand_name === brand;
     })[0]?.brand_category?.product_types;
-    // console.log("Brands", brandsData);
-    // console.log("productTypes", productTypes);
     const formSchema = z.object({
         price: z.coerce
             .number()
             .min(0, { message: "Price must be a positive number" })
             .max(1000000, { message: "Max of 1 million only" }),
-        // .min(0, { message: "Price must be a positive number" })
-        // .max(1000000, { message: "Maximum of million digit only" })
-        // .refine(
-        //     (val) => {
-        //         const parsed = parseFloat(val);
-        //         return !isNaN(parsed) && parsed >= 0 && parsed <= 1000000;
-        //     },
-        //     {
-        //         message:
-        //             "Price must be a valid number between 0 and 1,000,000",
-        //     }
-        // ),
         image: z
             .instanceof(FileList)
             .refine((files) => {
@@ -93,7 +78,6 @@ function DistributorAddProductDialog({ brandsData }) {
         resolver: zodResolver(formSchema),
     });
     const fileRef = form.register("image");
-    // console.log(form);
     //the submithandler when trying to add the product into the server
     function handleFormSubmit(data) {
         const modifiedData = { ...data, image: data.image[0] };

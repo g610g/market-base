@@ -22,7 +22,8 @@ import { Input } from "@/components/ui/input";
 import CreateBrandDialog from "../Utils/CreateBrandDialog";
 import DeleteBrandDialog from "../Utils/DeleteBrandDialog";
 
-export function DistributorBrands({ data, merchantStores }) {
+export function DistributorBrands({ tableData, merchantStores }) {
+    console.log(tableData);
     const formSchema = z.object({
         brandName: z.string().min(2, {
             message: "Brand Name must be at least 2 characters.",
@@ -109,7 +110,7 @@ export function DistributorBrands({ data, merchantStores }) {
                 </div>
             </div>
             <div className="max-h-[50%] min-w-[50%]  h-[50%] rounded-2xl mt-[3rem] bg-[#334756] ">
-                <DistributorBrandsTable tableContent={data} />
+                <DistributorBrandsTable tableData={tableData} />
             </div>
         </main>
     );

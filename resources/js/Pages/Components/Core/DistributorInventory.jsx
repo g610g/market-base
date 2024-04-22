@@ -5,20 +5,13 @@ import SearchIcon from "../../../assets/search.svg?react";
 import { Button } from "@/components/ui/button";
 import DistributorAddProductDialog from "../Utils/DistributorAddProductDialog";
 import DistributorProductsTable from "../Utils/DistributorProductsTable";
+import { usePage } from "@inertiajs/inertia-react";
 
-const DistributorInventory = ({ inventory, brands }) => {
+const DistributorInventory = ({ tableData, brands }) => {
     //filter based on search :( not optimized
+    const { errors } = usePage().props;
+    console.log(tableData, errors);
 
-    const data = inventory.products.map((product) => {
-        return {
-            productId: product.product_id,
-            productName: product.product_name,
-            brandName: product.brand.brand_name,
-            variant: product.variant,
-            quantity: 20,
-            price: product.price,
-        };
-    });
     return (
         <main className="max-h-screen h-screen flex flex-col p-5">
             <div
@@ -46,7 +39,7 @@ const DistributorInventory = ({ inventory, brands }) => {
                 </div>
             </div>
             <div className="max-h-[75%]  h-[75%] mt-[1.5rem] bg-[#334756] rounded-2xl">
-                <DistributorProductsTable data={data} />
+                <DistributorProductsTable data={tableData} />
             </div>
         </main>
     );

@@ -74,5 +74,8 @@ class DatabaseSeeder extends Seeder
             $productTypes = ProductType::factory()->associate($distributor)->create();
             $products = Product::factory()->for($inventory)->associate($distributor)->count(10)->create();
         }
+        $this->call([
+                ProductTypeSeeder::class
+        ]);
     }
 }
