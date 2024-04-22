@@ -5,6 +5,8 @@ import CancelIcon from "../../../assets/cancel.svg?react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Inertia } from "@inertiajs/inertia";
+
 import {
     Select,
     SelectContent,
@@ -23,57 +25,65 @@ import {
 import { Input } from "@/components/ui/input";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-const MAX_FILE_SIZE = 1024 * 1024 * 5;
+import { usePage } from "@inertiajs/inertia-react";
+import { Button } from "@/components/ui/button";
+const MAX_FILE_SIZE = 1024 * 1024 * 10;
 const ACCEPTED_IMAGE_MIME_TYPES = [
     "image/jpeg",
     "image/jpg",
     "image/png",
     "image/webp",
 ];
-const formSchema = z.object({
-    image: z
-        .any()
-        .refine((files) => {
-            return files?.[0]?.size <= MAX_FILE_SIZE;
-        }, `Max image size is 5MB.`)
-        .refine(
-            (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
-            "Only .jpg, .jpeg, .png and .webp formats are supported."
-        ),
-    productName: z.string().min(2, {
-        message: "Product Name must be at least 2 characters.",
-    }),
-    productDescription: z.string().min(2, {
-        message: "Product Description must be at least 2 characters.",
-    }),
-    productType: z.string({ required_error: "Select Product Type" }),
-    brandName: z.string({ required_error: "Select Brand Name" }),
-});
 
 function DistributorAddProductDialog({ brandsData }) {
     const [brand, setBrand] = useState("");
     const [image, setImage] = useState();
+    const { errors, flash } = usePage().props;
     //filters the product types base on the selected brand
     const productTypes = brandsData.filter((brandItem) => {
         return brandItem.brand_name === brand;
     })[0]?.brand_category?.product_types;
     // console.log("Brands", brandsData);
     // console.log("productTypes", productTypes);
+    const formSchema = z.object({
+        image: z
+            .instanceof(FileList)
+            .refine((files) => {
+                return files?.[0]?.size <= MAX_FILE_SIZE;
+            }, `Max image size is 10MB.`)
+            .refine(
+                (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+                "Only .jpg, .jpeg, .png and .webp formats are supported."
+            ),
+        productName: z.string().min(2, {
+            message: "Product Name must be at least 2 characters.",
+        }),
+        productDescription: z.string().min(2, {
+            message: "Product Description must be at least 2 characters.",
+        }),
+        variant: z.string().min(2, {
+            message: "Product Variant must be at least 2 characters",
+        }),
+        productType: z.string({ required_error: "Select Product Type" }),
+        brandName: z.string({ required_error: "Select Brand Name" }),
+    });
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
+    const fileRef = form.register("image");
+    // console.log(form);
     //the submithandler when trying to add the product into the server
-    function onSubmit(data) {
-        console.log(data);
+    function handleFormSubmit(data) {
+        const modifiedData = { ...data, image: data.image[0] };
+        console.log(modifiedData);
+        Inertia.post("/distributor/inventory", modifiedData, {
+            preserveState: false,
+        });
     }
     return (
         <AlertDialog>
@@ -88,7 +98,9 @@ function DistributorAddProductDialog({ brandsData }) {
                 <AlertDialogHeader>
                     <div>
                         <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                            <form
+                                onSubmit={form.handleSubmit(handleFormSubmit)}
+                            >
                                 <div className="flex w-full gap-7">
                                     <div className="space-y-5 w-full">
                                         <FormField
@@ -96,24 +108,32 @@ function DistributorAddProductDialog({ brandsData }) {
                                             name="image"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel className="block text-white font-league font-light text-xl mb-2">
+                                                    <FormLabel
+                                                        className="block text-white font-league font-light text-xl mb-2"
+                                                        htmlFor="image"
+                                                    >
                                                         Product Picture*
                                                     </FormLabel>
-                                                    <FormControl>
-                                                        <Input
-                                                            id="image"
-                                                            type="file"
-                                                            className="text-white"
-                                                            onChange={(e) =>
-                                                                setImage(
-                                                                    URL.createObjectURL(
-                                                                        e.target
-                                                                            .files[0]
-                                                                    )
+                                                    <Input
+                                                        id="image"
+                                                        type="file"
+                                                        className="text-white"
+                                                        {...fileRef}
+                                                        onChange={(e) => {
+                                                            field.onChange(
+                                                                e.target
+                                                                    ?.files?.[0] ??
+                                                                    undefined
+                                                            );
+                                                            setImage(
+                                                                URL.createObjectURL(
+                                                                    e.target
+                                                                        .files[0]
                                                                 )
-                                                            }
-                                                        />
-                                                    </FormControl>
+                                                            );
+                                                        }}
+                                                    />
+                                                    <FormMessage className="text-red-600" />
                                                 </FormItem>
                                             )}
                                         />
@@ -132,13 +152,11 @@ function DistributorAddProductDialog({ brandsData }) {
                                                     <FormLabel className="block text-white font-league font-light text-xl mb-2">
                                                         Product Name*
                                                     </FormLabel>
-                                                    <FormControl>
-                                                        <Input
-                                                            id="image"
-                                                            className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
+                                                    <Input
+                                                        className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
+                                                        {...field}
+                                                    />
+                                                    <FormMessage className="text-red-600" />
                                                 </FormItem>
                                             )}
                                         />
@@ -150,13 +168,11 @@ function DistributorAddProductDialog({ brandsData }) {
                                                     <FormLabel className="block text-white font-league font-light text-xl mb-2">
                                                         Product Description*
                                                     </FormLabel>
-                                                    <FormControl>
-                                                        <Input
-                                                            id="image"
-                                                            className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
+                                                    <Input
+                                                        className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
+                                                        {...field}
+                                                    />
+                                                    <FormMessage className="text-red-600" />
                                                 </FormItem>
                                             )}
                                         />
@@ -205,6 +221,7 @@ function DistributorAddProductDialog({ brandsData }) {
                                                             )}
                                                         </SelectContent>
                                                     </Select>
+                                                    <FormMessage className="text-red-600" />
                                                 </FormItem>
                                             )}
                                         />
@@ -217,7 +234,14 @@ function DistributorAddProductDialog({ brandsData }) {
                                                         <FormLabel className="block text-white font-league font-light text-xl mb-2">
                                                             Product Type*
                                                         </FormLabel>
-                                                        <Select>
+                                                        <Select
+                                                            onValueChange={
+                                                                field.onChange
+                                                            }
+                                                            defaultValue={
+                                                                field.value
+                                                            }
+                                                        >
                                                             <FormControl>
                                                                 <SelectTrigger className="bg-[#213243] h-[3rem] border-[#082032] font-league font-light text-lg text-white rounded-sm text-left pl-3">
                                                                     <SelectValue placeholder="Please Select Brand Name" />
@@ -244,23 +268,41 @@ function DistributorAddProductDialog({ brandsData }) {
                                                                 )}
                                                             </SelectContent>
                                                         </Select>
+                                                        <FormMessage className="text-red-600" />
                                                     </FormItem>
                                                 )}
                                             />
                                         ) : null}
+                                        <FormField
+                                            control={form.control}
+                                            name="variant"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="block text-white font-league font-light text-xl mb-2">
+                                                        Product Variant*
+                                                    </FormLabel>
+                                                    <Input
+                                                        className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
+                                                        {...field}
+                                                    />
+                                                    <FormMessage className="text-red-600" />
+                                                </FormItem>
+                                            )}
+                                        />
                                     </div>
+                                </div>
+                                <div className="w-[90%] mt-7 flex justify-end">
+                                    <Button
+                                        type="submit"
+                                        className="bg-[#FF4C29] text-white font-league text-lg w-[30%] hover:bg-indigo-600"
+                                    >
+                                        Continue
+                                    </Button>
                                 </div>
                             </form>
                         </Form>
                     </div>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <div className="w-[90%] flex justify-end">
-                        <AlertDialogAction className="bg-[#FF4C29] text-white font-league text-lg w-[30%]">
-                            Continue
-                        </AlertDialogAction>
-                    </div>
-                </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
     );

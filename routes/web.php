@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MerchantStoreController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Distributor\BrandController;
 use App\Http\Controllers\Distributor\DistributorController;
+use App\Http\Controllers\Distributor\ProductsController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
 use App\Models\Distributor\Distributor;
@@ -45,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/brands', [DistributorController::class, 'showBrands']);
         Route::post('/brands', [BrandController::class, 'create']);
         Route::get('/inventory', [DistributorController::class, 'showInventory']);
+        Route::post('/inventory', [ProductsController::class, 'store']);
         Route::get('/profile', [DistributorController::class, 'showProfile']);
     });
     Route::post('/logout', function (Request $request) {
