@@ -43,7 +43,8 @@ class DistributorController extends Controller
             throw new HttpException("Cannot Find User", 404);
         }
         $inventory = $userDistributor->inventory()->with('products.brand')->first();
-        return Inertia::render('Components/Core/DistributorInventory', ['inventory' => $inventory]);
+        $brands = $userDistributor->brands()->with('brandCategory.productTypes')->get();
+        return Inertia::render('Components/Core/DistributorInventory', ['inventory' => $inventory, 'brands' => $brands]);
     }
     public function showProfile()
     {

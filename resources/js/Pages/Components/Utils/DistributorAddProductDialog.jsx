@@ -59,12 +59,19 @@ const formSchema = z.object({
     brandName: z.string({ required_error: "Select Brand Name" }),
 });
 
-function DistributorAddProductDialog() {
+function DistributorAddProductDialog({ brandsData }) {
+    const [brand, setBrand] = useState("");
     const [image, setImage] = useState();
+    //filters the product types base on the selected brand
+    const productTypes = brandsData.filter((brandItem) => {
+        return brandItem.brand_name === brand;
+    })[0]?.brand_category?.product_types;
+    // console.log("Brands", brandsData);
+    // console.log("productTypes", productTypes);
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
-
+    //the submithandler when trying to add the product into the server
     function onSubmit(data) {
         console.log(data);
     }
@@ -161,169 +168,91 @@ function DistributorAddProductDialog() {
                                                     <FormLabel className="block text-white font-league font-light text-xl mb-2">
                                                         Product Brand*
                                                     </FormLabel>
-                                                    <Select>
+                                                    <Select
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        onValueChange={(
+                                                            value
+                                                        ) => {
+                                                            field.onChange(
+                                                                value
+                                                            );
+                                                            setBrand(value);
+                                                        }}
+                                                    >
                                                         <FormControl>
                                                             <SelectTrigger className="bg-[#213243] h-[3rem] border-[#082032] font-league font-light text-lg text-white rounded-sm text-left pl-3">
                                                                 <SelectValue placeholder="Please Select Brand Name" />
                                                             </SelectTrigger>
                                                         </FormControl>
+                                                        <SelectContent className="bg-gray-600">
+                                                            {brandsData.map(
+                                                                (brand) => (
+                                                                    <SelectItem
+                                                                        value={
+                                                                            brand.brand_name
+                                                                        }
+                                                                        key={
+                                                                            brand.brand_id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            brand.brand_name
+                                                                        }
+                                                                    </SelectItem>
+                                                                )
+                                                            )}
+                                                        </SelectContent>
                                                     </Select>
                                                 </FormItem>
                                             )}
                                         />
+                                        {productTypes ? (
+                                            <FormField
+                                                control={form.control}
+                                                name="productType"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel className="block text-white font-league font-light text-xl mb-2">
+                                                            Product Type*
+                                                        </FormLabel>
+                                                        <Select>
+                                                            <FormControl>
+                                                                <SelectTrigger className="bg-[#213243] h-[3rem] border-[#082032] font-league font-light text-lg text-white rounded-sm text-left pl-3">
+                                                                    <SelectValue placeholder="Please Select Brand Name" />
+                                                                </SelectTrigger>
+                                                            </FormControl>
+                                                            <SelectContent className="bg-gray-600">
+                                                                {productTypes.map(
+                                                                    (
+                                                                        product
+                                                                    ) => (
+                                                                        <SelectItem
+                                                                            value={
+                                                                                product.product_type
+                                                                            }
+                                                                            key={
+                                                                                product.id
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                product.product_type
+                                                                            }
+                                                                        </SelectItem>
+                                                                    )
+                                                                )}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        ) : null}
                                     </div>
                                 </div>
                             </form>
                         </Form>
                     </div>
-                    {/* <div className="flex flex-row gap-3">
-                        <div>
-                            <img
-                                src="https://www.air-force.com/media/catalog/product/cache/cf26d88f340d099e8645dec4084bc7a6/g/e/gem0707_804_front_grijs_1_1.jpg"
-                                alt="Product Image"
-                                className="rounded-sm h-full w-full"
-                            />
-                        </div>
-                        <div className=" w-full">
-                            <AlertDialogTitle className="text-white font-league text-2xl font-regular">
-                                Product Information
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                                <div className="flex flex-row gap-4">
-                                    <div>
-                                        <Form {...form}>
-                                            <div className="w-full mt-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="productName"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="block text-white font-league font-light text-xl mb-2">
-                                                                Product Name*
-                                                            </FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="Product Name"
-                                                                    className="w-full h-[3rem] bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                                    {...field}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage className="text-red-500" />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                        </Form>
-                                    </div>
-                                    <div className="gap-4">
-                                        <Form {...form}>
-                                            <div className="flex-1 mt-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="productId"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="block text-white font-league font-light text-xl mb-2">
-                                                                Product ID*
-                                                            </FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="Product ID"
-                                                                    className="w-full h-[3rem] bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                                    {...field}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage className="text-red-500" />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                        </Form>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className=" w-full gap-4">
-                                        <Form {...form}>
-                                            <div className="flex-1 mt-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="productDescription"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="block text-white font-league font-light text-xl mb-2">
-                                                                Product
-                                                                Description*
-                                                            </FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="Product Description"
-                                                                    className="w-full h-[3rem] bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                                    {...field}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage className="text-red-500" />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                        </Form>
-                                    </div>
-                                </div>
-                                <div className="flex flex-row gap-4">
-                                    <div>
-                                        <Form {...form}>
-                                            <div className="w-full mt-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="productType"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="block text-white font-league font-light text-xl mb-2">
-                                                                Product Type*
-                                                            </FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="Product Type"
-                                                                    className="w-full h-[3rem] bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                                    {...field}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage className="text-red-500" />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                        </Form>
-                                    </div>
-                                    <div className="">
-                                        <Form {...form}>
-                                            <div className="mt-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="brandName"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="block text-white font-league font-light text-xl mb-2">
-                                                                Brand*
-                                                            </FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="Brand"
-                                                                    className="w-full h-[3rem] bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                                    {...field}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage className="text-red-500" />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                        </Form>
-                                    </div>
-                                </div>
-                            </AlertDialogDescription>
-                        </div>
-                    </div> */}
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <div className="w-[90%] flex justify-end">

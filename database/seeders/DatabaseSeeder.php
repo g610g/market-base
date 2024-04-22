@@ -63,6 +63,7 @@ class DatabaseSeeder extends Seeder
                 ->first()
                 ->merchantStore()
                 ->first();
+            //creates a brand for the current distributor and makes sure that the store and category of the brand is aligned
             Brand::factory()->for($distributor)
                 ->count(2)
                 ->create([

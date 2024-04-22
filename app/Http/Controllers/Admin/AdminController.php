@@ -19,10 +19,7 @@ class AdminController extends Controller
     {
         //refactor this
         $merchantData = MerchantStore::with('merchantStoreClass')->paginate(10);
-        $merchantClasses = MerchantStoreClass::all();
-        // ->filter(function ($storeClass) {
-        //     return is_null($storeClass->merchantStore);
-        // })->values();
+        $merchantClasses = MerchantStoreClass::doesntHave('merchantStore')->get();
         return Inertia::render('Components/Core/AdminStore', [
              'merchantData' => $merchantData,
              'merchantClasses' => $merchantClasses

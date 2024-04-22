@@ -12,6 +12,7 @@ return new class () extends Migration {
             $table->foreignUuid('dist_id')
                 ->constrained('distributors', 'distributor_id')
                 ->cascadeOnDelete();
+            $table->unique('dist_id');
             $table->unsignedBigInteger('products_quantity');
         });
     }

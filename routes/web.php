@@ -8,6 +8,7 @@ use App\Http\Controllers\Distributor\BrandController;
 use App\Http\Controllers\Distributor\DistributorController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
+use App\Models\Distributor\Distributor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,4 +91,9 @@ Route::get('/routes', function () {
         }),
         'create_url' => URL::route('users.create'),
     ]);
+});
+Route::get('/testing', function () {
+    $distributor = Distributor::inRandomOrder()->with('user')->first();
+    $inventoryWithProducts = $distributor->inventory()->with('products')->get();
+    return ['distributor' => $distributor, 'inventory' => $inventoryWithProducts];
 });

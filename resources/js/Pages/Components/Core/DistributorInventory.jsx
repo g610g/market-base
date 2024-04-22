@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import DistributorAddProductDialog from "../Utils/DistributorAddProductDialog";
 import DistributorProductsTable from "../Utils/DistributorProductsTable";
 
-const DistributorInventory = ({ inventory }) => {
+const DistributorInventory = ({ inventory, brands }) => {
     //filter based on search :( not optimized
+
     const data = inventory.products.map((product) => {
         return {
             productId: product.product_id,
@@ -26,7 +27,7 @@ const DistributorInventory = ({ inventory }) => {
             >
                 <div className="w-[50%] flex space-x-5 items-center">
                     <div>
-                        <DistributorAddProductDialog />
+                        <DistributorAddProductDialog brandsData={brands} />
                     </div>
                     {/* <CreateMerchantModel merchantClasses={merchantClasses} /> */}
                     <div className="py-1 bg-[#19273A]">
