@@ -28,7 +28,7 @@ function AddToCartDialogue() {
                 <CancelIcon/>
             </AlertDialogCancel>
         <AlertDialogHeader>
-            <AddIcon className="self-center mb-4"/>
+            <AddIcon className="self-center mb-4 fill-[#FF4C29]"/>
         <AlertDialogTitle className="block text-white font-league text-2xl self-center">Product Added Successfully!</AlertDialogTitle>
         {/* <AlertDialogDescription className="text-center text-white font-league font-light text-lg">
             This action cannot be undone. Proceeding this action would also cascade the products you added.
