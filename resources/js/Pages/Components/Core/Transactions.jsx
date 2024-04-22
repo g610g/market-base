@@ -1,46 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CustomerSideBarLayout from "../Layouts/CustomerSideBarLayout";
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button";
-import { Rating } from "@material-tailwind/react";
+import { Rating, Textarea } from "@material-tailwind/react";
 
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
-
-  import { useForm } from "react-hook-form";
-  import { z } from "zod";
-  import { zodResolver } from "@hookform/resolvers/zod";
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+  } from "@/components/ui/sheet"
+import RatedTransactionDialog from '../Utils/RatedTransactionDialog';
   
-    import {
-      Form,
-      FormControl,
-      FormField,
-      FormItem,
-      FormLabel,
-      FormMessage,
-    } from "@/components/ui/form"
-    import { Input } from "@/components/ui/input"
-
-    const formSchema = z.object({
-        addQuantity: z.string().min(2, {
-          message: "Quantity must be at least 2 characters.",
-        }),
-      })
 
 function Transactions() {
-    const [ quantity, setQuantity ] = useState(0);
 
-    const form = useForm({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            addQuantity: quantity,
-        },
-      })
   return (
     <main className="max-h-screen h-screen flex flex-col px-2">
         <div className="flex flex-col space-y-7 w-full bg-slate-800 p-8 h-[85%]">
@@ -72,7 +48,6 @@ function Transactions() {
                             <div className="w-full flex">
                                 <Rating value={4} ratedColor="red" />
                                 <p className="font-league text-white text-lg ml-3 mt-1">No Rating</p>
-                                <p className="font-league text-[#FF4C29] text-lg ml-9 mt-1">Order Total: 200</p>
                             </div>
                         </div>
                         <div className='mt-2 pl-7 pt-1 bg-[#515E71] w-[30%] rounded font-league text-white'>
@@ -87,12 +62,60 @@ function Transactions() {
                             >
                                 Get Invoice
                             </Button>
-                            <Button 
-                            variant="default"
-                            className="rounded text-white font-league bg-[#FF4C29] w-[300px] p-7 text-lg"
+                            <Sheet>
+                            <SheetTrigger 
+                            className="rounded text-white font-league bg-[#FF4C29] w-[300px] p-3 text-lg"
                             >
                                 Rate Transaction
-                            </Button>
+                            </SheetTrigger>
+                            <SheetContent
+                            className="bg-[#213243]"
+                            >
+                                <SheetHeader>
+                                <SheetTitle className="mt-9">
+                                <label className="text-white font-league font-semibold text-4xl pt-3">
+                                    Rate Transaction
+                                </label>
+                                </SheetTitle>
+                                <SheetDescription>
+                                    <div>
+                                        <label className="block text-white font-league font-light text-xl mb-2 mt-2">
+                                            Product Quality
+                                        </label>
+                                        <div className="w-full flex flex-row">
+                                            <Rating value={4} ratedColor="red" />
+                                            <p className="font-league text-white text-lg ml-3 mt-1">No Rating</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-league text-[#FF4C29] text-lg mt-1">Satisfactory!</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-white font-league font-light text-xl mb-2 mt-2">
+                                            Service Transaction
+                                        </label>
+                                        <div className="w-full flex flex-row">
+                                            <Rating value={4} ratedColor="red" />
+                                            <p className="font-league text-white text-lg ml-3 mt-1">No Rating</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-league text-[#FF4C29] text-lg mt-1">Satisfactory!</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-white font-league font-light text-xl mb-2 mt-4">
+                                            Comments
+                                        </label> 
+                                        <Textarea/> 
+                                    </div>
+                                    <div className='mt-4 flex w-full pl-6'>
+                                        <RatedTransactionDialog/>
+                                    </div>
+                                </SheetDescription>
+                                </SheetHeader>
+                            </SheetContent>
+                            </Sheet>
+
                         </div>
                     </div>
                     <div className='ml-2 pt-4'>
