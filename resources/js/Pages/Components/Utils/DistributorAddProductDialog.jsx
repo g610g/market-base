@@ -44,6 +44,7 @@ function DistributorAddProductDialog({ brandsData }) {
     const [brand, setBrand] = useState("");
     const [image, setImage] = useState();
     const { errors, flash } = usePage().props;
+    console.log(errors);
     //filters the product types base on the selected brand
     const productTypes = brandsData.filter((brandItem) => {
         return brandItem.brand_name === brand;

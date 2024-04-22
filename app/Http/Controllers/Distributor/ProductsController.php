@@ -7,6 +7,7 @@ use App\Http\Requests\Distributor\AddProductRequest;
 use App\Models\Distributor\Brand;
 use App\Models\Distributor\ProductType;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -25,7 +26,9 @@ class ProductsController extends Controller
             return redirect()->back()->withErrors('error creating the product in the server', 'error');
         }
         try {
-            $inventory->products()->create([
+            $path = Storage::putFile('productImages', $request->file('image'));
+            dd($path);
+            $product = $inventory->products()->create([
                 'product_name' => $request->productName,
                 'is_available' => true,
                 'description' => $request->description,
@@ -33,10 +36,10 @@ class ProductsController extends Controller
                 'brand_id' => $productBrand->brand_id,
                 'type_id' => $productType->id,
                 'price',
-
                 ]);
         } catch (\Throwable $th) {
-            return redirect()->back()->withErrors('error creating the product in the server', 'error');
+            // return redirect()->back()->withErrors('error creating the product in the server', 'error');
+            dd($th->getMessage());
         }
         return redirect()->back();
     }
@@ -46,8 +49,8 @@ class ProductsController extends Controller
         $verified = $productType->brandCategory()
                 ->whereHas('brands', function (Builder $query) use ($productBrand) {
                     $query->where('brand_name', $productBrand->brand_name);
-                })->first();
-        if ($verified->count <= 0 || $verified->count >= 2) {
+                })->get();
+        if ($verified->count() <= 0 || $verified->count() >= 2) {
             return false;
         }
         return true;
