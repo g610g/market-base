@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import CustomerSideBarLayout from "../Layouts/CustomerSideBarLayout";
-import AddToCartDialogue from '../Utils/AddToCartDialogue';
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 import { Button } from "@/components/ui/button";
 import ArrowIcon from "../../../assets/arrow.svg?react";
+import DeleteIcon from "../../../assets/trash.svg?react";
 
 import {
     Select,
@@ -26,6 +28,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
     FormMessage,
   } from "@/components/ui/form"
   import { Input } from "@/components/ui/input"
+import OrderItemsDialogue from '../Utils/OrderItemsDialogue';
+
 
   const formSchema = z.object({
     addQuantity: z.string().min(2, {
@@ -34,8 +38,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
   })
 
 function MyCart() {
-
-    
+ 
     const [ quantity, setQuantity ] = useState(0);
 
     const form = useForm({
@@ -52,9 +55,7 @@ function MyCart() {
                 My Cart
             </label>
             <div className="flex w-full bg-[#213243] h-[25%] p-5">
-                <div className='w-[27px] h-[27px] self-center ml-4 mr-8 border-solid border-2 border-white text-transparent'>
-                0
-                </div>
+            <Checkbox className="ml-5 mr-10 border-white self-center"/>
                 <div>
                     <img
                     src="https://cdn.shoppable.ph/ef24cde2-2827-401b-a685-e888e3d0cbcd.jpg"
@@ -121,24 +122,29 @@ function MyCart() {
                         <div className='text-white font-league font-semibold text-3xl mb-2 mt-3 text-[#FF4C29]'>
                             PHP200
                         </div>
+                        <div className='flex justify-end p-9'>
+                            <Button className="bg-[#FF4C29] rounded p-3">
+                                <DeleteIcon className="p-1"/>
+                            </Button>
+                        </div>
                     </div>
             </div>
         </div>
         <div className="flex flex-row gap-4 w-full bg-[#515E71] p-8 h-[11%]">
-            <div className='w-[27px] h-[27px] ml-5 border-solid border-2 border-slate-800 bg-[#515E71] text-transparent mt-2'>
-            0
+            <div className='p-3'>
+                <Checkbox className="ml-5 border-white self-center"/>
             </div>
             <div className="text-white font-league font-semibold text-2xl mt-2">
                 All
             </div>
-            <div className="text-[#FF4C29] font-league font-semibold text-2xl ml-[800px] flex flex-row mt-2">
+            <div className="text-[#FF4C29] font-league font-semibold text-2xl ml-[700px] flex flex-row mt-2">
                 Total:
                 <p className='text-white pl-2'>
                     PHP 1000
                 </p>
             </div>
             <div className='ml-10'>
-                {/* <AddToCartDialogue/>  */}
+                <OrderItemsDialogue/>
             </div>
         </div>
     </main>
