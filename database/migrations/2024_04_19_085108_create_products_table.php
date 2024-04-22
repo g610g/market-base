@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->string('product_name')->nullable(false);
             $table->string('description');
             $table->string('variant');
+            $table->string('photo_path')->nullable(true);
             $table->foreignUuid('brand_id')
                 ->constrained('brands', 'brand_id')
                 ->cascadeOnDelete();

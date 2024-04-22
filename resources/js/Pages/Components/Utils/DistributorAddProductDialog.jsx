@@ -52,6 +52,22 @@ function DistributorAddProductDialog({ brandsData }) {
     // console.log("Brands", brandsData);
     // console.log("productTypes", productTypes);
     const formSchema = z.object({
+        price: z.coerce
+            .number()
+            .min(0, { message: "Price must be a positive number" })
+            .max(1000000, { message: "Max of 1 million only" }),
+        // .min(0, { message: "Price must be a positive number" })
+        // .max(1000000, { message: "Maximum of million digit only" })
+        // .refine(
+        //     (val) => {
+        //         const parsed = parseFloat(val);
+        //         return !isNaN(parsed) && parsed >= 0 && parsed <= 1000000;
+        //     },
+        //     {
+        //         message:
+        //             "Price must be a valid number between 0 and 1,000,000",
+        //     }
+        // ),
         image: z
             .instanceof(FileList)
             .refine((files) => {
@@ -274,22 +290,40 @@ function DistributorAddProductDialog({ brandsData }) {
                                                 )}
                                             />
                                         ) : null}
-                                        <FormField
-                                            control={form.control}
-                                            name="variant"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel className="block text-white font-league font-light text-xl mb-2">
-                                                        Product Variant*
-                                                    </FormLabel>
-                                                    <Input
-                                                        className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                        {...field}
-                                                    />
-                                                    <FormMessage className="text-red-600" />
-                                                </FormItem>
-                                            )}
-                                        />
+                                        <div className="flex w-full gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="variant"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel className="block text-white font-league font-light text-xl mb-2">
+                                                            Product Variant*
+                                                        </FormLabel>
+                                                        <Input
+                                                            className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
+                                                            {...field}
+                                                        />
+                                                        <FormMessage className="text-red-600" />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="price"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel className="block text-white font-league font-light text-xl mb-2">
+                                                            Product Price*
+                                                        </FormLabel>
+                                                        <Input
+                                                            className=" w-full bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
+                                                            {...field}
+                                                        />
+                                                        <FormMessage className="text-red-600" />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="w-[90%] mt-7 flex justify-end">

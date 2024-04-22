@@ -27,15 +27,15 @@ class ProductsController extends Controller
         }
         try {
             $path = Storage::putFile('productImages', $request->file('image'));
-            dd($path);
             $product = $inventory->products()->create([
                 'product_name' => $request->productName,
                 'is_available' => true,
-                'description' => $request->description,
+                'description' => $request->productDescription,
                 'variant' => $request->variant,
                 'brand_id' => $productBrand->brand_id,
                 'type_id' => $productType->id,
-                'price',
+                'photo_path' => $path,
+                'price' => $request->price,
                 ]);
         } catch (\Throwable $th) {
             // return redirect()->back()->withErrors('error creating the product in the server', 'error');

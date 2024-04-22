@@ -29,6 +29,7 @@ class AddProductRequest extends FormRequest
             'variant' => ['required', 'string', 'min:2'],
             'productType' => ['required', 'string', 'min:2'],
             'brandName' => ['required', 'string', 'min:2'],
+            'price' => ['integer', 'required']
         ];
     }
 }
