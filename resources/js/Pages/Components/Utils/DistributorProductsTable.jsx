@@ -1,5 +1,4 @@
 import React from "react";
-import { columns } from "../../../api/BrandTableData";
 import {
     Table,
     TableBody,
@@ -8,20 +7,27 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import {
     flexRender,
     getCoreRowModel,
     useReactTable,
+    getFilteredRowModel,
 } from "@tanstack/react-table";
-function DistributorBrandsTable({ tableData }) {
-    const data = tableData;
+import { columns } from "../../../api/ProductsTableData";
+function DistributorProductsTable({ data }) {
+    const [columnFilters, setColumnFilters] = React.useState([]);
+
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+        state: { columnFilters },
     });
     return (
-        <div className=" max-h-full overflow-auto rounded-2xl">
+        <div className=" max-h-full overflow-auto rounded-2xl ">
             <Table>
                 <TableHeader className="bg-[#19273A] text-white font-league font-bold text-2xl">
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -76,4 +82,4 @@ function DistributorBrandsTable({ tableData }) {
     );
 }
 
-export default DistributorBrandsTable;
+export default DistributorProductsTable;

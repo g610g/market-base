@@ -19,8 +19,9 @@ class ProductsFactory extends Factory
         return [
             'is_available' => Arr::random([true, false]),
             'product_name' => fake()->word(),
+            'description' => fake()->sentence(10),
             'price' => fake()->numberBetween(1, 20000),
-            'size' => fake()->numberBetween(2, 100),
+            'variant' => fake()->word(),
         ];
     }
     public function associate(Distributor $distributor): Factory

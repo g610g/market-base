@@ -18,10 +18,11 @@ class MerchantStore extends Model
     protected $fillable = [
         'store_name',
         'admin_id',
-        'is_open'
+        'is_open',
+        'fk_class_id'
     ];
     protected $primaryKey = 'store_id';
-
+    protected $table = 'merchant_stores';
     public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'admin_id', 'admin_id');

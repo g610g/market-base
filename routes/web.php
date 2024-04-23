@@ -4,9 +4,13 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\MerchantStoreController;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Distributor\BrandController;
 use App\Http\Controllers\Distributor\DistributorController;
+use App\Http\Controllers\Distributor\ProductsController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
+use App\Models\Distributor\Distributor;
+use App\Models\Distributor\ProductType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'distributor', 'middleware' => 'role:distributor'], function () {
         Route::get('/', [DistributorController::class, 'showLanding'])->name('home.dashboard.distributor');
         Route::get('/brands', [DistributorController::class, 'showBrands']);
+        Route::post('/brands', [BrandController::class, 'create']);
         Route::get('/inventory', [DistributorController::class, 'showInventory']);
+        Route::post('/inventory', [ProductsController::class, 'store']);
+        Route::delete('/products/{productId}', [ProductsController::class, 'destroy']);
         Route::get('/profile', [DistributorController::class, 'showProfile']);
     });
     Route::post('/logout', function (Request $request) {
@@ -88,4 +95,10 @@ Route::get('/routes', function () {
         }),
         'create_url' => URL::route('users.create'),
     ]);
+});
+Route::get('/testing', function () {
+    $distributor = Distributor::inRandomOrder()->with('user')->first();
+    $inventoryWithProducts = $distributor->inventory()->with('products')->get();
+    return ProductType::all();
+    // return ['distributor' => $distributor, 'inventory' => $inventoryWithProducts];
 });

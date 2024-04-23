@@ -14,13 +14,15 @@ return new class () extends Migration {
             $table->id('product_id');
             $table->boolean('is_available')->nullable(false);
             $table->string('product_name')->nullable(false);
+            $table->string('description');
+            $table->string('variant');
+            $table->string('photo_path')->nullable(true);
             $table->foreignUuid('brand_id')
                 ->constrained('brands', 'brand_id')
                 ->cascadeOnDelete();
             $table->foreignId('type_id')
                 ->constrained('product_types');
             $table->decimal('price', 8, 2);
-            $table->unsignedBigInteger('size');
             $table->foreignId('inventory_id')
                 ->constrained('inventories')
                 ->cascadeOnDelete();

@@ -8,8 +8,8 @@ import CreateMerchantModel from "../Utils/CreateMerchantModel";
 function AdminStore({ merchantData, merchantClasses }) {
     //brands and product are the choices
     const [tableCategory, setTableCategory] = useState("Brands");
+    //handle error adding merchant stores
     const options = ["Brands", "Merchant"];
-    console.log(merchantData);
     return (
         <main className="max-h-screen h-screen flex flex-col">
             <div

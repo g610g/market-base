@@ -21,13 +21,12 @@ class MainAuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
-        //not sure maybe we dont have to show this for security reason
         $user = User::where('email', $validated['email'])->first();
         if (is_null($user)) {
-            return redirect()->back()->withErrors(['Cannot find user'], 'not_found_user');
+            return redirect()->back()->withErrors('Cannot find user', 'error');
         }
         if (!Auth::attempt($validated)) {
-            return redirect()->back()->withErrors(['Credentials Error'], 'not_found_user');
+            return redirect()->back()->withErrors('Credentials Error', 'error');
         }
         if ($user->role_id === Role::CUSTOMER) {
             session(['is_validated' => true, 'is_guest' => false]);
@@ -71,43 +70,45 @@ class MainAuthController extends Controller
                 'barangay' => fake()->sentence(3)
             ]);
                 //dummy data for distribution dont yet know what to add
-                $user->distributor()->create([
+                $distributorInstance = $user->distributor()->create([
                     'description' => fake()->sentence(20)
                 ]);
+                //creating empty inventory for new distributor
+                $distributorInstance->inventory()->create([
+                    'product_quantity' => 0
+                ]);
             } catch (\Throwable $th) {
-                return redirect()->back()->withErrors($th->getMessage(), 'error_message');
+                return redirect()->back()->withErrors('error creating the user', 'error');
             }
+            //authenticate
             Auth::attempt(['email' => $user->email, 'password' => $request->password]);
             session(['is_validated' => true, 'is_guest' => false]);
             return redirect()->route('home.dashboard.distributor');
-        } elseif ($request->type === 'customer') {
-            try {
-                $user = User::create([
-                'first_name' => $request->firstName,
-                'last_name' => $request->lastName,
-                'email' => $request->email,
-                'phone_number' => $request->phoneNumber,
-                'password' => Hash::make($request->password),
-                'role_id' => Role::CUSTOMER,
-                'birth_date' => Carbon::createFromFormat('Y-m-d', $request->birthDate),
-                'city' => $request->brgyCity,
-                'province' => $request->province,
-                'country' => $request->country,
-                'barangay' => fake()->sentence(3)
-                //fake barangay change later change forms
-            ]);
-                $user->customer()->create([
-                    'customer_type' => fake()->word()
-                ]);
-            } catch (\Throwable $th) {
-                //for getting errors
-                return redirect()->back()->withErrors($th->getMessage(), 'error_message');
-            }
-            Auth::attempt(['email' => $user->email, 'password' => $request->password]);
-            session(['is_validated' => true, 'is_guest' => false]);
-            return redirect()->route('home.dashboard.customer');
-        } else {
-            throw new HttpException('No user type selected', 404);
         }
+        try {
+            $user = User::create([
+            'first_name' => $request->firstName,
+            'last_name' => $request->lastName,
+            'email' => $request->email,
+            'phone_number' => $request->phoneNumber,
+            'password' => Hash::make($request->password),
+            'role_id' => Role::CUSTOMER,
+            'birth_date' => Carbon::createFromFormat('Y-m-d', $request->birthDate),
+            'city' => $request->brgyCity,
+            'province' => $request->province,
+            'country' => $request->country,
+            'barangay' => fake()->sentence(3)
+            //fake barangay change later change forms
+            ]);
+            $user->customer()->create([
+                'customer_type' => fake()->word()
+            ]);
+        } catch (\Throwable $th) {
+            //for getting errors
+            return redirect()->back()->withErrors($th->getMessage(), 'error_message');
+        }
+        Auth::attempt(['email' => $user->email, 'password' => $request->password]);
+        session(['is_validated' => true, 'is_guest' => false]);
+        return redirect()->route('home.dashboard.customer');
     }
 }

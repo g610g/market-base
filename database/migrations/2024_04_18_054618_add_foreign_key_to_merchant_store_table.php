@@ -17,7 +17,7 @@ return new class () extends Migration {
                         'class_id'
                     )
                     ->cascadeOnDelete();
-
+            $table->unique('fk_class_id');
         });
     }
 

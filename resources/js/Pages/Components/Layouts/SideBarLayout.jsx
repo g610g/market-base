@@ -9,24 +9,28 @@ import ProfileIcon from "../../../assets/profile.svg?react";
 import Arrow from "../../../assets/arrow.svg?react";
 import DownArrow from "../../../assets/down-arrow.svg?react";
 import { Link, usePage } from "@inertiajs/inertia-react";
+
 function SideBarLayout({ children }) {
-    const { url } = usePage();
+    const { url, component } = usePage();
     const iconDesign = "w-[2rem] h-[2rem]";
     const sideBarItems = [
         {
             itemName: "Home",
             href: "/admin",
             icon: <HomeIcon className={iconDesign} />,
+            component: "Components/Core/Admin",
         },
         {
             itemName: "Merchant Store",
             href: "/admin/store",
             icon: <StoreIcon className={iconDesign} />,
+            component: "Components/Core/AdminStore",
         },
         {
             itemName: "Distributors",
             href: "/admin/distributor",
             icon: <DistributorIcon className={iconDesign} />,
+            component: "Components/Core/AdminDistributor",
         },
         {
             itemName: "Profile",
@@ -40,9 +44,9 @@ function SideBarLayout({ children }) {
                 id="top-notif"
                 className="h-[7%] text-center text-white bg-[#19273A] flex w-full max-w-full justify-end py-4 px-5"
             >
-                <div className="flex w-[5%] justify-between">
+                <div className="flex w-[5%] justify-between items-center">
                     <NotificatonIcon />
-                    <Link>
+                    <Link href="/logout" method="post" as="button">
                         <LogoutIcon />
                     </Link>
                 </div>
@@ -65,7 +69,7 @@ function SideBarLayout({ children }) {
                                             {item.itemName}
                                         </p>
                                     </Link>
-                                    {url.includes(item.href) ? (
+                                    {component === item.component ? (
                                         <Arrow />
                                     ) : (
                                         <DownArrow />

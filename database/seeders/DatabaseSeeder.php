@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin\Admin;
 use App\Models\Admin\BrandCategory;
 use App\Models\Admin\MerchantStore;
@@ -44,13 +43,14 @@ class DatabaseSeeder extends Seeder
         //     'admin_id' => $admin->user->id
         // ]);
         $merchantStoreClass = MerchantStoreClass::factory()->count(3)->create();
+        //creates one to one map for merchantStore and storeclass
         foreach ($merchantStoreClass as  $value) {
-            MerchantStore::factory()->for($value)->count(30)->create([
+            MerchantStore::factory()->for($value)->create([
                 'admin_id' => $admin->admin_id
             ]);
             BrandCategory::factory()->for($value)->count(3)->create();
         }
-
+        //creates 16 distributors
         for ($i = 0; $i < 16; $i++) {
             User::factory()->has(Distributor::factory()->count(1))->create([
                 'role_id' => Role::DISTRIBUTOR
@@ -63,6 +63,7 @@ class DatabaseSeeder extends Seeder
                 ->first()
                 ->merchantStore()
                 ->first();
+            //creates a brand for the current distributor and makes sure that the store and category of the brand is aligned
             Brand::factory()->for($distributor)
                 ->count(2)
                 ->create([
@@ -73,5 +74,8 @@ class DatabaseSeeder extends Seeder
             $productTypes = ProductType::factory()->associate($distributor)->create();
             $products = Product::factory()->for($inventory)->associate($distributor)->count(10)->create();
         }
+        $this->call([
+                ProductTypeSeeder::class
+        ]);
     }
 }

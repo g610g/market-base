@@ -19,11 +19,15 @@ class MerchantStoreController extends Controller
             return redirect()->back()->withErrors(['The merchant class does not exist in the record'], 'merchant_error');
         }
         //create merchant store from the request
-        $merchantClass->merchantStore()->create([
-             'store_name' => $request->merchantStore,
-             'admin_id' => $request->user()->id,
-             'is_open' => true
-         ]);
+        try {
+            $merchantClass->merchantStore()->create([
+                 'store_name' => $request->merchantStore,
+                 'admin_id' => $request->user()->id,
+                 'is_open' => true
+             ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors('error creating store', 'error');
+        }
         return redirect()->back();
     }
     public function destroy(MerchantStore $merchantStore)

@@ -14,10 +14,12 @@ class Product extends Model
     protected $fillable = [
         'is_available',
         'product_name',
+        'photo_path',
+        'description',
+        'variant',
         'brand_id',
         'type_id',
         'price',
-        'size',
         'inventory_id'
     ];
     public $timestamps = false;

@@ -13,13 +13,13 @@ class AdminController extends Controller
 {
     public function show()
     {
-        //create a roles middleware
         return Inertia::render('Components/Core/Admin');
     }
     public function showMerchantsStores()
     {
+        //refactor this
         $merchantData = MerchantStore::with('merchantStoreClass')->paginate(10);
-        $merchantClasses = MerchantStoreClass::all();
+        $merchantClasses = MerchantStoreClass::doesntHave('merchantStore')->get();
         return Inertia::render('Components/Core/AdminStore', [
              'merchantData' => $merchantData,
              'merchantClasses' => $merchantClasses
