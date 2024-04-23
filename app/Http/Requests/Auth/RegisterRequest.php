@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RegisterRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class RegisterRequest extends FormRequest
             'country' => 'required|string',
             'province' => 'required|string',
             'brgyCity' => 'required|string',
-            'type' => 'required|string'
+            'type' => ['required','string', Rule::in(['distributor', 'customer'])]
         ];
     }
 }

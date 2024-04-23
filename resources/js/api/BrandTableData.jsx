@@ -46,10 +46,7 @@ export const columns = [
                             Copy brand ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>
-                            View payment details
-                        </DropdownMenuItem>
+                        <DropdownMenuItem>Delete Product</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

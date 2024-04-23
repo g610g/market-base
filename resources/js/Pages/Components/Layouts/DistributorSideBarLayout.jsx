@@ -10,30 +10,35 @@ import LogoutIcon from "../../../assets/log-out.svg?react";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MarketBaseLogo from "../../../assets/market-base-secondary.svg?react";
 import { Toaster } from "@/components/ui/toaster";
+import LogoutDropDown from "../Utils/LogoutDropDown";
 
 function DistributorSideBarLayout({ children }) {
-    const { url } = usePage();
+    const { url, component } = usePage();
     const iconDesign = "w-[2rem] h-[2rem]";
     const sideBarItems = [
         {
             itemName: "Home",
             href: "/distributor",
             icon: <HomeIcon className={iconDesign} />,
+            component: "Components/Core/Distributor",
         },
         {
             itemName: "Brands",
             href: "/distributor/brands",
             icon: <BrandIcon className={iconDesign} />,
+            component: "Components/Core/DistributorBrands",
         },
         {
             itemName: "Inventory",
             href: "/distributor/inventory",
             icon: <InventoryIcon className={iconDesign} />,
+            component: "Components/Core/DistributorInventory",
         },
         {
             itemName: "Profile",
             href: "/distributor/profile",
             icon: <ProfileIcon className={iconDesign} />,
+            component: "Components/Core/DistributorProfile",
         },
     ];
     return (
@@ -44,9 +49,7 @@ function DistributorSideBarLayout({ children }) {
             >
                 <div className="flex w-[5%] justify-between items-center">
                     <NotificatonIcon />
-                    <Link href="/logout" method="post" as="button">
-                        <LogoutIcon />
-                    </Link>
+                    <LogoutDropDown />
                 </div>
             </div>
             <div className="flex max-[80%]h-[93%] h-[93%]">
@@ -70,7 +73,7 @@ function DistributorSideBarLayout({ children }) {
                                             {item.itemName}
                                         </p>
                                     </Link>
-                                    {url.includes(item.href) ? (
+                                    {component === item.component ? (
                                         <Arrow />
                                     ) : (
                                         <DownArrow />

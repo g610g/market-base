@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/brands', [BrandController::class, 'create']);
         Route::get('/inventory', [DistributorController::class, 'showInventory']);
         Route::post('/inventory', [ProductsController::class, 'store']);
+        Route::delete('/products/{productId}', [ProductsController::class, 'destroy']);
         Route::get('/profile', [DistributorController::class, 'showProfile']);
     });
     Route::post('/logout', function (Request $request) {

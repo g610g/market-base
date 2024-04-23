@@ -34,7 +34,7 @@ function LogoutDropDown() {
                             Invite users
                         </DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
+                            <DropdownMenuSubContent className="bg-orangeButton text-white">
                                 <DropdownMenuItem>Email</DropdownMenuItem>
                                 <DropdownMenuItem>Message</DropdownMenuItem>
                                 <DropdownMenuSeparator />

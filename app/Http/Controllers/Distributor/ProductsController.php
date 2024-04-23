@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Distributor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Distributor\AddProductRequest;
 use App\Models\Distributor\Brand;
+use App\Models\Distributor\Product;
 use App\Models\Distributor\ProductType;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
@@ -45,6 +47,15 @@ class ProductsController extends Controller
         } catch (\Throwable $th) {
             dd($th->getMessage());
             // return redirect()->back()->withErrors('error creating the model in the server', 'error');
+        }
+        return redirect()->back();
+    }
+    public function destroy(int $productId, Request $request)
+    {
+        try {
+            Product::destroy($productId);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors('error deleting the product', 'error');
         }
         return redirect()->back();
     }

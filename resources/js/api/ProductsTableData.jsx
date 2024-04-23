@@ -1,5 +1,5 @@
 import { MoreHorizontal } from "lucide-react";
-
+import { Link } from "@inertiajs/inertia-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -54,19 +54,30 @@ export const columns = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuContent
+                        align="end"
+                        className="bg-orangeButton"
+                    >
+                        <DropdownMenuLabel className="text-white">
+                            Actions
+                        </DropdownMenuLabel>
                         <DropdownMenuItem
                             onClick={() =>
                                 navigator.clipboard.writeText(product.productId)
                             }
+                            className="text-white hover:text-indigo-600"
                         >
                             Copy Product ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>
-                            View payment details
+                        <DropdownMenuItem className="text-white hover:text-indigo-600">
+                            <Link
+                                href={`/distributor/products/${product.productId}`}
+                                method="delete"
+                                as="button"
+                            >
+                                Delete product
+                            </Link>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

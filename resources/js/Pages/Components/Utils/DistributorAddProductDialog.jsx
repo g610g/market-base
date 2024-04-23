@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Inertia } from "@inertiajs/inertia";
-
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 import {
     Select,
     SelectContent,
@@ -43,6 +44,7 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
 function DistributorAddProductDialog({ brandsData }) {
     const [brand, setBrand] = useState("");
     const [image, setImage] = useState();
+    const { toast } = useToast();
     const { errors, flash } = usePage().props;
     //filters the product types base on the selected brand
     const productTypes = brandsData.filter((brandItem) => {
@@ -81,7 +83,13 @@ function DistributorAddProductDialog({ brandsData }) {
     //the submithandler when trying to add the product into the server
     function handleFormSubmit(data) {
         const modifiedData = { ...data, image: data.image[0] };
-        console.log(modifiedData);
+        toast({
+            variant: "destructive",
+            className: "bg-orangeButton text-white ",
+            title: "Form Submission",
+            description: "form submmitted in the server.",
+            action: <ToastAction altText="Continue">Continue</ToastAction>,
+        });
         Inertia.post("/distributor/inventory", modifiedData, {
             preserveState: false,
         });
