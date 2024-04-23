@@ -29,9 +29,9 @@ function DeactivateDistributorDialog() {
             </AlertDialogCancel>
         <AlertDialogHeader>
             <DeleteIcon className="self-center"/>
-        <AlertDialogTitle className="block text-white font-league text-2xl self-center">Are you sure you want to delete?</AlertDialogTitle>
+        <AlertDialogTitle className="block text-white font-league text-2xl self-center">Are you sure you want to deactivate?</AlertDialogTitle>
         <AlertDialogDescription className="text-center text-white font-league font-light text-lg">
-            This action cannot be undone. Proceeding this action would also cascade the products you added.
+            Proceeding this action would also delete your brands and inventory.
         </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
