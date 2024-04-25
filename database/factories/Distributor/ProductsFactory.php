@@ -22,6 +22,7 @@ class ProductsFactory extends Factory
             'description' => fake()->sentence(10),
             'price' => fake()->numberBetween(1, 20000),
             'variant' => fake()->word(),
+            'quantity' => fake()->numberBetween(1, 500),
         ];
     }
     public function associate(Distributor $distributor): Factory

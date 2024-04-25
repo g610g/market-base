@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/cart', function () {
             return Inertia::render('Components/Core/MyCart');
         });
+        Route::get('product/{product}', [ProductsController::class, 'show']);
         Route::get('/transaction', function () {
             return Inertia::render('Components/Core/Transactions');
         });

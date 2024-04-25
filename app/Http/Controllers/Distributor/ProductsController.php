@@ -10,6 +10,7 @@ use App\Models\Distributor\ProductType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class ProductsController extends Controller
 {
@@ -21,11 +22,7 @@ class ProductsController extends Controller
         }
         //get the inventory of the distributor
         $inventory = $distributor->inventory;
-        if (is_null($inventory)) {
-            $inventory = $distributor->inventory()->create([
-                'products_quantity' => 0
-            ]);
-        }
+
         //gets the brand of the user base on its name in the request
         $productBrand = $distributor->brands()->where('brand_name', $request->brandName)->first();
         $productType = ProductType::where('product_type', $request->productType)->first();
@@ -42,6 +39,8 @@ class ProductsController extends Controller
                 'brand_id' => $productBrand->brand_id,
                 'type_id' => $productType->id,
                 'photo_path' => $path,
+                //add quantity here
+                'quantity' => rand(2, 500),
                 'price' => $request->price,
                 ]);
         } catch (\Throwable $th) {
@@ -49,6 +48,26 @@ class ProductsController extends Controller
             // return redirect()->back()->withErrors('error creating the model in the server', 'error');
         }
         return redirect()->back();
+    }
+    public function show(Product $product, Request $request)
+    {
+        //transform to single model with variants array attribute
+        $product = Product::where('product_name', $product->product_name)
+                        ->with('productType')
+                        ->get()
+                        ->mapToGroups(function ($product) {
+                            return [$product->product_name => $product];
+                        })->map(function ($product) {
+                            $baseProduct = $product->first();
+                            $variants = $product->pluck('variant')->toArray();
+                            $prices = $product->pluck('price')->toArray();
+                            $quantities = $product->pluck('quantity')->toArray();
+                            $baseProduct->variant = $variants;
+                            $baseProduct->prices = $prices;
+                            $baseProduct->quantity = $quantities;
+                            return $baseProduct;
+                        })->values()->first();
+        return Inertia::render('Components/Core/CustomerCart', ['productData' => $product]);
     }
     public function destroy(int $productId, Request $request)
     {
