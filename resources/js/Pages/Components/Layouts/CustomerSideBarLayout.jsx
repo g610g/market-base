@@ -12,7 +12,7 @@ import { Link, usePage } from "@inertiajs/inertia-react";
 import MarketBaseLogo from "../../../assets/market-base-secondary.svg?react";
 function CustomerSideBarLayout({ children }) {
     const { flash } = usePage().props;
-    const { url } = usePage();
+    const { url, component } = usePage();
     const iconDesign = "w-[2rem] h-[2rem]";
     console.log(flash);
     const sideBarItems = [
@@ -20,21 +20,25 @@ function CustomerSideBarLayout({ children }) {
             itemName: " Profile",
             href: "/customer",
             icon: <ProfileIcon className={iconDesign} />,
+            component: "Components/Core/CustomerProfile",
         },
         {
             itemName: "Shop",
             href: "/customer/shop",
             icon: <ShopIcon className={iconDesign} />,
+            component: "Components/Core/Shop",
         },
         {
             itemName: "Cart",
             href: "/customer/cart",
             icon: <CartIcon className={iconDesign} />,
+            component: "Components/Core/MyCart",
         },
         {
             itemName: "Transaction",
             href: "/customer/transaction",
             icon: <TransactionIcon className={iconDesign} />,
+            component: "Components/Core/Transactions",
         },
     ];
     return (
@@ -73,7 +77,7 @@ function CustomerSideBarLayout({ children }) {
                                             {item.itemName}
                                         </p>
                                     </Link>
-                                    {url.includes(item.href) ? (
+                                    {component === item.component ? (
                                         <Arrow />
                                     ) : (
                                         <DownArrow />

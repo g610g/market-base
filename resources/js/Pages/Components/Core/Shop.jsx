@@ -3,7 +3,8 @@ import CustomerSideBarLayout from "../Layouts/CustomerSideBarLayout";
 import CarouselMe from "./CarouselMe";
 import SearchIcon from "../../../assets/search.svg?react";
 import ShopItems from "../SubContent/ShopItems";
-function Shop() {
+function Shop({ products }) {
+    console.log(products);
     return (
         <main className=" max-h-screen h-screen items-center">
             <CarouselMe />

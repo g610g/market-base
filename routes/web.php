@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\MerchantStoreController;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Customer\ShopController;
 use App\Http\Controllers\Distributor\BrandController;
 use App\Http\Controllers\Distributor\DistributorController;
 use App\Http\Controllers\Distributor\ProductsController;
@@ -25,10 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ]);
     })->name('home.dashboard');
     Route::group(['prefix' => 'customer', 'middleware' => 'role:customer'], function () {
-        Route::get('/', [CustomerController::class, 'show'])->name('home.dashboard.customer');
-        Route::get('/shop', function () {
-            return Inertia::render('Components/Core/Shop');
-        });
+        Route::get('/', [CustomerController::class, 'show']);
+        Route::get('/shop', [ShopController::class, 'show'])->name('home.dashboard.customer');
         Route::get('/cart', function () {
             return Inertia::render('Components/Core/MyCart');
         });

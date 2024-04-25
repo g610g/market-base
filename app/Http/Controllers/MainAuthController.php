@@ -39,8 +39,7 @@ class MainAuthController extends Controller
         if ($user->role_id === Role::DISTRIBUTOR) {
             session(['is_validated' => true, 'is_guest' => false]);
             return redirect()->route('home.dashboard.distributor');
-        }
-        //add for guest role
+        } //add for guest role
         throw new HttpException(code: 404);
     }
     public function show()
@@ -75,7 +74,7 @@ class MainAuthController extends Controller
                 ]);
                 //creating empty inventory for new distributor
                 $distributorInstance->inventory()->create([
-                    'product_quantity' => 0
+                    'products_quantity' => 0
                 ]);
             } catch (\Throwable $th) {
                 return redirect()->back()->withErrors('error creating the user', 'error');
