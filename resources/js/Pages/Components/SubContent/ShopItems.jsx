@@ -2,14 +2,15 @@ import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Rating } from "@material-tailwind/react";
 import Vans from "../../../assets/vans.png";
-function ShopItems() {
+function ShopItems({ products }) {
+    console.log(products);
     return (
         <div className="w-full py-[4rem]">
             <p className="font-league text-white text-[2.5rem] font-semibold ">
                 Grocery
             </p>
             <div className="grid grid-cols-4  gap-x-2 gap-y-7 mt-3">
-                {Array.from({ length: 8 }).map((_, index) => (
+                {products.map((product, index) => (
                     <Card
                         className="h-[430px] bg-[#19273A] rounded-[.5rem] border-none  py-4 w-[350px] hover:bg-[#334756]"
                         key={index}
@@ -24,17 +25,17 @@ function ShopItems() {
                         <CardFooter>
                             <div className="py-3 w-full">
                                 <p className="font-league text-white font-semibold text-[1.4rem]">
-                                    Paracetamol Nga Vans
+                                    {product.product_name}
                                 </p>
                                 <p className="font-league text-white font-semibold text-lg">
-                                    EBotika Corporation
+                                    {product.brand}
                                 </p>
                                 <div className="flex w-full justify-between">
                                     <p className="font-league text-white font-light text-lg">
-                                        Pharmacy
+                                        {product.storeType}
                                     </p>
                                     <p className="font-league text-white font-light text-lg">
-                                        Pain Reliever
+                                        {product.type}
                                     </p>
                                 </div>
                                 <div className="mt-5 w-full flex justify-between">

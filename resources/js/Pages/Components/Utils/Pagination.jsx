@@ -1,9 +1,7 @@
 import { Link } from "@inertiajs/inertia-react";
-import React, { useState } from "react";
+import React from "react";
 
 function Pagination({ links, nextPage, prevPage }) {
-    const [hasSplit, setHasSplit] = useState(false);
-    const [splittedArray, setSplittedArray] = useState(null);
     return (
         <nav aria-label="Page navigation example" className="max-w-full">
             <ul class="flex items-center -space-x-px h-8 text-sm">

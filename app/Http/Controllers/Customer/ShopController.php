@@ -11,7 +11,7 @@ class ShopController extends Controller
 {
     public function show()
     {
-        $products = Product::inRandomOrder()->with(['productType.brandCategory.merchantStoreClass', 'brand'])
+        $products = Product::with(['productType.brandCategory.merchantStoreClass', 'brand'])
                             ->get()
                             ->reject(function ($product) {
                                 return !$product->is_available;
@@ -48,10 +48,10 @@ class ShopController extends Controller
             $products->count(),
             $perPage,
             $currentPage + 1,
-            // [
-            //     'path' => request()->url(),
-            //     'query' => request()->query()
-            // ]
+            [
+                'path' => request()->url(),
+                'query' => request()->query()
+            ]
         );
         return Inertia::render('Components/Core/Shop', ['products' =>  $productsPagination]);
     }
