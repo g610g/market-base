@@ -104,7 +104,8 @@ class ProductsController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage(), 'error');
         }
-        return redirect()->route('home.dashboard.customer');
+        // return redirect()->route('home.dashboard.customer');
+        return redirect()->back();
     }
     public function destroy(int $productId, Request $request)
     {

@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Inertia } from "@inertiajs/inertia";
 import Vans from "../../../assets/vans.png";
+import { ToastAction } from "@/components/ui/toast";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
     Select,
@@ -30,7 +31,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { useToast } from "@/components/ui/use-toast";
 import AddToCartDialogue from "../Utils/AddToCartDialogue";
 import { usePage } from "@inertiajs/inertia-react";
 
@@ -45,11 +46,8 @@ const formSchema = z.object({
 });
 
 function CustomerCart({ productData }) {
-    console.log(productData);
-    const { errors } = usePage().props;
-    console.log(errors);
     const [price, setPrice] = useState(0);
-
+    const { toast } = useToast();
     const format = () => {
         const amount = parseFloat(price);
         const formatted = new Intl.NumberFormat("en-PH", {
@@ -66,6 +64,17 @@ function CustomerCart({ productData }) {
         },
     });
     function onSubmit(data) {
+        toast({
+            variant: "destructive",
+            className: "bg-orangeButton text-white ",
+            title: "Product Added",
+            description: "product added to your cart.",
+            action: (
+                <ToastAction altText="Continue" className="">
+                    Continue
+                </ToastAction>
+            ),
+        });
         Inertia.post("/customer/add-to-cart", {
             ...data,
             productId: productData.product_id,
