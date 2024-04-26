@@ -2,20 +2,20 @@ import React from "react";
 
 import CancelIcon from "../../../assets/cancel.svg?react";
 import AddIcon from "../../../assets/add-cart.svg?react";
-import { Link } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
+import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-function AddToCartDialogue() {
+function AddToCartDialogue({ setCloseDialog }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger className="bg-[#FF4C29] h-[3rem] rounded text-white font-league font-semibold text-lg pt-3 p-9">
@@ -32,14 +32,14 @@ function AddToCartDialogue() {
                     </AlertDialogTitle>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <Link
-                        href="/customer/shop"
-                        as="button"
-                        method="get"
+                    <AlertDialogAction
                         className="w-[60%] bg-[#FF4C29] text-white font-league text-lg  hover:bg-indigo-600 p-3 rounded-[.5rem] text-center"
+                        onClick={() => {
+                            Inertia.reload({ preserveState: false });
+                        }}
                     >
                         Continue
-                    </Link>
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -4,12 +4,11 @@ import { Rating } from "@material-tailwind/react";
 import Vans from "../../../assets/vans.png";
 import { Link } from "@inertiajs/inertia-react";
 function ShopItems({ products }) {
-    console.log(products);
     return (
-        <div className="w-full py-[4rem]">
-            <p className="font-league text-white text-[2.5rem] font-semibold ">
+        <div className="w-full py-[4ShopItemsrem]">
+            {/* <p className="font-league text-white text-[2.5rem] font-semibold ">
                 Grocery
-            </p>
+            </p> */}
             <div className="grid grid-cols-4  gap-x-2 gap-y-7 mt-3">
                 {products.map((product, index) => (
                     <Link
@@ -18,7 +17,7 @@ function ShopItems({ products }) {
                         method="get"
                     >
                         <Card
-                            className="h-[430px] bg-[#19273A] rounded-[.5rem] border-none  py-4 w-[350px] hover:bg-[#334756]"
+                            className="h-[430px] bg-[#19273A] rounded-[.5rem] border-none  py-4 w-[350px] hover:bg-[#334756] shadow-lg"
                             key={index}
                         >
                             <CardContent className=" w-full flex justify-center p-0 ">

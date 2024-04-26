@@ -11,6 +11,7 @@ use App\Models\Distributor\Product;
 use App\Models\Distributor\ProductType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -68,10 +69,32 @@ class ProductsController extends Controller
                             $baseProduct->variant = $variants;
                             $baseProduct->prices = $prices;
                             $baseProduct->quantity = $quantities;
+                            $imagePath = explode('/', $baseProduct->photo_path)[7] ?? 'vans.png';
+                            $baseProduct->photo_path = base64_encode(Storage::get($imagePath));
                             return $baseProduct;
                         })->values()->first();
         //also get related products.
-        return Inertia::render('Components/Core/CustomerCart', ['productData' => $product]);
+        $mergedProducts = $product->productType
+                            ->products()
+                            ->with(['brand','productType.brandCategory.merchantStoreClass' ])
+                            ->get()
+                            ->merge($product->brand->products()
+                            ->with(['brand','productType.brandCategory.merchantStoreClass' ])
+                            ->get())->unique();
+
+        //transforms photo
+        $mergedProducts = $mergedProducts->map(function ($product) {
+            $imagePath = explode('/', $product->photo_path)[7] ?? 'vans.png';
+            $product->photo_path = base64_encode(Storage::get($imagePath));
+            return $product;
+        });
+        $paginationData = $this->createPagination($mergedProducts);
+        return Inertia::render(
+            'Components/Core/CustomerCart',
+            ['productData' => $product,
+            'paginationData' => $paginationData
+            ]
+        );
     }
     public function addCart(AddToCartRequest $request)
     {
@@ -104,6 +127,24 @@ class ProductsController extends Controller
         return redirect()->back();
     }
     //verifies if the product type exist on the brand given
+    private function createPagination($mergedProducts)
+    {
+        $perPage = 12;
+        $currentPage = request("page") ?? 1;
+        $currentPage = max(0, $currentPage - 1);
+        $slicedProducts = $mergedProducts->slice($currentPage * $perPage, $perPage)->values();
+        $productsPagination = new LengthAwarePaginator(
+            $slicedProducts,
+            $mergedProducts->count(),
+            $perPage,
+            $currentPage + 1,
+            [
+                'path' => request()->url(),
+                'query' => request()->query()
+            ]
+        );
+        return $productsPagination;
+    }
     private function productTypeIsVerified(Brand $productBrand, ProductType $productType): bool
     {
         $verified = $productType->brandCategory()
