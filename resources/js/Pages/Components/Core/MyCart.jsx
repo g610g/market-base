@@ -3,17 +3,6 @@ import CustomerSideBarLayout from "../Layouts/CustomerSideBarLayout";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { Button } from "@/components/ui/button";
-import ArrowIcon from "../../../assets/arrow.svg?react";
-import DeleteIcon from "../../../assets/trash.svg?react";
-
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,32 +15,98 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import OrderItemsDialogue from "../Utils/OrderItemsDialogue";
+import CartItem from "../Utils/CartItem";
 
 const formSchema = z.object({
-    addQuantity: z.string().min(2, {
-        message: "Quantity must be at least 2 characters.",
+    items: z.array(z.number()).refine((value) => value.some((item) => item), {
+        message: "You have to select at least one item.",
     }),
 });
 
 function MyCart({ cartData }) {
-    const [quantity, setQuantity] = useState(0);
     console.log(cartData);
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            addQuantity: quantity,
+            items: [],
         },
     });
-
+    function handleCartSubmit(data) {
+        console.log(data);
+    }
     return (
         <main className="max-h-screen h-screen flex flex-col px-2">
             <div className="flex flex-col space-y-7 w-full bg-slate-800 p-8 h-[85%]">
                 <label className="text-white font-league font-semibold text-4xl text-[1.7rem] pt-3">
                     My Cart
                 </label>
-                <div className="flex w-full bg-[#213243] h-[25%] p-5">
+                <div className="max-h-full overflow-auto">
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(handleCartSubmit)}>
+                            <FormField
+                                control={form.control}
+                                name="items"
+                                render={() => (
+                                    <FormItem>
+                                        {cartData.map((cartItem) => {
+                                            return (
+                                                <FormField
+                                                    key={cartItem.id}
+                                                    control={form.control}
+                                                    name="items"
+                                                    render={({ field }) => (
+                                                        <FormItem
+                                                            key={cartItem.id}
+                                                            className="flex items-center gap-3 bg-[#334756] px-3 py-2"
+                                                        >
+                                                            <FormControl>
+                                                                <Checkbox
+                                                                    className="text-white data-[state=checked:text-white"
+                                                                    checked={field.value?.includes(
+                                                                        cartItem.id
+                                                                    )}
+                                                                    onCheckedChange={(
+                                                                        checked
+                                                                    ) => {
+                                                                        return checked
+                                                                            ? field.onChange(
+                                                                                  [
+                                                                                      ...field.value,
+                                                                                      cartItem.id,
+                                                                                  ]
+                                                                              )
+                                                                            : field.onChange(
+                                                                                  field.value?.filter(
+                                                                                      (
+                                                                                          value
+                                                                                      ) =>
+                                                                                          value !==
+                                                                                          cartItem.id
+                                                                                  )
+                                                                              );
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                            <CartItem
+                                                                cartData={
+                                                                    cartItem
+                                                                }
+                                                            />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            );
+                                        })}
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* <Button type="submit">Order</Button> */}
+                        </form>
+                    </Form>
+                </div>
+                {/* <div className="flex w-full bg-[#213243] h-[25%] p-5">
                     <Checkbox className="ml-5 mr-10 border-white self-center" />
                     <div>
                         <img
@@ -134,7 +189,7 @@ function MyCart({ cartData }) {
                             </Button>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="flex flex-row gap-4 w-full bg-[#515E71] p-8 h-[11%]">
                 <div className="p-3">

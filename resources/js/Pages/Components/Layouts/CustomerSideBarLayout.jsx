@@ -13,7 +13,6 @@ function CustomerSideBarLayout({ children }) {
     const { flash } = usePage().props;
     const { url, component } = usePage();
     const iconDesign = "w-[2rem] h-[2rem]";
-    console.log(flash);
     const sideBarItems = [
         {
             itemName: " Profile",

@@ -52,7 +52,6 @@ function CustomerCart({ productData, paginationData }) {
     const [showCard, setShowCard] = useState(false);
     const [closeDialog, setCloseDialog] = useState(false);
     const { errors } = usePage().props;
-    console.log(errors);
     const format = () => {
         const amount = parseFloat(price);
         const formatted = new Intl.NumberFormat("en-PH", {
