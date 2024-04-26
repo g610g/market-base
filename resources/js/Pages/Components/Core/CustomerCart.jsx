@@ -51,7 +51,8 @@ function CustomerCart({ productData, paginationData }) {
     const { toast } = useToast();
     const [showCard, setShowCard] = useState(false);
     const [closeDialog, setCloseDialog] = useState(false);
-    console.log(paginationData.data);
+    const { errors } = usePage().props;
+    console.log(errors);
     const format = () => {
         const amount = parseFloat(price);
         const formatted = new Intl.NumberFormat("en-PH", {

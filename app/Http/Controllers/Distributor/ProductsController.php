@@ -43,7 +43,6 @@ class ProductsController extends Controller
                 'brand_id' => $productBrand->brand_id,
                 'type_id' => $productType->id,
                 'photo_path' => $path,
-                //add quantity here
                 'quantity' => rand(2, 500),
                 'price' => $request->price,
                 ]);
@@ -98,6 +97,8 @@ class ProductsController extends Controller
     }
     public function addCart(AddToCartRequest $request)
     {
+        // Cache::forget("{$request->user()->id}cart");
+        // return redirect()->back();
         if (!Cache::has("{$request->user()->id}cart")) {
             try {
                 $cart = $this->storeCart($request);
@@ -106,14 +107,15 @@ class ProductsController extends Controller
             } catch (\Throwable $th) {
                 return redirect()->back()->withErrors($th->getMessage(), 'error');
             }
+            return redirect()->back();
         }
         $cartCollection = Cache::get("{$request->user()->id}cart");
         try {
-            $cart = $$this->storeCart($request);
+            $cart = $this->storeCart($request);
             $cartCollection->push($cart);
             Cache::put("{$request->user()->id}cart", $cartCollection, now()->addHours(10));
         } catch (\Throwable $th) {
-            return redirect()->back()->withErrors($th->getMessage(), 'error');
+            return redirect()->back()->withErrors('error', 'error');
         }
         return redirect()->back();
     }
@@ -162,7 +164,7 @@ class ProductsController extends Controller
     private function storeCart(AddToCartRequest $request): Cart
     {
         $product = Product::find($request->productId);
-        $imagePath = explode('/', $product->photo_path)[7];
+        $imagePath = explode('/', $product->photo_path)[7] ?? 'vans.png';
         $price = floatval($request->productPrice);
         $cart = Cart::create([
             'customer_id' => $request->user()->id,
@@ -170,9 +172,11 @@ class ProductsController extends Controller
             'quantity' => $request->productQuantity,
             'product_variant' => $request->productVariant,
             'status' => 'pending',
-            'product_photo' => Storage::get($imagePath),
+            'product_photo' => $product->photo_path,
             'product_price' => $price,
         ]);
+        $cart->product_photo = base64_encode(Storage::get($imagePath));
         return $cart;
+
     }
 }
