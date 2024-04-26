@@ -42,7 +42,7 @@ function CustomerSideBarLayout({ children }) {
         },
     ];
     return (
-        <div className=" max-h-screen h-screen overflow-hidden">
+        <div className=" max-h-screen h-screen overflow-hidden" scroll-region>
             <div
                 id="top-notif"
                 className="h-[7%] text-center text-white bg-[#19273A] flex w-full max-w-full justify-end py-4 px-5"
@@ -97,7 +97,10 @@ function CustomerSideBarLayout({ children }) {
                         </p>
                     </div>
                 </div>
-                <div className="flex-1 bg-[#082032] px-[3rem] py-[3rem] overflow-auto">
+                <div
+                    className="flex-1 bg-[#082032] px-[3rem] py-[3rem] overflow-auto"
+                    scroll-region
+                >
                     {children}
                 </div>
             </div>

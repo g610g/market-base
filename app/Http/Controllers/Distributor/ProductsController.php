@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Customer\AddToCartRequest;
 use App\Http\Requests\Distributor\AddProductRequest;
+use App\Models\Customer\Cart;
 use App\Models\Distributor\Brand;
 use App\Models\Distributor\Product;
 use App\Models\Distributor\ProductType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -67,7 +70,41 @@ class ProductsController extends Controller
                             $baseProduct->quantity = $quantities;
                             return $baseProduct;
                         })->values()->first();
+        //also get related products.
         return Inertia::render('Components/Core/CustomerCart', ['productData' => $product]);
+    }
+    public function addCart(AddToCartRequest $request)
+    {
+        if (!Cache::has("{$request->user()->id}cart")) {
+            try {
+                $cart = Cart::create([
+                    'customer_id' => $request->user()->id,
+                    'product_id' => $request->productId,
+                    'quantity' => $request->productQuantity,
+                    'product_variant' => $request->productVariant,
+                    'status' => 'pending'
+                ]);
+                $cartCollection = collect([$cart]);
+                Cache::put("{$request->user()->id}cart", $cartCollection, now()->addHours(10));
+            } catch (\Throwable $th) {
+                return redirect()->back()->withErrors($th->getMessage(), 'error');
+            }
+        }
+        $cartCollection = Cache::get("{$request->user()->id}cart");
+        try {
+            $cart = Cart::create([
+                'customer_id' => $request->user()->id,
+                'product_id' => $request->productId,
+                'quantity' => $request->productQuantity,
+                'product_variant' => $request->productVariant,
+                'status' => 'pending'
+            ]);
+            $cartCollection->push($cart);
+            Cache::put("{$request->user()->id}cart", $cartCollection, now()->addHours(10));
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors($th->getMessage(), 'error');
+        }
+        return redirect()->route('home.dashboard.customer');
     }
     public function destroy(int $productId, Request $request)
     {

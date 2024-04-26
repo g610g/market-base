@@ -4,17 +4,15 @@ import { Rating } from "@material-tailwind/react";
 
 import { Button } from "@/components/ui/button";
 import CancelIcon from "../../../assets/cancel.svg?react";
-import ArrowIcon from "../../../assets/arrow.svg?react";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Textarea } from "@/components/ui/textarea";
-
+import { Inertia } from "@inertiajs/inertia";
 import Vans from "../../../assets/vans.png";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-
 import {
     Select,
     SelectContent,
@@ -34,39 +32,50 @@ import {
 import { Input } from "@/components/ui/input";
 
 import AddToCartDialogue from "../Utils/AddToCartDialogue";
+import { usePage } from "@inertiajs/inertia-react";
 
 const formSchema = z.object({
-    productDescription: z.string().min(2, {
-        message: "Product Description must be at least 2 characters.",
-    }),
     productVariant: z.string().min(2, {
         message: "Product Variant must be at least 2 characters.",
     }),
-    productQuantity: z.string().min(2, {
-        message: "Product Quantity must be at least 2 characters.",
-    }),
-    productPrice: z.string().min(2, {
-        message: "Product Price must be at least 2 characters.",
-    }),
+    productQuantity: z.coerce
+        .number()
+        .min(1, { message: "Price must be a positive number" })
+        .max(1000000, { message: "Max of 1 million only" }),
 });
 
 function CustomerCart({ productData }) {
     console.log(productData);
-    const [quantity, setQuantity] = useState(0);
+    const { errors } = usePage().props;
+    console.log(errors);
     const [price, setPrice] = useState(0);
 
+    const format = () => {
+        const amount = parseFloat(price);
+        const formatted = new Intl.NumberFormat("en-PH", {
+            style: "currency",
+            currency: "PHP",
+        }).format(amount);
+        return formatted;
+    };
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            productDescription: "",
+            productQuantity: "",
             productVariant: "",
-            productQuantity: quantity,
-            productPrice: "",
         },
     });
-
+    function onSubmit(data) {
+        Inertia.post("/customer/add-to-cart", {
+            ...data,
+            productId: productData.product_id,
+        });
+    }
     return (
-        <main className="max-h-screen h-screen flex flex-col px-2">
+        <main
+            className="max-h-screen h-screen flex flex-col px-2"
+            scroll-region
+        >
             <div
                 className="flex w-full bg-slate-800 p-8 h-[50%]"
                 id="product-details-section"
@@ -106,12 +115,12 @@ function CustomerCart({ productData }) {
                         />
                     </div>
                     <Form {...form}>
-                        <form onSubmit={() => {}}>
-                            <div className="flex gap-4">
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                            <div className="flex gap-4 ">
                                 <div className="mt-3">
                                     <FormField
                                         control={form.control}
-                                        name="variant"
+                                        name="productVariant"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="block text-white font-league font-light text-xl mb-2">
@@ -165,29 +174,11 @@ function CustomerCart({ productData }) {
                                         )}
                                     />
                                 </div>
-                                <div>
-                                    <div className="flex-1 space-y-5 mt-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="productQuantity"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel className="block text-white font-league font-light text-xl mb-2">
-                                                        Quantity
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                        <Input
-                                                            placeholder="2184"
-                                                            className="w-full h-[3rem] py-2 px-3 bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
-                                                    <FormMessage className="text-red-500" />
-                                                </FormItem>
-                                            )}
-                                        />
+                                {/* <div className="flex-1">
+                                    <div className="flex-1 space-y-5 ">
+                                        <div className="w-full h-[3rem] py-2 px-3 bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm"></div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="flex flex-row">
                                 <div>
@@ -202,7 +193,7 @@ function CustomerCart({ productData }) {
                                                     </FormLabel>
                                                     <FormControl>
                                                         <p className="w-full h-[3rem] py-2 px-3 bg-[#213243] border-[#082032] font-league font-light text-lg text-[#B1B1B1] rounded-sm">
-                                                            {price}
+                                                            {format()}
                                                         </p>
                                                     </FormControl>
                                                     <FormMessage className="text-red-500" />
@@ -211,11 +202,11 @@ function CustomerCart({ productData }) {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex space-x-2 pl-4 pt-12 w-[30%]">
+                                <div className="flex space-x-2 pl-4  h-[95px] pt-12 w-[30%]">
                                     <div className="flex space-y-5 w-full">
                                         <FormField
                                             control={form.control}
-                                            name="addQuantity"
+                                            name="productQuantity"
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormControl>
@@ -232,16 +223,13 @@ function CustomerCart({ productData }) {
                                             )}
                                         />
                                     </div>
-                                    {/* <Button
-                                        variant="outline"
-                                        className="rounded p-3 bg-[#213243] border-none"
-                                    >
-                                        <ArrowIcon />
-                                    </Button> */}
                                 </div>
-                                <div className="mt-11 ml-[190px]">
+                                <Button
+                                    className="mt-11 ml-[190px]"
+                                    type="submit"
+                                >
                                     <AddToCartDialogue />
-                                </div>
+                                </Button>
                             </div>
                         </form>
                     </Form>

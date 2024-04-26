@@ -15,6 +15,7 @@ use App\Models\Distributor\ProductType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
@@ -28,8 +29,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'customer', 'middleware' => 'role:customer'], function () {
         Route::get('/', [CustomerController::class, 'show']);
         Route::get('/shop', [ShopController::class, 'show'])->name('home.dashboard.customer');
-        Route::get('/cart', function () {
-            return Inertia::render('Components/Core/MyCart');
+        Route::post('/add-to-cart', [ProductsController::class, 'addCart']);
+        Route::get('/cart', function (Request $request) {
+            $carts = Cache::get("{$request->user()->id}cart", 'hello world');
+            return Inertia::render('Components/Core/MyCart', ['cartData' => $carts]);
         });
         Route::get('product/{product}', [ProductsController::class, 'show']);
         Route::get('/transaction', function () {

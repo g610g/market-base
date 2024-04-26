@@ -35,9 +35,9 @@ const formSchema = z.object({
     }),
 });
 
-function MyCart() {
+function MyCart({ cartData }) {
     const [quantity, setQuantity] = useState(0);
-
+    console.log(cartData);
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {

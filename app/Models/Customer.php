@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Customer\Cart;
 use App\Models\Customer\Rating;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,5 +29,9 @@ class Customer extends Model
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class, 'customer_id', 'customer_id');
+    }
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class, 'customer_id', 'customer_id');
     }
 }
