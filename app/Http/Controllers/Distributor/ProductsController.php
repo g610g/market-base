@@ -77,13 +77,7 @@ class ProductsController extends Controller
     {
         if (!Cache::has("{$request->user()->id}cart")) {
             try {
-                $cart = Cart::create([
-                    'customer_id' => $request->user()->id,
-                    'product_id' => $request->productId,
-                    'quantity' => $request->productQuantity,
-                    'product_variant' => $request->productVariant,
-                    'status' => 'pending'
-                ]);
+                $cart = $this->storeCart($request);
                 $cartCollection = collect([$cart]);
                 Cache::put("{$request->user()->id}cart", $cartCollection, now()->addHours(10));
             } catch (\Throwable $th) {
@@ -92,19 +86,12 @@ class ProductsController extends Controller
         }
         $cartCollection = Cache::get("{$request->user()->id}cart");
         try {
-            $cart = Cart::create([
-                'customer_id' => $request->user()->id,
-                'product_id' => $request->productId,
-                'quantity' => $request->productQuantity,
-                'product_variant' => $request->productVariant,
-                'status' => 'pending'
-            ]);
+            $cart = $$this->storeCart($request);
             $cartCollection->push($cart);
             Cache::put("{$request->user()->id}cart", $cartCollection, now()->addHours(10));
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors($th->getMessage(), 'error');
         }
-        // return redirect()->route('home.dashboard.customer');
         return redirect()->back();
     }
     public function destroy(int $productId, Request $request)
@@ -130,5 +117,21 @@ class ProductsController extends Controller
             return false;
         }
         return true;
+    }
+    private function storeCart(AddToCartRequest $request): Cart
+    {
+        $product = Product::find($request->productId);
+        $imagePath = explode('/', $product->photo_path)[7];
+        $price = floatval($request->productPrice);
+        $cart = Cart::create([
+            'customer_id' => $request->user()->id,
+            'product_id' => $request->productId,
+            'quantity' => $request->productQuantity,
+            'product_variant' => $request->productVariant,
+            'status' => 'pending',
+            'product_photo' => Storage::get($imagePath),
+            'product_price' => $price,
+        ]);
+        return $cart;
     }
 }

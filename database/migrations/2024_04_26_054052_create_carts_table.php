@@ -16,6 +16,7 @@ return new class () extends Migration {
                 ->constrained('customers', 'customer_id');
             $table->string('product_id')->nullable(false);
             $table->string('status');
+            $table->decimal('product_price', 8, 2)->nullable(false);
             $table->integer('quantity');
             $table->string('product_variant');
             $table->timestamps();

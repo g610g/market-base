@@ -15,7 +15,8 @@ class Cart extends Model
         'status',
         'customer_id',
         'product_id',
-        'product_variant'
+        'product_variant',
+        'product_price'
     ];
     public function customer(): BelongsTo
     {

@@ -11,7 +11,6 @@ use App\Http\Controllers\Distributor\ProductsController;
 use App\Http\Controllers\Guest\AuthController as AppAuthController;
 use App\Http\Controllers\MainAuthController;
 use App\Models\Distributor\Distributor;
-use App\Models\Distributor\ProductType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/shop', [ShopController::class, 'show'])->name('home.dashboard.customer');
         Route::post('/add-to-cart', [ProductsController::class, 'addCart']);
         Route::get('/cart', function (Request $request) {
-            $carts = Cache::get("{$request->user()->id}cart", 'hello world');
+            $carts = Cache::get("{$request->user()->id}cart", null);
             return Inertia::render('Components/Core/MyCart', ['cartData' => $carts]);
         });
         Route::get('product/{product}', [ProductsController::class, 'show']);
@@ -108,6 +107,6 @@ Route::get('/routes', function () {
 Route::get('/testing', function () {
     $distributor = Distributor::inRandomOrder()->with('user')->first();
     $inventoryWithProducts = $distributor->inventory()->with('products')->get();
-    return ProductType::all();
+    return fake()->imageUrl(500);
     // return ['distributor' => $distributor, 'inventory' => $inventoryWithProducts];
 });

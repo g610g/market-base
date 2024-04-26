@@ -32,11 +32,14 @@ function AddToCartDialogue() {
                     </AlertDialogTitle>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <div className="w-[60%] bg-[#FF4C29] text-white font-league text-lg  hover:bg-indigo-600 p-3 rounded-[.5rem] text-center">
-                        <Link href="/customer/shop" as="button" method="get">
-                            Continue
-                        </Link>
-                    </div>
+                    <Link
+                        href="/customer/shop"
+                        as="button"
+                        method="get"
+                        className="w-[60%] bg-[#FF4C29] text-white font-league text-lg  hover:bg-indigo-600 p-3 rounded-[.5rem] text-center"
+                    >
+                        Continue
+                    </Link>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

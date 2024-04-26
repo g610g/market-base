@@ -78,6 +78,7 @@ function CustomerCart({ productData }) {
         Inertia.post("/customer/add-to-cart", {
             ...data,
             productId: productData.product_id,
+            productPrice: price,
         });
     }
     return (
