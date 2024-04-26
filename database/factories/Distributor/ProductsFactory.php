@@ -15,7 +15,6 @@ class ProductsFactory extends Factory
     protected $model = Product::class;
     public function definition(): array
     {
-
         return [
             'is_available' => Arr::random([true, false]),
             'product_name' => fake()->word(),
@@ -23,6 +22,7 @@ class ProductsFactory extends Factory
             'price' => fake()->numberBetween(1, 20000),
             'variant' => fake()->word(),
             'quantity' => fake()->numberBetween(1, 500),
+            'photo_path' => fake()->image(storage_path('app/productImages'), 500)
         ];
     }
     public function associate(Distributor $distributor): Factory

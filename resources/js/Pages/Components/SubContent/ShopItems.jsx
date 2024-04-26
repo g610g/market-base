@@ -23,8 +23,8 @@ function ShopItems({ products }) {
                         >
                             <CardContent className=" w-full flex justify-center p-0 ">
                                 <img
-                                    src={Vans}
-                                    alt="IDK"
+                                    src={`data:image/jpeg;base64,${product.photo}`}
+                                    alt="Product Photo"
                                     className="w-[257px] h-[257px] "
                                 />
                             </CardContent>

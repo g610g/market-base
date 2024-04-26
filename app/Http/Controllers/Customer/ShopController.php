@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\Distributor\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ShopController extends Controller
@@ -25,12 +26,13 @@ class ShopController extends Controller
                 $productsAppended[$product->product_name]['price'][] = $product->price;
                 return;
             }
+            $image_path = explode('/', $product->photo_path)[7];
+            // dd(Storage::disk()->get($image_path));
             $productsAppended[$product->product_name] = [
                 'description' => $product->description,
                 'id' => $product->product_id,
                 'product_name' => $product->product_name,
-                //change the photo to return the actual photo not the path of the photo
-                'photo' => null,
+                'photo' => base64_encode(Storage::get($image_path)),
                 'price' => [$product->price],
                 'variants' => [$product->variant],
                 'type' => $product->productType->product_type,
