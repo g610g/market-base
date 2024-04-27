@@ -26,12 +26,12 @@ class ShopController extends Controller
                 $productsAppended[$product->product_name]['price'][] = $product->price;
                 return;
             }
-            $image_path = explode('/', $product->photo_path)[7] ?? 'default.jpg' ;
+            // $image_path = explode('/', $product->photo_path)[7] ?? 'default.jpg' ;
             $productsAppended[$product->product_name] = [
                 'description' => $product->description,
                 'id' => $product->product_id,
                 'product_name' => $product->product_name,
-                'photo' => base64_encode(Storage::get($image_path)),
+                'photo' => base64_encode(Storage::get($product->photo_path)),
                 'price' => [$product->price],
                 'variants' => [$product->variant],
                 'type' => $product->productType->product_type,

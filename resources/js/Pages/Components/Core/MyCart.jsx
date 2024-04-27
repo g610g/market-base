@@ -70,7 +70,7 @@ function MyCart({ cartData }) {
                     My Cart
                 </label>
                 <div className=" overflow-auto">
-                    {cartData.length !== 0 ? (
+                    {cartData && cartData?.length !== 0 ? (
                         <div className="overflow-auto">
                             <Form {...form}>
                                 <form
@@ -84,7 +84,7 @@ function MyCart({ cartData }) {
                                         name="items"
                                         render={() => (
                                             <FormItem>
-                                                {cartData.map((cartItem) => {
+                                                {cartData?.map((cartItem) => {
                                                     return (
                                                         <FormField
                                                             key={cartItem.id}

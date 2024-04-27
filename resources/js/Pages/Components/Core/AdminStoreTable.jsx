@@ -22,7 +22,7 @@ function AdminStoreTable({ data }) {
     return (
         <div className=" max-h-full overflow-auto rounded-2xl">
             <Table>
-                <TableHeader className="bg-[#19273A] text-white font-league font-bold text-2xl">
+                <TableHeader className="bg-[#19273A] text-white font-league font-bold text-2xl p-4">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {

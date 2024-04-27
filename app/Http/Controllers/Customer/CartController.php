@@ -37,7 +37,7 @@ class CartController extends Controller
             $cartCollection->push($cart);
             Cache::put("{$request->user()->id}cart", $cartCollection, now()->addHours(10));
         } catch (\Throwable $th) {
-            return redirect()->back()->withErrors('error', 'error');
+            return redirect()->back()->withErrors($th->getMessage(), 'error');
         }
         return redirect()->back();
     }
@@ -64,7 +64,6 @@ class CartController extends Controller
     private function storeCart(AddToCartRequest $request): Cart
     {
         $product = Product::find($request->productId);
-        $imagePath = explode('/', $product->photo_path)[7] ?? 'default.png';
         $price = floatval($request->productPrice);
         $totalPrice = $price * $request->productQuantity;
         $cart = Cart::create([
@@ -78,7 +77,7 @@ class CartController extends Controller
             'total_price' => $totalPrice,
             'product_price' => $price,
             ]);
-        $cart->product_photo = base64_encode(Storage::get($imagePath));
+        $cart->product_photo = base64_encode(Storage::get($product->photo_path));
 
         return $cart;
 

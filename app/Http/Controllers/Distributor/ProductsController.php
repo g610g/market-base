@@ -34,7 +34,7 @@ class ProductsController extends Controller
             return redirect()->back()->withErrors('error creating the product in the server', 'error');
         }
         try {
-            $path = Storage::putFile('productImages', $request->file('image'));
+            $path = Storage::putFile('', $request->file('image'));
             $product = $inventory->products()->create([
                 'product_name' => $request->productName,
                 'is_available' => true,
@@ -67,8 +67,7 @@ class ProductsController extends Controller
                             $baseProduct->variant = $variants;
                             $baseProduct->prices = $prices;
                             $baseProduct->quantity = $quantities;
-                            $imagePath = explode('/', $baseProduct->photo_path)[7] ?? 'vans.png';
-                            $baseProduct->photo_path = base64_encode(Storage::get($imagePath));
+                            $baseProduct->photo_path = base64_encode(Storage::get($baseProduct->photo_path));
                             return $baseProduct;
                         })->values()->first();
         //also get related products.
@@ -82,8 +81,9 @@ class ProductsController extends Controller
 
         //transforms photo
         $mergedProducts = $mergedProducts->map(function ($product) {
-            $imagePath = explode('/', $product->photo_path)[7] ?? 'vans.png';
-            $product->photo_path = base64_encode(Storage::get($imagePath));
+            // dd($product->photo_path);
+            // $imagePath = explode('/', $product->photo_path)[7] ?? 'default.jpg';
+            $product->photo_path = base64_encode(Storage::get($product->photo_path));
             return $product;
         });
         $paginationData = $this->createPagination($mergedProducts);
