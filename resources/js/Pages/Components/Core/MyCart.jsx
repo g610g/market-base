@@ -49,8 +49,8 @@ function MyCart({ cartData }) {
         toast({
             variant: "destructive",
             className: "bg-orangeButton text-white ",
-            title: "Form Submission",
-            description: "form submmitted in the server.",
+            title: "Order Products",
+            description: "products has been added to order lists.",
             action: (
                 <ToastAction altText="Continue" className="">
                     Continue
@@ -70,101 +70,109 @@ function MyCart({ cartData }) {
                     My Cart
                 </label>
                 <div className=" overflow-auto">
-                    {cartData ? (
-                        <Form {...form}>
-                            <form
-                                className="  "
-                                onSubmit={form.handleSubmit(handleCartSubmit)}
-                            >
-                                <FormField
-                                    control={form.control}
-                                    name="items"
-                                    render={() => (
-                                        <FormItem>
-                                            {cartData.map((cartItem) => {
-                                                return (
-                                                    <FormField
-                                                        key={cartItem.id}
-                                                        control={form.control}
-                                                        name="items"
-                                                        render={({ field }) => (
-                                                            <FormItem
-                                                                key={
-                                                                    cartItem.id
-                                                                }
-                                                                className="flex items-center gap-3 bg-[#334756] px-3 py-2"
-                                                            >
-                                                                <FormControl>
-                                                                    <Checkbox
-                                                                        className="text-white data-[state=checked:text-white"
-                                                                        checked={field.value?.includes(
-                                                                            cartItem.id
-                                                                        )}
-                                                                        onCheckedChange={(
-                                                                            checked
-                                                                        ) => {
-                                                                            if (
+                    {cartData.length !== 0 ? (
+                        <div className="overflow-auto">
+                            <Form {...form}>
+                                <form
+                                    className="  "
+                                    onSubmit={form.handleSubmit(
+                                        handleCartSubmit
+                                    )}
+                                >
+                                    <FormField
+                                        control={form.control}
+                                        name="items"
+                                        render={() => (
+                                            <FormItem>
+                                                {cartData.map((cartItem) => {
+                                                    return (
+                                                        <FormField
+                                                            key={cartItem.id}
+                                                            control={
+                                                                form.control
+                                                            }
+                                                            name="items"
+                                                            render={({
+                                                                field,
+                                                            }) => (
+                                                                <FormItem
+                                                                    key={
+                                                                        cartItem.id
+                                                                    }
+                                                                    className="flex items-center gap-3 bg-[#334756] px-3 py-2"
+                                                                >
+                                                                    <FormControl>
+                                                                        <Checkbox
+                                                                            className="text-white data-[state=checked:text-white"
+                                                                            checked={field.value?.includes(
+                                                                                cartItem.id
+                                                                            )}
+                                                                            onCheckedChange={(
                                                                                 checked
-                                                                            ) {
-                                                                                field.onChange(
-                                                                                    [
-                                                                                        ...field.value,
-                                                                                        cartItem.id,
-                                                                                    ]
-                                                                                );
+                                                                            ) => {
+                                                                                if (
+                                                                                    checked
+                                                                                ) {
+                                                                                    field.onChange(
+                                                                                        [
+                                                                                            ...field.value,
+                                                                                            cartItem.id,
+                                                                                        ]
+                                                                                    );
+                                                                                    setTotalPrice(
+                                                                                        totalPrice +
+                                                                                            cartItem.total_price
+                                                                                    );
+                                                                                    return;
+                                                                                }
                                                                                 setTotalPrice(
-                                                                                    totalPrice +
+                                                                                    totalPrice -
                                                                                         cartItem.total_price
                                                                                 );
-                                                                                return;
-                                                                            }
-                                                                            setTotalPrice(
-                                                                                totalPrice -
-                                                                                    cartItem.total_price
-                                                                            );
-                                                                            field.onChange(
-                                                                                field.value?.filter(
-                                                                                    (
-                                                                                        value
-                                                                                    ) =>
-                                                                                        value !==
-                                                                                        cartItem.id
-                                                                                )
-                                                                            );
-                                                                        }}
+                                                                                field.onChange(
+                                                                                    field.value?.filter(
+                                                                                        (
+                                                                                            value
+                                                                                        ) =>
+                                                                                            value !==
+                                                                                            cartItem.id
+                                                                                    )
+                                                                                );
+                                                                            }}
+                                                                        />
+                                                                    </FormControl>
+                                                                    <CartItem
+                                                                        cartData={
+                                                                            cartItem
+                                                                        }
                                                                     />
-                                                                </FormControl>
-                                                                <CartItem
-                                                                    cartData={
-                                                                        cartItem
-                                                                    }
-                                                                />
-                                                            </FormItem>
-                                                        )}
-                                                    />
-                                                );
-                                            })}
-                                            <FormMessage className="text-red-600 font-bold" />
-                                        </FormItem>
-                                    )}
-                                />
-                                <div className="flex flex-row gap-4  justify-end w-full bg-[#515E71] p-8">
-                                    <div className="text-[#FF4C29] font-league font-semibold text-2xl flex flex-row mt-2">
-                                        Total:
-                                        <p className="text-white pl-2">
-                                            {format()}
-                                        </p>
-                                    </div>
+                                                                </FormItem>
+                                                            )}
+                                                        />
+                                                    );
+                                                })}
+                                                <FormMessage className="text-red-600 font-bold" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <div className="flex flex-row gap-4  justify-end w-full bg-[#515E71] p-8">
+                                        <div className="text-[#FF4C29] font-league font-semibold text-2xl flex flex-row mt-2">
+                                            Total:
+                                            <p className="text-white pl-2">
+                                                {format()}
+                                            </p>
+                                        </div>
 
-                                    <Button
-                                        type="submit"
-                                        className="bg-orangeButton rounded-[.5rem] text-white text-xl p-3 hover:bg-indigo-600"
-                                    >
-                                        Order Now
-                                    </Button>
-                                </div>
-                            </form>
-                        </Form>
+                                        <Button
+                                            type="submit"
+                                            className="bg-orangeButton rounded-[.5rem] text-white text-xl p-3 hover:bg-indigo-600"
+                                        >
+                                            Order Now
+                                        </Button>
+                                    </div>
+                                </form>
+                            </Form>
+                        </div>
                     ) : (
                         <></>
                     )}
