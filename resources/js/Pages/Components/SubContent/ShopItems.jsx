@@ -15,6 +15,7 @@ function ShopItems({ products }) {
                         as="button"
                         href={`/customer/product/${product.id}`}
                         method="get"
+                        key={index}
                     >
                         <Card
                             className="h-[430px] bg-[#19273A] rounded-[.5rem] border-none  py-4 w-[350px] hover:bg-[#334756] shadow-lg"

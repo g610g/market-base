@@ -26,7 +26,7 @@ class ShopController extends Controller
                 $productsAppended[$product->product_name]['price'][] = $product->price;
                 return;
             }
-            $image_path = explode('/', $product->photo_path)[7] ?? 'vans.png' ;
+            $image_path = explode('/', $product->photo_path)[7] ?? 'default.jpg' ;
             $productsAppended[$product->product_name] = [
                 'description' => $product->description,
                 'id' => $product->product_id,

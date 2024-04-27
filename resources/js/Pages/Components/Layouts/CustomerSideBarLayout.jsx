@@ -9,6 +9,7 @@ import DownArrow from "../../../assets/down-arrow.svg?react";
 import LogoutDropDown from "../Utils/LogoutDropDown";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MarketBaseLogo from "../../../assets/market-base-secondary.svg?react";
+import { Toaster } from "@/components/ui/toaster";
 function CustomerSideBarLayout({ children }) {
     const { flash } = usePage().props;
     const { url, component } = usePage();
@@ -54,7 +55,7 @@ function CustomerSideBarLayout({ children }) {
                     <LogoutDropDown />
                 </div>
             </div>
-            <div className="flex max-[80%]h-[93%] h-[93%]">
+            <div className="flex max-[80%] h-[93%]">
                 <div className="w-[18%] px-[2rem] py-4 h-full max-h-full bg-[#2C394B] flex flex-col justify-between">
                     <div>
                         <div className="w-full flex">
@@ -95,10 +96,11 @@ function CustomerSideBarLayout({ children }) {
                         </p>
                     </div>
                 </div>
-                <div className="flex-1 bg-[#082032] px-[3rem] py-[3rem] overflow-auto">
+                <div className="flex-1 bg-[#082032] px-[3rem] py-[3rem] max-h-full h-full overflow-auto">
                     {children}
                 </div>
             </div>
+            <Toaster />
         </div>
     );
 }

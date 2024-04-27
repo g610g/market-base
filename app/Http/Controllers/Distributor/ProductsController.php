@@ -47,8 +47,7 @@ class ProductsController extends Controller
                 'price' => $request->price,
                 ]);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
-            // return redirect()->back()->withErrors('error creating the model in the server', 'error');
+            return redirect()->back()->withErrors('error creating the model in the server', 'error');
         }
         return redirect()->back();
     }
@@ -97,8 +96,6 @@ class ProductsController extends Controller
     }
     public function addCart(AddToCartRequest $request)
     {
-        // Cache::forget("{$request->user()->id}cart");
-        // return redirect()->back();
         if (!Cache::has("{$request->user()->id}cart")) {
             try {
                 $cart = $this->storeCart($request);
@@ -153,9 +150,6 @@ class ProductsController extends Controller
                 ->whereHas('brands', function (Builder $query) use ($productBrand) {
                     $query->where('brand_name', $productBrand->brand_name);
                 })->get();
-        // foreach ($verified as $value) {
-        //     dump($value->category_name);
-        // }
         if ($verified->count() <= 0 || $verified->count() >= 2) {
             return false;
         }
@@ -164,18 +158,22 @@ class ProductsController extends Controller
     private function storeCart(AddToCartRequest $request): Cart
     {
         $product = Product::find($request->productId);
-        $imagePath = explode('/', $product->photo_path)[7] ?? 'vans.png';
+        $imagePath = explode('/', $product->photo_path)[7] ?? 'default.png';
         $price = floatval($request->productPrice);
+        $totalPrice = $price * $request->productQuantity;
         $cart = Cart::create([
             'customer_id' => $request->user()->id,
             'product_id' => $request->productId,
             'quantity' => $request->productQuantity,
             'product_variant' => $request->productVariant,
             'status' => 'pending',
+            'product_name' => $product->product_name,
             'product_photo' => $product->photo_path,
+            'total_price' => $totalPrice,
             'product_price' => $price,
-        ]);
+            ]);
         $cart->product_photo = base64_encode(Storage::get($imagePath));
+
         return $cart;
 
     }

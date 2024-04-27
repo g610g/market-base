@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\MerchantStoreController;
+use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Customer\ShopController;
 use App\Http\Controllers\Distributor\BrandController;
@@ -28,11 +29,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'customer', 'middleware' => 'role:customer'], function () {
         Route::get('/', [CustomerController::class, 'show']);
         Route::get('/shop', [ShopController::class, 'show'])->name('home.dashboard.customer');
-        Route::post('/add-to-cart', [ProductsController::class, 'addCart']);
-        Route::get('/cart', function (Request $request) {
-            $carts = Cache::get("{$request->user()->id}cart", null);
-            return Inertia::render('Components/Core/MyCart', ['cartData' => $carts]);
-        });
+        Route::post('/add-to-cart', [CartController::class, 'create']);
+        Route::get('/cart', [CartController::class, 'show'])->name('customer.cart');
+        Route::post('/remove-to-cart', [CartController::class, 'destroyBulk']);
         Route::get('product/{product}', [ProductsController::class, 'show']);
         Route::get('/transaction', function () {
             return Inertia::render('Components/Core/Transactions');
@@ -104,7 +103,8 @@ Route::get('/routes', function () {
         'create_url' => URL::route('users.create'),
     ]);
 });
-Route::get('/testing', function () {
+Route::get('/testing', function (Request $request) {
+    Cache::forget("{$request->user()->id}cart");
     $distributor = Distributor::inRandomOrder()->with('user')->first();
     $inventoryWithProducts = $distributor->inventory()->with('products')->get();
     return fake()->imageUrl(500);
