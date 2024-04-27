@@ -5,10 +5,13 @@ import SearchIcon from "../../../assets/search.svg?react";
 import AdminTable from "../Utils/AdminTable";
 import DropDown from "../Utils/DropDown";
 import CreateMerchantModel from "../Utils/CreateMerchantModel";
+import Admin from "./Admin";
+import AdminStoreTable from "./AdminStoreTable";
 function AdminStore({ merchantData, merchantClasses }) {
     //brands and product are the choices
     const [tableCategory, setTableCategory] = useState("Brands");
     //handle error adding merchant stores
+    console.log(merchantData);
     const options = ["Brands", "Merchant"];
     return (
         <main className="max-h-screen h-screen flex flex-col">
@@ -34,17 +37,19 @@ function AdminStore({ merchantData, merchantClasses }) {
                         links={merchantData.links}
                         nextPage={merchantData.next_page_url}
                         prevPage={merchantData.prev_page_url}
-                        currentPage={merchantData.currentPage}
                     />
                 </div>
             </div>
-            <div className="h-[75%] mt-[2rem] bg-[#334756]">
+            <div className="h-[75%] mt-[2rem] bg-[#334756] rounded-[.5rem]">
+                <AdminStoreTable data={merchantData.data} />
+            </div>
+            {/* <div className="h-[75%] mt-[2rem] bg-[#334756]">
                 {tableCategory === "Brands" ? (
                     <AdminTable tableContent={merchantData.data} />
                 ) : (
                     <></>
                 )}
-            </div>
+            </div> */}
         </main>
     );
 }
