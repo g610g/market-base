@@ -28,11 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     })->name('home.dashboard');
     Route::group(['prefix' => 'customer', 'middleware' => 'role:customer'], function () {
         Route::get('/', [CustomerController::class, 'show']);
-        Route::get('/shop', [ShopController::class, 'show'])->name('home.dashboard.customer');
         Route::post('/add-to-cart', [CartController::class, 'create']);
         Route::get('/cart', [CartController::class, 'show'])->name('customer.cart');
         Route::post('/remove-to-cart', [CartController::class, 'destroyBulk']);
-        Route::get('product/{product}', [ProductsController::class, 'show']);
+        Route::get('/product/{product}', [ProductsController::class, 'show']);
         Route::get('/transaction', function () {
             return Inertia::render('Components/Core/Transactions');
         });
@@ -63,6 +62,9 @@ Route::middleware('auth:sanctum')->group(function () {
         $request->session()->invalidate();
         return redirect()->route('home.login');
     });
+});
+Route::group(['prefix' => 'customer', 'middleware' => 'guest.checkpoint'], function () {
+    Route::get('/shop', [ShopController::class, 'show'])->name('home.dashboard.customer');
 });
 Route::middleware('guest:sanctum')->group(function () {
     Route::get('/', [MainAuthController::class, 'show'])->name('home.login');
