@@ -49,10 +49,10 @@ const formSchema = z.object({
 function CustomerCart({ productData, paginationData }) {
     const [price, setPrice] = useState(0);
     const { toast } = useToast();
+    const { flash } = usePage().props;
     const [showCard, setShowCard] = useState(false);
-    const [closeDialog, setCloseDialog] = useState(false);
-    const { errors } = usePage().props;
-    console.log(errors);
+    const { is_guest } = flash.userData.session;
+    console.log(is_guest);
     const format = () => {
         const amount = parseFloat(price);
         const formatted = new Intl.NumberFormat("en-PH", {
@@ -78,6 +78,10 @@ function CustomerCart({ productData, paginationData }) {
             product.product_type.brand_category.merchant_store_class.class_name,
     }));
     function onSubmit(data) {
+        if (is_guest) {
+            Inertia.get("/register");
+            return;
+        }
         toast({
             variant: "destructive",
             className: "bg-orangeButton text-white ",
@@ -254,9 +258,7 @@ function CustomerCart({ productData, paginationData }) {
                                         className="mt-11 ml-[190px]"
                                         type="submit"
                                     >
-                                        <AddToCartDialogue
-                                            setCloseDialog={setCloseDialog}
-                                        />
+                                        <AddToCartDialogue />
                                     </Button>
                                 </div>
                             </form>

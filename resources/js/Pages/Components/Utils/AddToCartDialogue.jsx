@@ -15,7 +15,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-function AddToCartDialogue({ setCloseDialog }) {
+function AddToCartDialogue() {
     return (
         <AlertDialog>
             <AlertDialogTrigger className="bg-[#FF4C29] h-[3rem] rounded text-white font-league font-semibold text-lg pt-3 p-9">

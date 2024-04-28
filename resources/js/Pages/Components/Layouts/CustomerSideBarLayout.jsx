@@ -10,13 +10,17 @@ import LogoutDropDown from "../Utils/LogoutDropDown";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MarketBaseLogo from "../../../assets/market-base-secondary.svg?react";
 import { Toaster } from "@/components/ui/toaster";
+import { Button } from "@/components/ui/button";
 function CustomerSideBarLayout({ children }) {
     const { flash } = usePage().props;
+    const { is_guest, is_validated } = flash.userData.session;
     const { url, component } = usePage();
+    console.log(flash);
     const iconDesign = "w-[2rem] h-[2rem]";
     const sideBarItems = [
         {
             itemName: " Profile",
+            disabled: is_guest ? true : false,
             href: "/customer",
             icon: <ProfileIcon className={iconDesign} />,
             component: "Components/Core/CustomerProfile",
@@ -24,18 +28,21 @@ function CustomerSideBarLayout({ children }) {
         {
             itemName: "Shop",
             href: "/customer/shop",
+            disabled: is_guest || is_validated ? false : true,
             icon: <ShopIcon className={iconDesign} />,
             component: "Components/Core/Shop",
         },
         {
             itemName: "Cart",
             href: "/customer/cart",
+            disabled: is_guest ? true : false,
             icon: <CartIcon className={iconDesign} />,
             component: "Components/Core/MyCart",
         },
         {
             itemName: "Transaction",
             href: "/customer/transaction",
+            disabled: is_guest ? true : false,
             icon: <TransactionIcon className={iconDesign} />,
             component: "Components/Core/Transactions",
         },
@@ -67,15 +74,20 @@ function CustomerSideBarLayout({ children }) {
                                     className="flex w-full px-5 justify-center py-5 "
                                     key={index}
                                 >
-                                    <Link
-                                        className="flex w-full space-x-4 font-league text-white text-lg items-center"
-                                        href={item.href}
+                                    <Button
+                                        disabled={item.disabled}
+                                        className="w-full"
                                     >
-                                        {item.icon}
-                                        <p className="text-white font-league text-2xl font-semibold">
-                                            {item.itemName}
-                                        </p>
-                                    </Link>
+                                        <Link
+                                            className="flex w-full space-x-4 font-league text-white text-lg items-center"
+                                            href={item.href}
+                                        >
+                                            {item.icon}
+                                            <p className="text-white font-league text-2xl font-semibold">
+                                                {item.itemName}
+                                            </p>
+                                        </Link>
+                                    </Button>
                                     {component === item.component ? (
                                         <Arrow />
                                     ) : (

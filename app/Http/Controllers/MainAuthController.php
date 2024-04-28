@@ -47,6 +47,11 @@ class MainAuthController extends Controller
         //can add logic for this
         return Inertia::render('Components/Core/Landing');
     }
+    public function guest()
+    {
+        session(['is_guest' => true, 'is_validated' => false]);
+        return redirect()->route('home.dashboard.customer');
+    }
     public function showRegister()
     {
         return Inertia::render('Components/Core/Register');
