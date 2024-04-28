@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,34 +9,56 @@ import {
     AlertDialogFooter,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
+    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Inertia } from "@inertiajs/inertia";
+import { usePage } from "@inertiajs/inertia-react";
+const MAX_FILE_SIZE = 1024 * 1024 * 10;
+const ACCEPTED_IMAGE_MIME_TYPES = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+];
+const validationSchema = z.object({
+    firstName: z.string().min(1, { message: "Firstname is required" }),
+    lastName: z.string().min(1, { message: "Lastname is required" }),
+    image: z
+        .instanceof(FileList)
+        .optional()
+        .refine((files) => {
+            return files?.[0]?.size <= MAX_FILE_SIZE;
+        }, `Max image size is 10MB.`)
+        .refine(
+            (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+            "Only .jpg, .jpeg, .png and .webp formats are supported."
+        ),
+});
 
 function CustomerEditProfileDialog() {
-    const validationSchema = z.object({
-        firstName: z.string().min(1, { message: "Firstname is required" }),
-        lastName: z.string().min(1, { message: "Lastname is required" }),
-        //polish the date
-    });
-
+    const [image, setImage] = useState();
+    const { errors } = usePage().props;
+    console.log(errors);
     const form = useForm({
         resolver: zodResolver(validationSchema),
-        defaultValues: {
-            firstName: "",
-            lastName: "",
-        },
     });
+    const fileRef = form.register("image");
     function handleSubmit(data) {
-        Inertia.patch("/customer/update", data, { preserveState: false });
+        const modifiedData = { ...data, image: data.image[0] };
+        console.log(modifiedData);
+        Inertia.post("/customer/update", modifiedData, {
+            preserveState: false,
+        });
     }
     return (
         <AlertDialog>
@@ -54,53 +76,98 @@ function CustomerEditProfileDialog() {
                         onSubmit={form.handleSubmit(handleSubmit)}
                         className="flex flex-col space-y-5"
                     >
-                        <div className="flex w-full justify-between gap-3">
+                        <div className="space-y-5 w-full">
                             <FormField
                                 control={form.control}
-                                name="firstName"
-                                className="w-full"
+                                name="image"
                                 render={({ field }) => (
-                                    <FormItem className="w-full">
-                                        <Label
-                                            className="text-white font-league font-semibold text-[1rem]"
-                                            htmlFor="firstName"
+                                    <FormItem>
+                                        <FormLabel
+                                            className="block text-white font-league font-light text-xl mb-2"
+                                            htmlFor="image"
                                         >
-                                            First Name
-                                        </Label>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                id="firstName"
-                                                className="bg-[#515E71] border-none rounded-[.4rem] text-white"
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-red-500 font-bold" />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="lastName"
-                                className="w-full"
-                                render={({ field }) => (
-                                    <FormItem className="w-full">
-                                        <Label
-                                            className="text-white font-league font-semibold text-[1rem]"
-                                            htmlFor="lastName"
-                                        >
-                                            Last Name
-                                        </Label>
+                                            Profile Picture*
+                                        </FormLabel>
                                         <Input
-                                            {...field}
-                                            id="lastName"
-                                            className="bg-[#515E71] border-none rounded-[.4rem] text-white"
+                                            id="image"
+                                            type="file"
+                                            className="text-white"
+                                            {...fileRef}
+                                            onChange={(e) => {
+                                                field.onChange(
+                                                    e.target?.files?.[0] ??
+                                                        undefined
+                                                );
+                                                setImage(
+                                                    URL.createObjectURL(
+                                                        e.target.files[0]
+                                                    )
+                                                );
+                                            }}
                                         />
-                                        <FormMessage className="text-red-500 font-bold" />
+                                        <FormMessage className="text-red-600" />
                                     </FormItem>
                                 )}
                             />
+                            <div className="flex gap-4">
+                                {image ? (
+                                    <img
+                                        src={image}
+                                        alt="Product Image"
+                                        className="w-[500px] "
+                                    />
+                                ) : (
+                                    <div className="w-[500px] h-[500px] bg-[#334756]"></div>
+                                )}
+                                <div className="flex flex-col  w-full gap-5 flex-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="firstName"
+                                        className="w-full"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full">
+                                                <Label
+                                                    className="text-white font-league font-semibold text-[1rem]"
+                                                    htmlFor="firstName"
+                                                >
+                                                    First Name
+                                                </Label>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        id="firstName"
+                                                        className="bg-[#515E71] border-none rounded-[.4rem] text-white"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage className="text-red-500 font-bold" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="lastName"
+                                        className="w-full"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full">
+                                                <Label
+                                                    className="text-white font-league font-semibold text-[1rem]"
+                                                    htmlFor="lastName"
+                                                >
+                                                    Last Name
+                                                </Label>
+                                                <Input
+                                                    {...field}
+                                                    id="lastName"
+                                                    className="bg-[#515E71] border-none rounded-[.4rem] text-white"
+                                                />
+                                                <FormMessage className="text-red-500 font-bold" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <AlertDialogFooter>
+                        <AlertDialogFooter className="justify-end">
                             <AlertDialogCancel className="bg-gray-700 border-none  text-white rounded-[.5rem] hover:bg-gray-600">
                                 Cancel
                             </AlertDialogCancel>

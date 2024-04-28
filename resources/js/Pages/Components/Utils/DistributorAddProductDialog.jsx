@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { usePage } from "@inertiajs/inertia-react";
 import { Button } from "@/components/ui/button";
+import DefaultProductPicture from "../../../assets/default_product_photo.jpg";
 const MAX_FILE_SIZE = 1024 * 1024 * 10;
 const ACCEPTED_IMAGE_MIME_TYPES = [
     "image/jpeg",
@@ -43,7 +44,7 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
 
 function DistributorAddProductDialog({ brandsData }) {
     const [brand, setBrand] = useState("");
-    const [image, setImage] = useState();
+    const [image, setImage] = useState(DefaultProductPicture);
     const { toast } = useToast();
     const { errors, flash } = usePage().props;
     //filters the product types base on the selected brand

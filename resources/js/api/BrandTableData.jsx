@@ -9,6 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "@inertiajs/inertia-react";
 export const columns = [
     {
         accessorKey: "brandId",
@@ -36,7 +37,10 @@ export const columns = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent
+                        align="end"
+                        className="bg-orangeButton text-white"
+                    >
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
                             onClick={() =>
@@ -46,7 +50,15 @@ export const columns = [
                             Copy brand ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Delete Product</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link
+                                href={`/distributor/brands/${brand.brandId}`}
+                                method="delete"
+                                as="button"
+                            >
+                                Delete brand
+                            </Link>
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

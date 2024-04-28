@@ -15,7 +15,8 @@ class Customer extends Model
     use HasFactory;
     use HasUuids;
     protected $fillable = [
-        'customer_type'
+        'customer_type',
+        'profile_picture'
     ];
     protected $hidden = [
         'customer_id'

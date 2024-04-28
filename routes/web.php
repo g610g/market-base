@@ -31,11 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/add-to-cart', [CartController::class, 'create']);
         Route::get('/cart', [CartController::class, 'show'])->name('customer.cart');
         Route::post('/remove-to-cart', [CartController::class, 'destroyBulk']);
-
         Route::get('/transaction', function () {
             return Inertia::render('Components/Core/Transactions');
         });
-        Route::patch('/update', [CustomerController::class, 'update']);
+        Route::post('/update', [CustomerController::class, 'update']);
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
@@ -50,8 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::group(['prefix' => 'distributor', 'middleware' => 'role:distributor'], function () {
         Route::get('/', [DistributorController::class, 'showLanding'])->name('home.dashboard.distributor');
-        Route::get('/brands', [DistributorController::class, 'showBrands']);
+        Route::get('/brands', [BrandController::class, 'show']);
         Route::post('/brands', [BrandController::class, 'create']);
+        Route::delete('/brands/{brandId}', [BrandController::class, 'destroy']);
         Route::get('/inventory', [DistributorController::class, 'showInventory']);
         Route::post('/inventory', [ProductsController::class, 'store']);
         Route::delete('/products/{productId}', [ProductsController::class, 'destroy']);
