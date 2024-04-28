@@ -3,22 +3,17 @@ import CustomerSideBarLayout from "../Layouts/CustomerSideBarLayout";
 import { Button } from "@/components/ui/button";
 import { usePage } from "@inertiajs/inertia-react";
 
-import { Input } from "@/components/ui/input";
 import CustomerEditProfileDialog from "../Utils/CustomerEditProfileDialog";
-import Customer from "./Customer";
-function CustomerProfile() {
+function CustomerProfile({ customerInfo }) {
     const { flash } = usePage().props;
-
-    function onSubmit(values) {
-        //inertia post/patch/put
-        console.log(values);
-    }
+    const { user } = flash.userData;
+    // console.log(flash);
     return (
         <div className="flex flex-col space-y-3 h-full">
             <div className="flex w-full bg-[#19273A] px-7 py-5 max-h-[20rem] p-3">
                 <div className="w-[20%] ">
                     <img
-                        src="https://img.lazcdn.com/g/ff/kf/Sc133c60255e34bbbb2c909dce65e42d8S.jpg_720x720q80.jpg"
+                        src={`data:image/jpeg;base64,${customerInfo.profile_picture}`}
                         alt="Distributor Image"
                         className="rounded-sm h-[220px] w-[250px]"
                     />
@@ -30,7 +25,7 @@ function CustomerProfile() {
                                 First Name*
                             </span>
                             <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md">
-                                {flash.userData.user.first_name}
+                                {user.first_name}
                             </p>
                         </div>
                         <div className="flex-1">
@@ -38,7 +33,7 @@ function CustomerProfile() {
                                 Last Name*
                             </span>
                             <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md">
-                                {flash.userData.user.last_name}
+                                {user.last_name}
                             </p>
                         </div>
                     </div>
@@ -48,7 +43,7 @@ function CustomerProfile() {
                                 Customer Id*
                             </span>
                             <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md truncate">
-                                {flash.userData.user.id}
+                                {user.id}
                             </p>
                         </div>
                         <div className="flex-1">
@@ -56,7 +51,7 @@ function CustomerProfile() {
                                 Email*
                             </span>
                             <p className=" text-[#B1B1B1] font-league text-2xl bg-[#213243] p-4 font-light rounded-md">
-                                {flash.userData.user.email}
+                                {user.email}
                             </p>
                         </div>
                     </div>
@@ -67,7 +62,7 @@ function CustomerProfile() {
                     <p className="font-league text-[2rem] text-white font-semibold">
                         Security and Preferences
                     </p>
-                    <div className="border-b border-white">
+                    <div className="border-b border-white mb-7">
                         <div className="mt-2 ">
                             <span className="text-white font-league text-2xl font-light">
                                 Password*
@@ -76,7 +71,7 @@ function CustomerProfile() {
                                 *************
                             </p>
                         </div>
-                        <div className="mt-6 mb-[4rem]">
+                        <div className="mt-6 mb-[3rem]">
                             <span className="text-white font-league text-2xl font-light">
                                 Confirm Password*
                             </span>
@@ -85,7 +80,9 @@ function CustomerProfile() {
                             </p>
                         </div>
                     </div>
-                    <CustomerEditProfileDialog />
+                    <CustomerEditProfileDialog
+                        profile_picture={customerInfo.profile_picture}
+                    />
 
                     <div className="h-full w-full flex items-center">
                         <Button className="bg-orangeButton text-white px-6 py-5 w-full font-league text-2xl rounded-[.5rem]  hover:bg-indigo-600 ">
@@ -106,7 +103,7 @@ function CustomerProfile() {
                                 Birthdate
                             </span>
                             <p className="shadow-md text-[#B1B1B1] font-league text-2xl font-light bg-[#515E71] p-4 mt-2">
-                                03-21-2002
+                                {user.birth_date}
                             </p>
                         </div>
                         <div className="w-[49%]">
@@ -114,7 +111,7 @@ function CustomerProfile() {
                                 Phone Number
                             </span>
                             <p className="shadow-md text-[#B1B1B1] font-league text-2xl font-light bg-[#515E71] p-4 mt-2">
-                                03-21-2002
+                                {user.phone_number}
                             </p>
                         </div>
                     </div>
@@ -124,13 +121,13 @@ function CustomerProfile() {
                         </p>
                         <div className="space-y-5">
                             <p className="shadow-md text-[#B1B1B1] font-league text-2xl font-light bg-[#515E71] p-4 mt-2">
-                                Brgy. Villa Kananga, Butuan City{" "}
+                                {user.barangay}, {user.city}
                             </p>
                             <p className="shadow-md text-[#B1B1B1] font-league text-2xl font-light bg-[#515E71] p-4 mt-2">
-                                Agusan Del Norte
+                                {user.province}
                             </p>
                             <p className="shadow-md text-[#B1B1B1] font-league text-2xl font-light bg-[#515E71] p-4 mt-2">
-                                Philippines
+                                {user.country}
                             </p>
                         </div>
                     </div>

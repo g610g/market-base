@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Exceptions\InvalidRoleException;
 use App\Models\Admin\Admin;
 use App\Models\Distributor\Distributor;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -61,21 +62,21 @@ class User extends Authenticatable
     public function customer(): HasOne
     {
         if ($this->role_id !== Role::CUSTOMER) {
-            return null;
+            throw new InvalidRoleException('You are not allowed to interact as customer', 403);
         }
         return $this->hasOne(Customer::class, 'customer_id', 'id');
     }
     public function distributor(): HasOne
     {
         if ($this->role_id !== Role::DISTRIBUTOR) {
-            return null;
+            throw new InvalidRoleException('You are not allowed to interact as distributor', 403);
         }
         return $this->hasOne(Distributor::class, 'distributor_id', 'id');
     }
     public function admin(): HasOne
     {
         if ($this->role_id !== Role::ADMIN) {
-            return null;
+            throw new InvalidRoleException('You are not allowed to interact as admin', 403);
         }
         return $this->hasOne(Admin::class, 'admin_id', 'id');
     }

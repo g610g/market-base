@@ -17,8 +17,8 @@ export default function LoginLayout({ children }) {
         },
         {
             id: 3,
-            href: "/guest/login",
-            text: "Login as Guest",
+            href: "/interact-as-guest",
+            text: "Interact as Guest",
         },
     ];
     return (
@@ -34,6 +34,11 @@ export default function LoginLayout({ children }) {
                                 key={list.id}
                                 className="text-white text-2xl font-bold font-league"
                                 href={list.href}
+                                method={
+                                    list.href === "/interact-as-guest"
+                                        ? "post"
+                                        : "get"
+                                }
                             >
                                 {list.text}
                             </Link>

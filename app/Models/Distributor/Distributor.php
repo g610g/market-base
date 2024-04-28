@@ -15,7 +15,8 @@ class Distributor extends Model
     use HasFactory;
     use HasUuids;
     protected $fillable = [
-        'description'
+        'description',
+        'profile_picture'
     ];
     protected $hidden = [
         'distributor_id'

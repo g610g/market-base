@@ -20,6 +20,7 @@ return new class () extends Migration {
             $table->foreignUuid('brand_id')
                 ->constrained('brands', 'brand_id')
                 ->cascadeOnDelete();
+            $table->unsignedInteger('quantity');
             $table->foreignId('type_id')
                 ->constrained('product_types');
             $table->decimal('price', 8, 2);

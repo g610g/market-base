@@ -4,37 +4,47 @@ import ShopIcon from "../../../assets/customer-shop.svg?react";
 import CartIcon from "../../../assets/customer-cart.svg?react";
 import TransactionIcon from "../../../assets/customer-transaction.svg?react";
 import NotificatonIcon from "../../../assets/bell.svg?react";
-import LogoutIcon from "../../../assets/log-out.svg?react";
 import Arrow from "../../../assets/arrow.svg?react";
 import DownArrow from "../../../assets/down-arrow.svg?react";
 import LogoutDropDown from "../Utils/LogoutDropDown";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import MarketBaseLogo from "../../../assets/market-base-secondary.svg?react";
+import { Toaster } from "@/components/ui/toaster";
+import { Button } from "@/components/ui/button";
 function CustomerSideBarLayout({ children }) {
     const { flash } = usePage().props;
-    const { url } = usePage();
-    const iconDesign = "w-[2rem] h-[2rem]";
+    const { is_guest, is_validated } = flash.userData.session;
+    const { url, component } = usePage();
     console.log(flash);
+    const iconDesign = "w-[2rem] h-[2rem]";
     const sideBarItems = [
         {
             itemName: " Profile",
+            disabled: is_guest ? true : false,
             href: "/customer",
             icon: <ProfileIcon className={iconDesign} />,
+            component: "Components/Core/CustomerProfile",
         },
         {
             itemName: "Shop",
             href: "/customer/shop",
+            disabled: is_guest || is_validated ? false : true,
             icon: <ShopIcon className={iconDesign} />,
+            component: "Components/Core/Shop",
         },
         {
             itemName: "Cart",
             href: "/customer/cart",
+            disabled: is_guest ? true : false,
             icon: <CartIcon className={iconDesign} />,
+            component: "Components/Core/MyCart",
         },
         {
             itemName: "Transaction",
             href: "/customer/transaction",
+            disabled: is_guest ? true : false,
             icon: <TransactionIcon className={iconDesign} />,
+            component: "Components/Core/Transactions",
         },
     ];
     return (
@@ -52,7 +62,7 @@ function CustomerSideBarLayout({ children }) {
                     <LogoutDropDown />
                 </div>
             </div>
-            <div className="flex max-[80%]h-[93%] h-[93%]">
+            <div className="flex max-[80%] h-[93%]">
                 <div className="w-[18%] px-[2rem] py-4 h-full max-h-full bg-[#2C394B] flex flex-col justify-between">
                     <div>
                         <div className="w-full flex">
@@ -64,16 +74,21 @@ function CustomerSideBarLayout({ children }) {
                                     className="flex w-full px-5 justify-center py-5 "
                                     key={index}
                                 >
-                                    <Link
-                                        className="flex w-full space-x-4 font-league text-white text-lg items-center"
-                                        href={item.href}
+                                    <Button
+                                        disabled={item.disabled}
+                                        className="w-full"
                                     >
-                                        {item.icon}
-                                        <p className="text-white font-league text-2xl font-semibold">
-                                            {item.itemName}
-                                        </p>
-                                    </Link>
-                                    {url.includes(item.href) ? (
+                                        <Link
+                                            className="flex w-full space-x-4 font-league text-white text-lg items-center"
+                                            href={item.href}
+                                        >
+                                            {item.icon}
+                                            <p className="text-white font-league text-2xl font-semibold">
+                                                {item.itemName}
+                                            </p>
+                                        </Link>
+                                    </Button>
+                                    {component === item.component ? (
                                         <Arrow />
                                     ) : (
                                         <DownArrow />
@@ -93,10 +108,11 @@ function CustomerSideBarLayout({ children }) {
                         </p>
                     </div>
                 </div>
-                <div className="flex-1 bg-[#082032] px-[3rem] py-[3rem] overflow-auto">
+                <div className="flex-1 bg-[#082032] px-[3rem] py-[3rem] max-h-full h-full overflow-auto">
                     {children}
                 </div>
             </div>
+            <Toaster />
         </div>
     );
 }

@@ -6,10 +6,12 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Role;
 use App\Models\User;
 use HttpException;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class MainAuthController extends Controller
@@ -39,14 +41,18 @@ class MainAuthController extends Controller
         if ($user->role_id === Role::DISTRIBUTOR) {
             session(['is_validated' => true, 'is_guest' => false]);
             return redirect()->route('home.dashboard.distributor');
-        }
-        //add for guest role
+        } //add for guest role
         throw new HttpException(code: 404);
     }
     public function show()
     {
         //can add logic for this
         return Inertia::render('Components/Core/Landing');
+    }
+    public function guest()
+    {
+        session(['is_guest' => true, 'is_validated' => false]);
+        return redirect()->route('home.dashboard.customer');
     }
     public function showRegister()
     {
@@ -71,11 +77,12 @@ class MainAuthController extends Controller
             ]);
                 //dummy data for distribution dont yet know what to add
                 $distributorInstance = $user->distributor()->create([
-                    'description' => fake()->sentence(20)
+                    'description' => fake()->sentence(20),
+                    'profile_picture' => Storage::putFile('', new File(storage_path('app/productImages/default_pfp.png')))
                 ]);
                 //creating empty inventory for new distributor
                 $distributorInstance->inventory()->create([
-                    'product_quantity' => 0
+                    'products_quantity' => 0
                 ]);
             } catch (\Throwable $th) {
                 return redirect()->back()->withErrors('error creating the user', 'error');
@@ -101,7 +108,8 @@ class MainAuthController extends Controller
             //fake barangay change later change forms
             ]);
             $user->customer()->create([
-                'customer_type' => fake()->word()
+                'customer_type' => fake()->word(),
+                'profile_picture' => Storage::putFile('', new File(storage_path('app/productImages/default_pfp.png')))
             ]);
         } catch (\Throwable $th) {
             //for getting errors

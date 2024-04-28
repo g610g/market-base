@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CustomerGuestMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\RoleMiddleware;
 
@@ -66,6 +67,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'role' => RoleMiddleware::class
+        'role' => RoleMiddleware::class,
+        'guest.checkpoint' => CustomerGuestMiddleware::class
     ];
 }

@@ -21,9 +21,12 @@ import { Input } from "@/components/ui/input";
 
 import CreateBrandDialog from "../Utils/CreateBrandDialog";
 import DeleteBrandDialog from "../Utils/DeleteBrandDialog";
+import { usePage } from "@inertiajs/inertia-react";
 
 export function DistributorBrands({ tableData, merchantStores }) {
     console.log(tableData);
+    const { errors } = usePage().props;
+    console.log(errors);
     const formSchema = z.object({
         brandName: z.string().min(2, {
             message: "Brand Name must be at least 2 characters.",
