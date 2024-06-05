@@ -85,6 +85,7 @@ class MainAuthController extends Controller
                     'products_quantity' => 0
                 ]);
             } catch (\Throwable $th) {
+                dd($th->getMessage());
                 return redirect()->back()->withErrors('error creating the user', 'error');
             }
             //authenticate

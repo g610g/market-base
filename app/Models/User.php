@@ -32,7 +32,6 @@ class User extends Authenticatable
          'province',
          'country',
          'barangay',
-
      ];
 
     /**

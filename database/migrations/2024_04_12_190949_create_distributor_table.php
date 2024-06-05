@@ -17,6 +17,7 @@ return new class () extends Migration {
                     ->references('id')
                     ->on('users')
                     ->cascadeOnDelete();
+            $table->string('profile_picture')->nullable(false);
             $table->string('description');
         });
     }
