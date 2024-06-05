@@ -23,8 +23,10 @@ class CustomerController extends Controller
         $validated = $request->validate([
             'firstName' => 'required|min:1|string',
             'lastName' => 'required|min:1|string',
-            'image' =>  [File::image()->max(10 * 1024), 'required']
+            'image' =>  [File::image()->max(10 * 1024), 'required'],
+            'phoneNumber' => ['required', 'regex:/^(09|\+639)\d{9}$/'],
         ]);
+
         $user = $request->user();
         $customer = $user->customer;
         if (is_null($customer)) {
@@ -39,6 +41,7 @@ class CustomerController extends Controller
         try {
             Storage::delete($customer->profile_picture);
             $user->first_name = $validated['firstName'];
+            $user->phone_number = $validated['phoneNumber'];
             $user->last_name = $validated['lastName'];
             $customer->profile_picture = Storage::putFile('', $request->file('image'));
             $user->save();

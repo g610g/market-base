@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/inventory', [ProductsController::class, 'store']);
         Route::delete('/products/{productId}', [ProductsController::class, 'destroy']);
         Route::get('/profile', [DistributorController::class, 'showProfile']);
+        Route::post('/profile', [DistributorController::class, 'updateProfile']);
     });
     Route::post('/logout', function (Request $request) {
         Auth::guard('web')->logout();

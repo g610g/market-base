@@ -37,7 +37,7 @@ class BrandController extends Controller
         });
         return Inertia::render('Components/Core/DistributorBrands', ['tableData' => $tableData, 'merchantStores' => $merchantStores]);
     }
-    public function create(CreateBrandRequest $request): Response
+    public function create(CreateBrandRequest $request)
     {
         //refactor
         $distributor = $this->extractDistributor($request);
